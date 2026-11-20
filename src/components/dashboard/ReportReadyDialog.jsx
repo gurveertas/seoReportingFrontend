@@ -56,38 +56,38 @@ export default function ReportReadyDialog({ blob, period, onClose }) {
       aria-describedby="report-ready-description"
       aria-labelledby="report-ready-title"
       aria-modal="true"
-      className="report-ready-dialog [width:min(440px,_calc(100%_-_32px))] [max-width:none] [padding:0] [border:1px_solid_var(--border)] [border-radius:18px] [background:var(--surface)] [color:var(--text-primary)] [box-shadow:var(--shadow-float)] [&::backdrop]:[background:#101914a8] [&::backdrop]:[backdrop-filter:blur(3px)] [&_h2]:[margin:0] [&_h2]:[font-family:'Manrope',_sans-serif] [&_h2]:[font-size:25px] [&_h2]:[font-weight:700] [&_h2]:[letter-spacing:-0.05em]"
+      className="report-ready-dialog w-[min(440px,_calc(100%_-_32px))] max-w-none p-0 border border-(--border) rounded-[18px] bg-(--surface) text-(--text-primary) shadow-(--shadow-float) [&::backdrop]:bg-[#101914a8] [&::backdrop]:backdrop-blur-[3px] [&_h2]:m-0 [&_h2]:font-manrope [&_h2]:text-[25px] [&_h2]:font-bold [&_h2]:tracking-[-0.05em]"
       onCancel={handleCancel}
       onClick={handleBackdropClick}
       ref={dialogRef}
     >
-      <div className="report-ready-dialog__content [position:relative] [padding:30px] max-[480px]:[padding:24px_20px]">
+      <div className="report-ready-dialog__content relative p-[30px] max-[480px]:py-6 px-5">
         <button
           aria-label="Close report dialog"
-          className="report-ready-dialog__close [display:grid] [position:absolute] [top:16px] [right:16px] [width:34px] [height:34px] [padding:0] [place-items:center] [border:1px_solid_var(--border)] [border-radius:10px] [background:var(--surface)] [color:var(--text-secondary)] [cursor:pointer] [font:inherit] [&_span]:[font-size:21px] [&_span]:[line-height:1] [&:disabled]:[cursor:wait] [&:disabled]:[opacity:0.65] [&:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&:focus-visible]:[outline-offset:3px]"
+          className="report-ready-dialog__close grid absolute top-4 right-4 w-[34px] h-[34px] p-0 place-items-center border border-(--border) rounded-[10px] bg-(--surface) text-(--text-secondary) cursor-pointer [font:inherit] [&_span]:text-[21px] [&_span]:leading-none [&:disabled]:cursor-wait [&:disabled]:opacity-[0.65] [&:focus-visible]:outline-3 outline-(--focus-ring) [&:focus-visible]:outline-offset-[3px]"
           disabled={isSaving}
           onClick={onClose}
           type="button"
         >
           <span aria-hidden="true">×</span>
         </button>
-        <div className="report-ready-dialog__icon [display:flex] [align-items:center] [gap:7px] [width:fit-content] [margin-bottom:20px] [padding:10px_12px] [border:1px_solid_var(--border-subtle)] [border-radius:12px] [background:var(--surface-subtle)] [color:var(--accent-text)] [&_svg]:[width:19px] [&_svg]:[height:19px] [&_svg]:[stroke:currentColor] [&_svg]:[stroke-linecap:round] [&_svg]:[stroke-linejoin:round] [&_svg]:[stroke-width:1.7] [&_span]:[font-size:9px] [&_span]:[font-weight:800] [&_span]:[letter-spacing:0.06em]" aria-hidden="true">
+        <div className="report-ready-dialog__icon flex items-center gap-1.75 w-fit mb-5 py-2.5 px-3 border border-(--border-subtle) rounded-[12px] bg-(--surface-subtle) text-(--accent-text) [&_svg]:w-[19px] [&_svg]:h-[19px] [&_svg]:stroke-current [&_svg]:stroke-cap-round [&_svg]:stroke-join-round [&_svg]:stroke-[1.7] [&_span]:text-[9px] [&_span]:font-extrabold [&_span]:tracking-[0.06em]" aria-hidden="true">
           <DocumentIcon />
           <span>PDF</span>
         </div>
-        <p className="report-ready-dialog__eyebrow [margin:0_0_7px] [color:var(--accent-text)] [font-size:10px] [font-weight:700] [letter-spacing:0.1em] [text-transform:uppercase]">{periodLabel} analytics</p>
+        <p className="report-ready-dialog__eyebrow pt-0 pb-1.75 px-0 text-(--accent-text) text-[10px] font-bold tracking-[0.1em] uppercase">{periodLabel} analytics</p>
         <h2 id="report-ready-title">Report ready</h2>
-        <p className="report-ready-dialog__description [margin:9px_0_18px] [color:var(--text-secondary)] [font-size:13px] [line-height:1.6]" id="report-ready-description">
+        <p className="report-ready-dialog__description pt-2.25 pb-4.5 px-0 text-(--text-secondary) text-[13px] leading-[1.6]" id="report-ready-description">
           Your report is ready to save. It includes the data currently stored for this period.
         </p>
-        <div className="report-ready-dialog__file [display:flex] [align-items:center] [justify-content:space-between] [gap:12px] [padding:11px_12px] [border:1px_solid_var(--border-subtle)] [border-radius:9px] [background:var(--surface-subtle)] [color:var(--text-body)] [font-size:11px] [&_span:first-child]:[overflow:hidden] [&_span:first-child]:[text-overflow:ellipsis] [&_span:first-child]:[white-space:nowrap] [&_span:last-child]:[flex:0_0_auto] [&_span:last-child]:[color:var(--text-muted)] [&_span:last-child]:[font-variant-numeric:tabular-nums]">
+        <div className="report-ready-dialog__file flex items-center justify-between gap-3 py-2.75 px-3 border border-(--border-subtle) rounded-[9px] bg-(--surface-subtle) text-(--text-body) text-[11px] [&_span:first-child]:[overflow:hidden] [&_span:first-child]:text-ellipsis [&_span:first-child]:whitespace-nowrap [&_span:last-child]:shrink-0 grow-0 basis-auto [&_span:last-child]:text-(--text-muted) [&_span:last-child]:tabular-nums">
           <span>{filename}</span>
           <span>{formatFileSize(blob.size)}</span>
         </div>
-        {saveError && <p className="report-ready-dialog__error [margin:12px_0_0] [color:var(--error-text)] [font-size:12px] [line-height:1.5]" role="alert">{saveError}</p>}
-        <div className="report-ready-dialog__actions [display:flex] [justify-content:flex-end] [gap:9px] [margin-top:21px] [&_button]:[min-height:40px] [&_button]:[padding:0_14px] [&_button]:[border-radius:8px] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:12px] [&_button]:[font-weight:650] [&_button]:[transition:background_150ms_ease,_border-color_150ms_ease] [&_button:disabled]:[cursor:wait] [&_button:disabled]:[opacity:0.65] [&_button:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&_button:focus-visible]:[outline-offset:3px]">
+        {saveError && <p className="report-ready-dialog__error pt-3 pb-0 px-0 text-(--error-text) text-xs leading-normal" role="alert">{saveError}</p>}
+        <div className="report-ready-dialog__actions flex justify-end gap-2.25 mt-5.25 [&_button]:min-h-10 [&_button]:py-0 px-3.5 [&_button]:rounded-[8px] [&_button]:cursor-pointer [&_button]:[font:inherit] [&_button]:text-xs [&_button]:font-semibold [&_button]:transition-[background_150ms_ease,_border-color_150ms_ease] [&_button:disabled]:cursor-wait [&_button:disabled]:opacity-[0.65] [&_button:focus-visible]:outline-3 outline-(--focus-ring) [&_button:focus-visible]:outline-offset-[3px]">
           <button
-            className="report-ready-dialog__cancel [border:1px_solid_var(--border-strong)] [background:var(--surface)] [color:var(--text-primary)] [&:hover:not(:disabled)]:[background:var(--surface-muted)]"
+            className="report-ready-dialog__cancel border border-(--border-strong) bg-(--surface) text-(--text-primary) [&:hover:not(:disabled)]:bg-(--surface-muted)"
             disabled={isSaving}
             onClick={onClose}
             type="button"
@@ -95,7 +95,7 @@ export default function ReportReadyDialog({ blob, period, onClose }) {
             Close
           </button>
           <button
-            className="report-ready-dialog__save [border:1px_solid_var(--accent)] [background:var(--accent)] [color:#fff] [&:hover:not(:disabled)]:[border-color:var(--accent-hover)] [&:hover:not(:disabled)]:[background:var(--accent-hover)]"
+            className="report-ready-dialog__save border border-(--accent) bg-(--accent) text-[#fff] [&:hover:not(:disabled)]:border-(--accent-hover) [&:hover:not(:disabled)]:bg-(--accent-hover)"
             disabled={isSaving}
             onClick={handleSave}
             type="button"

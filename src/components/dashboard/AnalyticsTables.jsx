@@ -28,14 +28,14 @@ const tableDefinitions = [
 
 export default function AnalyticsTables({ tables }) {
   return (
-    <section className="analytics-section [margin-top:40px]" aria-labelledby="analytics-tables-heading">
-      <div className="analytics-section__heading [display:flex] [align-items:end] [justify-content:space-between] [gap:20px] [margin-bottom:15px] [&_h2]:[margin:0] [&_h2]:[font-family:'Manrope',_sans-serif] [&_h2]:[font-size:21px] [&_h2]:[font-weight:650] [&_h2]:[letter-spacing:-0.045em] [&.dashboard-eyebrow]:[margin-bottom:7px]">
+    <section className="analytics-section mt-10" aria-labelledby="analytics-tables-heading">
+      <div className="analytics-section__heading flex items-end justify-between gap-5 mb-3.75 [&_h2]:m-0 [&_h2]:font-manrope [&_h2]:text-[21px] [&_h2]:font-semibold [&_h2]:tracking-[-0.045em] [&.dashboard-eyebrow]:mb-1.75">
         <div>
-          <p className="dashboard-eyebrow [margin:0_0_11px] [color:var(--accent-text)] [font-size:11px] [font-weight:700] [letter-spacing:0.13em] [text-transform:uppercase]">Detailed data</p>
+          <p className="dashboard-eyebrow pt-0 pb-2.75 px-0 text-(--accent-text) text-[11px] font-bold tracking-[0.13em] uppercase">Detailed data</p>
           <h2 id="analytics-tables-heading">Reports and tables</h2>
         </div>
       </div>
-      <div className="analytics-table-grid [display:grid] [grid-template-columns:minmax(0,_1fr)] [align-items:start] [gap:13px]">
+      <div className="analytics-table-grid grid grid-cols-1 items-start gap-3.25">
         {tableDefinitions.map((definition) => (
           <DataTable
             key={definition.key}

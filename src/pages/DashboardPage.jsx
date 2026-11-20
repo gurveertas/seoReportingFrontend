@@ -192,13 +192,13 @@ function ClientDashboard({ client }) {
   }
 
   return (
-    <div className="dashboard-page [min-height:100vh] [background:var(--page-bg)] [color:var(--text-primary)] [&.dashboard-welcome]:[margin-bottom:30px]">
+    <div className="dashboard-page min-h-screen bg-(--page-bg) text-(--text-primary) [&.dashboard-welcome]:mb-[30px]">
       <AppHeader activePage="dashboard" />
-      <main className="dashboard-content [width:min(1120px,_calc(100%_-_48px))] [margin:0_auto] [padding:126px_0_88px] max-[520px]:[width:min(100%_-_36px,_1120px)] max-[520px]:[padding-top:112px]" id="main-content" tabIndex="-1">
+      <main className="dashboard-content w-[min(1120px,_calc(100%_-_48px))] py-0 px-auto pt-[126px] pb-22 px-0 max-[520px]:w-[min(100%_-_36px,_1120px)] max-[520px]:pt-[112px]" id="main-content" tabIndex="-1">
         <DashboardWelcome clientName={client.name} />
 
-        <section aria-busy={isLoading} className="analytics-dashboard [&_button:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&_button:focus-visible]:[outline-offset:3px]" aria-label="Analytics dashboard">
-          <div className="analytics-dashboard__toolbar [display:grid] [gap:16px] [margin-bottom:28px]">
+        <section aria-busy={isLoading} className="analytics-dashboard [&_button:focus-visible]:outline-3 outline-(--focus-ring) [&_button:focus-visible]:outline-offset-[3px]" aria-label="Analytics dashboard">
+          <div className="analytics-dashboard__toolbar grid gap-4 mb-7">
             <PeriodControls
               isLoading={isLoading}
               isRefreshing={isRefreshing}
@@ -212,21 +212,21 @@ function ClientDashboard({ client }) {
           </div>
 
           {refreshError && (
-            <div className="analytics-error [display:flex] [align-items:center] [justify-content:space-between] [gap:18px] [padding:15px_17px] [border:1px_solid_var(--error-border)] [border-radius:9px] [background:var(--error-bg)] [color:var(--error-text)] [font-size:13px] [&_button]:[flex:0_0_auto] [&_button]:[padding:7px_10px] [&_button]:[border:1px_solid_var(--error-border)] [&_button]:[border-radius:6px] [&_button]:[background:var(--surface)] [&_button]:[color:var(--error-strong)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:11px] [&_button]:[font-weight:700]" role="alert">
+            <div className="analytics-error flex items-center justify-between gap-4.5 py-3.75 px-4.25 border border-(--error-border) rounded-[9px] bg-(--error-bg) text-(--error-text) text-[13px] [&_button]:shrink-0 grow-0 basis-auto [&_button]:py-1.75 px-2.5 [&_button]:border border-(--error-border) [&_button]:rounded-[6px] [&_button]:bg-(--surface) [&_button]:text-(--error-strong) [&_button]:cursor-pointer [&_button]:[font:inherit] [&_button]:text-[11px] [&_button]:font-bold" role="alert">
               <span>{refreshError}</span>
             </div>
           )}
 
           {reportError && (
-            <div className="analytics-error [display:flex] [align-items:center] [justify-content:space-between] [gap:18px] [padding:15px_17px] [border:1px_solid_var(--error-border)] [border-radius:9px] [background:var(--error-bg)] [color:var(--error-text)] [font-size:13px] [&_button]:[flex:0_0_auto] [&_button]:[padding:7px_10px] [&_button]:[border:1px_solid_var(--error-border)] [&_button]:[border-radius:6px] [&_button]:[background:var(--surface)] [&_button]:[color:var(--error-strong)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:11px] [&_button]:[font-weight:700]" role="alert">
+            <div className="analytics-error flex items-center justify-between gap-4.5 py-3.75 px-4.25 border border-(--error-border) rounded-[9px] bg-(--error-bg) text-(--error-text) text-[13px] [&_button]:shrink-0 grow-0 basis-auto [&_button]:py-1.75 px-2.5 [&_button]:border border-(--error-border) [&_button]:rounded-[6px] [&_button]:bg-(--surface) [&_button]:text-(--error-strong) [&_button]:cursor-pointer [&_button]:[font:inherit] [&_button]:text-[11px] [&_button]:font-bold" role="alert">
               <span>{reportError}</span>
             </div>
           )}
 
           {isLoading ? (
-            <div className="analytics-loading [padding:30px_20px] [border:1px_dashed_var(--border-strong)] [border-radius:11px] [background:var(--surface)] [color:var(--text-secondary)] [font-size:13px] [text-align:center]" role="status">Loading {period} analytics…</div>
+            <div className="analytics-loading py-[30px] px-5 border border-dashed border-(--border-strong) rounded-[11px] bg-(--surface) text-(--text-secondary) text-[13px] text-center" role="status">Loading {period} analytics…</div>
           ) : loadError ? (
-            <div className="analytics-error [display:flex] [align-items:center] [justify-content:space-between] [gap:18px] [padding:15px_17px] [border:1px_solid_var(--error-border)] [border-radius:9px] [background:var(--error-bg)] [color:var(--error-text)] [font-size:13px] [&_button]:[flex:0_0_auto] [&_button]:[padding:7px_10px] [&_button]:[border:1px_solid_var(--error-border)] [&_button]:[border-radius:6px] [&_button]:[background:var(--surface)] [&_button]:[color:var(--error-strong)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:11px] [&_button]:[font-weight:700]" role="alert">
+            <div className="analytics-error flex items-center justify-between gap-4.5 py-3.75 px-4.25 border border-(--error-border) rounded-[9px] bg-(--error-bg) text-(--error-text) text-[13px] [&_button]:shrink-0 grow-0 basis-auto [&_button]:py-1.75 px-2.5 [&_button]:border border-(--error-border) [&_button]:rounded-[6px] [&_button]:bg-(--surface) [&_button]:text-(--error-strong) [&_button]:cursor-pointer [&_button]:[font:inherit] [&_button]:text-[11px] [&_button]:font-bold" role="alert">
               <span>{loadError}</span>
               <button onClick={retryLoad} type="button">Try again</button>
             </div>
@@ -236,13 +236,13 @@ function ClientDashboard({ client }) {
                 <RefreshSummary refresh={refreshSummary.result} />
               )}
               <KpiGrid kpis={dashboard.kpis} />
-              <Suspense fallback={<div className="analytics-loading [padding:30px_20px] [border:1px_dashed_var(--border-strong)] [border-radius:11px] [background:var(--surface)] [color:var(--text-secondary)] [font-size:13px] [text-align:center]">Loading charts…</div>}>
+              <Suspense fallback={<div className="analytics-loading py-[30px] px-5 border border-dashed border-(--border-strong) rounded-[11px] bg-(--surface) text-(--text-secondary) text-[13px] text-center">Loading charts…</div>}>
                 <AnalyticsCharts charts={dashboard.charts} tables={dashboard.tables} />
               </Suspense>
               <AnalyticsTables tables={dashboard.tables} />
             </>
           ) : (
-            <div className="analytics-error [display:flex] [align-items:center] [justify-content:space-between] [gap:18px] [padding:15px_17px] [border:1px_solid_var(--error-border)] [border-radius:9px] [background:var(--error-bg)] [color:var(--error-text)] [font-size:13px] [&_button]:[flex:0_0_auto] [&_button]:[padding:7px_10px] [&_button]:[border:1px_solid_var(--error-border)] [&_button]:[border-radius:6px] [&_button]:[background:var(--surface)] [&_button]:[color:var(--error-strong)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:11px] [&_button]:[font-weight:700]" role="alert">
+            <div className="analytics-error flex items-center justify-between gap-4.5 py-3.75 px-4.25 border border-(--error-border) rounded-[9px] bg-(--error-bg) text-(--error-text) text-[13px] [&_button]:shrink-0 grow-0 basis-auto [&_button]:py-1.75 px-2.5 [&_button]:border border-(--error-border) [&_button]:rounded-[6px] [&_button]:bg-(--surface) [&_button]:text-(--error-strong) [&_button]:cursor-pointer [&_button]:[font:inherit] [&_button]:text-[11px] [&_button]:font-bold" role="alert">
               Analytics data is unavailable.
               <button onClick={retryLoad} type="button">Try again</button>
             </div>

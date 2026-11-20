@@ -48,22 +48,22 @@ export default function KpiCard({ kpi }) {
   const directionIcon = kpi.trend === 'up' ? '↗' : kpi.trend === 'down' ? '↘' : '·'
 
   return (
-    <article className="kpi-card [display:grid] [align-content:start] [min-width:0] [min-height:154px] [padding:18px] [border:1px_solid_var(--border)] [border-radius:11px] [background:var(--surface)] [transition:border-color_160ms_ease,_background_160ms_ease] [&:hover]:[border-color:var(--border-strong)] motion-reduce:[animation:none] motion-reduce:[transition:none]">
-      <header className="kpi-card__topline [margin:0] [&_h3]:[overflow:hidden] [&_h3]:[margin:0] [&_h3]:[color:var(--text-secondary)] [&_h3]:[font-size:12px] [&_h3]:[font-weight:650] [&_h3]:[text-overflow:ellipsis] [&_h3]:[white-space:nowrap]">
+    <article className="kpi-card grid content-start min-w-0 min-h-[154px] p-4.5 border border-(--border) rounded-[11px] bg-(--surface) transition-[border-color_160ms_ease,_background_160ms_ease] [&:hover]:border-(--border-strong) motion-reduce:animate-none motion-reduce:transition-none">
+      <header className="kpi-card__topline m-0 [&_h3]:[overflow:hidden] [&_h3]:m-0 [&_h3]:text-(--text-secondary) [&_h3]:text-xs [&_h3]:font-semibold [&_h3]:text-ellipsis [&_h3]:whitespace-nowrap">
         <h3>{kpi.label}</h3>
       </header>
-      <div className="kpi-card__value-row [display:flex] [align-items:baseline] [justify-content:space-between] [gap:10px] [min-width:0] [margin-top:21px]">
-        <strong className="kpi-card__value [display:block] [overflow:hidden] [min-width:0] [margin:0] [color:var(--text-strong)] [font-family:'Manrope',_sans-serif] [font-size:clamp(25px,_3vw,_32px)] [font-variant-numeric:tabular-nums] [font-weight:700] [letter-spacing:-0.06em] [line-height:1.05] [text-overflow:ellipsis]">{formatValue(kpi)}</strong>
+      <div className="kpi-card__value-row flex items-baseline justify-between gap-2.5 min-w-0 mt-5.25">
+        <strong className="kpi-card__value block [overflow:hidden] min-w-0 m-0 text-(--text-strong) font-manrope text-[clamp(25px,_3vw,_32px)] tabular-nums font-bold tracking-[-0.06em] leading-[1.05] text-ellipsis">{formatValue(kpi)}</strong>
         <span
           aria-label={`${trendLabel(kpi)}: ${formatChange(kpi)}`}
-          className={`kpi-card__trend ${statusClass} [display:inline-flex] [flex:0_0_auto] [align-items:center] [gap:3px] [max-width:50%] [color:var(--text-secondary)] [font-size:10px] [font-variant-numeric:tabular-nums] [font-weight:650] [white-space:nowrap] [&.is-positive]:[color:var(--positive-text)] [&.is-negative]:[color:var(--negative-text)] [&.is-neutral]:[color:var(--text-secondary)] [&.is-unavailable]:[color:var(--text-secondary)] [&>_span]:[font-size:11px] [&>_span]:[font-weight:700]`}
+          className={`kpi-card__trend ${statusClass} inline-flex shrink-0 grow-0 basis-auto items-center gap-0.75 max-w-[50%] text-(--text-secondary) text-[10px] tabular-nums font-semibold whitespace-nowrap [&.is-positive]:text-(--positive-text) [&.is-negative]:text-(--negative-text) [&.is-neutral]:text-(--text-secondary) [&.is-unavailable]:text-(--text-secondary) [&>_span]:text-[11px] [&>_span]:font-bold`}
           title={trendLabel(kpi)}
         >
           <span aria-hidden="true">{directionIcon}</span>
           {formatDisplayChange(kpi)}
         </span>
       </div>
-      <p className="kpi-card__comparison [display:flex] [align-items:baseline] [gap:5px] [overflow:hidden] [margin:9px_0_0] [color:var(--text-muted)] [font-size:10px] [text-overflow:ellipsis] [white-space:nowrap] [&>_span]:[flex:0_0_auto] [&>_strong]:[color:var(--text-body)] [&>_strong]:[font-size:10px] [&>_strong]:[font-variant-numeric:tabular-nums] [&>_strong]:[font-weight:650] [&>_strong]:[white-space:nowrap]">
+      <p className="kpi-card__comparison flex items-baseline gap-1.25 [overflow:hidden] pt-2.25 pb-0 px-0 text-(--text-muted) text-[10px] text-ellipsis whitespace-nowrap [&>_span]:shrink-0 grow-0 basis-auto [&>_strong]:text-(--text-body) [&>_strong]:text-[10px] [&>_strong]:tabular-nums [&>_strong]:font-semibold [&>_strong]:whitespace-nowrap">
         {hasPreviousValue ? (
           <>
             <span>vs</span>

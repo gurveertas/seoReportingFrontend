@@ -64,15 +64,15 @@ export default function AnalyticsChartCard({ title, description, chart }) {
   const chartModel = makeChartData(chart)
 
   return (
-    <article className="analytics-chart-card [min-width:0] [overflow:hidden] [border:1px_solid_var(--border)] [border-radius:11px] [background:var(--surface)]">
-      <header className="analytics-chart-card__header [display:flex] [align-items:flex-start] [justify-content:space-between] [gap:12px] [padding:17px_18px_0] [&_h3]:[margin:0] [&_h3]:[color:var(--text-primary)] [&_h3]:[font-size:12px] [&_h3]:[font-weight:700] [&_p]:[margin:5px_0_0] [&_p]:[color:var(--text-muted)] [&_p]:[font-size:10px]">
+    <article className="analytics-chart-card min-w-0 [overflow:hidden] border border-(--border) rounded-[11px] bg-(--surface)">
+      <header className="analytics-chart-card__header flex items-start justify-between gap-3 pt-4.25 pb-0 px-4.5 [&_h3]:m-0 [&_h3]:text-(--text-primary) [&_h3]:text-xs [&_h3]:font-bold [&_p]:pt-1.25 pb-0 px-0 [&_p]:text-(--text-muted) [&_p]:text-[10px]">
         <div>
           <h3>{title}</h3>
           <p>{description}</p>
         </div>
       </header>
       {chartModel ? (
-        <div aria-label={`${title}: ${description}`} className="analytics-chart-card__canvas [width:100%] [height:282px] [padding:13px_18px_0_12px]" role="img">
+        <div aria-label={`${title}: ${description}`} className="analytics-chart-card__canvas w-full h-[282px] pt-3.25 pb-0 pr-4.5 pl-3" role="img">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartModel.data} margin={{ top: 8, right: 12, bottom: 0, left: 0 }}>
               <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="3 5" vertical={false} />
@@ -135,7 +135,7 @@ export default function AnalyticsChartCard({ title, description, chart }) {
           </ResponsiveContainer>
         </div>
       ) : (
-        <div className="analytics-chart-card__empty [display:grid] [min-height:150px] [padding:20px] [place-items:center] [color:var(--text-muted)] [font-size:12px] [text-align:center]">
+        <div className="analytics-chart-card__empty grid min-h-[150px] p-5 place-items-center text-(--text-muted) text-xs text-center">
           No chart data is available for this period yet.
         </div>
       )}
