@@ -23,7 +23,7 @@ export default function KpiGrid({ kpis }) {
           <h2 id="kpi-heading">Key performance indicators</h2>
         </div>
       </div>
-      <div className="kpi-grid [display:grid] [grid-template-columns:repeat(3,_minmax(0,_1fr))] [gap:13px] max-[700px]:[grid-template-columns:1fr]">
+      <div className="kpi-grid [display:grid] [grid-template-columns:repeat(3,_minmax(0,_1fr))] [gap:13px] max-[700px]:[grid-template-columns:repeat(2,_minmax(0,_1fr))] max-[420px]:[grid-template-columns:1fr]">
         {kpis.map((kpi) => <KpiCard key={kpi.key} kpi={kpi} />)}
       </div>
     </section>

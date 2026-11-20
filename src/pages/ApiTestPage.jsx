@@ -4,7 +4,7 @@ import ApiResponsePanel from '../components/api-test/ApiResponsePanel.jsx'
 import EndpointSelector from '../components/api-test/EndpointSelector.jsx'
 import JsonBodyEditor from '../components/api-test/JsonBodyEditor.jsx'
 import AppHeader from '../components/AppHeader.jsx'
-import { DATA_TEST_ENDPOINTS } from '../config/api.js'
+import { DATA_TEST_ENDPOINTS, MOCK_API_ENABLED } from '../config/api.js'
 import { requestDataSource } from '../services/dataSources.js'
 
 const initialBodies = Object.fromEntries(
@@ -69,13 +69,14 @@ export default function ApiTestPage() {
   }
 
   return (
-    <div className="api-test-page [min-height:100vh] [background:var(--page-bg)] [color:var(--text-primary)]">
+    <div className="api-test-page [min-height:100vh] [background:var(--page-bg)] [color:var(--text-primary)] [&_button:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&_button:focus-visible]:[outline-offset:2px]">
       <AppHeader activePage="test-api" />
-      <main className="api-test-content [width:min(1180px,_calc(100%_-_48px))] [margin:0_auto] [padding:126px_0_72px] max-[520px]:[width:calc(100%_-_36px)] max-[520px]:[padding-top:112px]">
+      <main className="api-test-content [width:min(1180px,_calc(100%_-_48px))] [margin:0_auto] [padding:126px_0_72px] max-[520px]:[width:calc(100%_-_36px)] max-[520px]:[padding-top:112px]" id="main-content" tabIndex="-1">
         <div className="api-test-intro [margin-bottom:30px] [&_h1]:[margin:0] [&_h1]:[font-family:'Manrope',_sans-serif] [&_h1]:[font-size:clamp(30px,_4vw,_40px)] [&_h1]:[font-weight:650] [&_h1]:[letter-spacing:-0.055em] [&>_p:last-child]:[margin:10px_0_0] [&>_p:last-child]:[color:var(--text-secondary)] [&>_p:last-child]:[font-size:14px]">
           <p className="dashboard-eyebrow [margin:0_0_11px] [color:var(--accent-text)] [font-size:11px] [font-weight:700] [letter-spacing:0.13em] [text-transform:uppercase]">Developer tools</p>
           <h1>API route tester</h1>
-          <p>Select a data source, enter its JSON request body, and inspect the response.</p>
+          <p className="[margin:10px_0_0] [color:var(--text-secondary)] [font-size:14px]">Select a data source, enter its JSON request body, and inspect the response.</p>
+          {MOCK_API_ENABLED && <p className="[margin:8px_0_0] [color:var(--accent-text)] [font-size:12px]">Demo mode: send <code>{'{"mockError":true}'}</code> to preview an error response.</p>}
         </div>
 
         <div className="api-test-layout [display:grid] [grid-template-columns:minmax(270px,_0.72fr)_minmax(0,_1.8fr)] [align-items:start] [gap:20px] max-[820px]:[grid-template-columns:1fr]">

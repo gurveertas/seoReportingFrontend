@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/useAuth.js'
 import { APP_NAME } from '../config/app.js'
+import { MOCK_API_ENABLED } from '../config/api.js'
 import { LogoutApiError, logout } from '../services/auth.js'
 import { useTheme } from '../theme/useTheme.js'
 import {
@@ -48,7 +49,11 @@ export default function AppHeader({ activePage }) {
 
   return (
     <header className="app-header [display:flex] [position:fixed] [top:18px] [left:50%] [z-index:20] [align-items:center] [justify-content:space-between] [width:min(1150px,_calc(100%_-_32px))] [min-height:66px] [padding:0_16px_0_22px] [transform:translateX(-50%)] [border:1px_solid_var(--border)] [border-radius:18px] [background:var(--surface)] [box-shadow:var(--shadow-float)] max-[560px]:[top:12px] max-[560px]:[min-height:60px] max-[560px]:[padding-left:16px]">
-      <span className="app-header__brand [min-width:0] [overflow:hidden] [color:var(--text-strong)] [font-family:'Manrope',_sans-serif] [font-size:19px] [font-weight:750] [letter-spacing:-0.05em] [text-overflow:ellipsis] [white-space:nowrap] max-[560px]:[font-size:17px] max-[420px]:[font-size:14px]">{APP_NAME}</span>
+      <a className="[position:fixed] [top:8px] [left:8px] [z-index:50] [transform:translateY(-160%)] [padding:10px_14px] [border-radius:8px] [background:var(--accent)] [color:#fff] [font-size:12px] [font-weight:700] [text-decoration:none] [transition:transform_150ms_ease] [&:focus]:[transform:translateY(0)] [&:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&:focus-visible]:[outline-offset:3px] motion-reduce:[transition:none]" href="#main-content">Skip to main content</a>
+      <div className="[display:flex] [min-width:0] [align-items:center] [gap:8px] [overflow:hidden]">
+        <span className="app-header__brand [min-width:0] [overflow:hidden] [color:var(--text-strong)] [font-family:'Manrope',_sans-serif] [font-size:19px] [font-weight:750] [letter-spacing:-0.05em] [text-overflow:ellipsis] [white-space:nowrap] max-[560px]:[font-size:17px] max-[420px]:[font-size:14px]">{APP_NAME}</span>
+        {MOCK_API_ENABLED && <span className="[flex:0_0_auto] [padding:4px_6px] [border-radius:5px] [background:var(--accent-soft)] [color:var(--accent-text)] [font-size:8px] [font-weight:800] [letter-spacing:0.07em]">DEMO</span>}
+      </div>
       <nav className="app-header__nav [display:flex] [flex:0_0_auto] [align-items:center] [gap:7px] max-[420px]:[gap:4px]" aria-label="Main navigation">
         <Link
           aria-current={activePage === 'dashboard' ? 'page' : undefined}

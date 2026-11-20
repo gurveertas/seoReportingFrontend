@@ -1,4 +1,9 @@
+import { MOCK_API_ENABLED } from '../config/api.js'
+import { mockRequestDataSource } from './mockApi.js'
+
 export async function requestDataSource(url, body) {
+  if (MOCK_API_ENABLED) return mockRequestDataSource(url, body)
+
   const response = await fetch(url, {
     method: 'POST',
     credentials: 'include',

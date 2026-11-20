@@ -1,4 +1,5 @@
-import { API_V1_BASE_URL } from '../config/api.js'
+import { API_V1_BASE_URL, MOCK_API_ENABLED } from '../config/api.js'
+import { mockGetAnalytics, mockRefreshAnalytics } from './mockApi.js'
 
 export class AnalyticsApiError extends Error {
   constructor(message, status) {
@@ -44,6 +45,8 @@ async function requestDashboard(url, options) {
 }
 
 export function getAnalytics(period, signal) {
+  if (MOCK_API_ENABLED) return mockGetAnalytics(period, signal)
+
   return requestDashboard(`${API_V1_BASE_URL}/analytics/${period}`, {
     method: 'GET',
     signal,
@@ -51,6 +54,8 @@ export function getAnalytics(period, signal) {
 }
 
 export function refreshAnalytics(period) {
+  if (MOCK_API_ENABLED) return mockRefreshAnalytics(period)
+
   return requestDashboard(
     `${API_V1_BASE_URL}/analytics/refresh?period=${encodeURIComponent(period)}`,
     { method: 'POST' },

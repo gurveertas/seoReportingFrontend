@@ -1,3 +1,4 @@
+export const MOCK_API_ENABLED = import.meta.env.DEV && import.meta.env.VITE_USE_MOCK_API === 'true'
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:8000/api/v1'
 const normalizedApiBaseUrl = API_BASE_URL.replace(/\/+$/, '')
 export const API_V1_BASE_URL = normalizedApiBaseUrl.endsWith('/api/v1')

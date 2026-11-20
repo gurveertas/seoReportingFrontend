@@ -1,4 +1,5 @@
-import { API_ROUTES, API_V1_BASE_URL } from '../config/api.js'
+import { API_ROUTES, API_V1_BASE_URL, MOCK_API_ENABLED } from '../config/api.js'
+import { mockGetSettings, mockUpdateSettings } from './mockApi.js'
 
 export class SettingsApiError extends Error {
   constructor(message, status) {
@@ -20,6 +21,8 @@ function getErrorMessage(responseText) {
 }
 
 export async function getUserSettings(signal) {
+  if (MOCK_API_ENABLED) return mockGetSettings(signal)
+
   const response = await fetch(`${API_V1_BASE_URL}${API_ROUTES.userSettings}`, {
     method: 'GET',
     credentials: 'include',
@@ -49,6 +52,8 @@ export async function getUserSettings(signal) {
 }
 
 export async function updateUserSettings(settings) {
+  if (MOCK_API_ENABLED) return mockUpdateSettings(settings)
+
   const response = await fetch(`${API_V1_BASE_URL}${API_ROUTES.userSettings}`, {
     method: 'PATCH',
     credentials: 'include',

@@ -138,10 +138,10 @@ export default function DashboardPage() {
   return (
     <div className="dashboard-page [min-height:100vh] [background:var(--page-bg)] [color:var(--text-primary)] [&.dashboard-welcome]:[margin-bottom:30px]">
       <AppHeader activePage="dashboard" />
-      <main className="dashboard-content [width:min(1120px,_calc(100%_-_48px))] [margin:0_auto] [padding:126px_0_56px] max-[520px]:[width:min(100%_-_36px,_1120px)] max-[520px]:[padding-top:112px]">
+      <main className="dashboard-content [width:min(1120px,_calc(100%_-_48px))] [margin:0_auto] [padding:126px_0_56px] max-[520px]:[width:min(100%_-_36px,_1120px)] max-[520px]:[padding-top:112px]" id="main-content" tabIndex="-1">
         <DashboardWelcome />
 
-        <section className="analytics-dashboard [&_button:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&_button:focus-visible]:[outline-offset:3px]" aria-label="Analytics dashboard">
+        <section aria-busy={isLoading} className="analytics-dashboard [&_button:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&_button:focus-visible]:[outline-offset:3px]" aria-label="Analytics dashboard">
           <div className="analytics-dashboard__toolbar [display:grid] [gap:16px] [margin-bottom:28px]">
             <PeriodControls
               isLoading={isLoading}

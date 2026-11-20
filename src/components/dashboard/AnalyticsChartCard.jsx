@@ -72,7 +72,7 @@ export default function AnalyticsChartCard({ title, description, chart }) {
         </div>
       </header>
       {chartModel ? (
-        <div className="analytics-chart-card__canvas [width:100%] [height:282px] [padding:13px_18px_0_12px]">
+        <div aria-label={`${title}: ${description}`} className="analytics-chart-card__canvas [width:100%] [height:282px] [padding:13px_18px_0_12px]" role="img">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartModel.data} margin={{ top: 8, right: 12, bottom: 0, left: 0 }}>
               <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="3 5" vertical={false} />

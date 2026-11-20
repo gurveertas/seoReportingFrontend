@@ -14,6 +14,15 @@ npm run dev
 Change `VITE_APP_NAME` in `.env` to update the name used in the login screen,
 footer, page title, and page description.
 
+## Preview with mock data
+
+For local UI work while the API or database is unavailable, set
+`VITE_USE_MOCK_API=true` in `.env.local` and restart Vite. The mock mode accepts
+any non-empty username and password, keeps its demo session and settings in the
+browser's local storage, and supplies analytics, integration, API tester, and
+PDF report data. It only runs in Vite development mode. Remove the setting (or
+set it to `false`) to use the configured backend again.
+
 ## Connect the authentication API
 
 Set `VITE_API_BASE_URL` in a local `.env` file to the backend origin, with or
