@@ -1,5 +1,4 @@
-import { API_ROUTES, API_V1_BASE_URL, MOCK_API_ENABLED } from '../config/api.js'
-import { mockGetPdfReport } from './mockApi.js'
+import { API_ROUTES, API_V1_BASE_URL } from '../config/api.js'
 
 export class ReportApiError extends Error {
   constructor(message, status) {
@@ -25,8 +24,6 @@ export async function getPdfReport(period) {
   if (!route) {
     throw new Error('Unsupported report period.')
   }
-
-  if (MOCK_API_ENABLED) return mockGetPdfReport(period)
 
   const response = await fetch(`${API_V1_BASE_URL}${route}`, {
     method: 'GET',

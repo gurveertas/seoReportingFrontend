@@ -4,7 +4,6 @@ import FormField from './FormField.jsx'
 import { submitAuthForm } from '../services/auth.js'
 import { APP_NAME } from '../config/app.js'
 import { useAuth } from '../auth/useAuth.js'
-import { MOCK_API_ENABLED } from '../config/api.js'
 
 const fieldDefinitions = {
   login: [
@@ -74,12 +73,6 @@ export default function AuthForm({ mode, onModeChange, transitionDirection }) {
             ? 'A better view of your search performance starts here.'
             : 'Your insights are right where you left them.'}
         </p>
-        {MOCK_API_ENABLED && (
-          <p className="[margin:-18px_0_20px] [padding:10px_12px] [border:1px_solid_var(--border)] [border-radius:8px] [background:var(--accent-soft)] [color:var(--accent-text)] [font-size:12px] [line-height:1.5]" role="status">
-            Demo mode is on. Use any username and password to preview the app.
-          </p>
-        )}
-
         <div className={`auth-tabs${isSignup ? ' auth-tabs--signup' : ''} [display:grid] [position:relative] [grid-template-columns:1fr_1fr] [padding:4px] [border:1px_solid_var(--line)] [border-radius:10px] [background:var(--surface-muted)] [&::before]:[position:absolute] [&::before]:[top:4px] [&::before]:[bottom:4px] [&::before]:[left:4px] [&::before]:[width:calc(50%_-_4px)] [&::before]:[border-radius:7px] [&::before]:[background:var(--surface)] [&::before]:[box-shadow:0_1px_3px_#1d29251a] [&::before]:[content:''] [&::before]:[pointer-events:none] [&::before]:[transition:transform_220ms_ease] ${isSignup ? '[&::before]:[transform:translateX(100%)]' : '[&::before]:[transform:translateX(0)]'}`} role="tablist" aria-label="Account access">
           <button
             aria-selected={!isSignup}

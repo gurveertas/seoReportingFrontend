@@ -36,7 +36,7 @@ export default function IntegrationSettingsCard({
           )}
           placeholder={definition.field.placeholder}
           required={value.enabled}
-          disabled={disabled}
+          disabled={disabled || !value.enabled}
           type={definition.field.type || 'text'}
           value={value[definition.field.name]}
         />

@@ -1,5 +1,4 @@
-import { API_V1_BASE_URL, MOCK_API_ENABLED } from '../config/api.js'
-import { mockGetAnalytics, mockRefreshAnalytics } from './mockApi.js'
+import { API_V1_BASE_URL } from '../config/api.js'
 
 export class AnalyticsApiError extends Error {
   constructor(message, status) {
@@ -44,20 +43,18 @@ async function requestDashboard(url, options) {
   return result
 }
 
-export function getAnalytics(period, signal) {
-  if (MOCK_API_ENABLED) return mockGetAnalytics(period, signal)
-
-  return requestDashboard(`${API_V1_BASE_URL}/analytics/${period}`, {
+export function getAnalytics(period, signal, clientId) {
+  if (!clientId) throw new Error('A client must be selected to load analytics.')
+  return requestDashboard(`${API_V1_BASE_URL}/clients/${encodeURIComponent(clientId)}/analytics/${period}`, {
     method: 'GET',
     signal,
   })
 }
 
-export function refreshAnalytics(period) {
-  if (MOCK_API_ENABLED) return mockRefreshAnalytics(period)
-
+export function refreshAnalytics(period, clientId) {
+  if (!clientId) throw new Error('A client must be selected to refresh analytics.')
   return requestDashboard(
-    `${API_V1_BASE_URL}/analytics/refresh?period=${encodeURIComponent(period)}`,
+    `${API_V1_BASE_URL}/clients/${encodeURIComponent(clientId)}/analytics/refresh?period=${encodeURIComponent(period)}`,
     { method: 'POST' },
   )
 }

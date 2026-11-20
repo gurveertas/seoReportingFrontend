@@ -1,68 +1,17 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AppHeader from '../components/AppHeader.jsx'
-import IntegrationSettingsCard from '../components/settings/IntegrationSettingsCard.jsx'
 import { useAuth } from '../auth/useAuth.js'
 import { getUserSettings, SettingsApiError, updateUserSettings } from '../services/settings.js'
-
-const integrationDefinitions = [
-  {
-    id: 'gsc',
-    title: 'Google Search Console',
-    description: 'Connect the Search Console property used for search reports.',
-    field: {
-      name: 'property_url',
-      label: 'Property URL',
-      placeholder: 'https://example.com/',
-      type: 'url',
-    },
-  },
-  {
-    id: 'ga4',
-    title: 'Google Analytics 4',
-    description: 'Set the GA4 property used for website analytics.',
-    field: {
-      name: 'property_id',
-      label: 'Property ID',
-      placeholder: '123456789',
-    },
-  },
-  {
-    id: 'google_sheets',
-    title: 'Google Sheets',
-    description: 'Set the spreadsheet used for additional reporting data.',
-    field: {
-      name: 'property_id',
-      label: 'Spreadsheet ID',
-      placeholder: 'spreadsheet-id',
-    },
-  },
-]
+import ManageClientsPanel from '../components/workspace/ManageClientsPanel.jsx'
 
 function normalizeSettings(data) {
-  if (!data || typeof data.fullname !== 'string' || !data.integrations) {
-    throw new Error('The settings response is missing profile or integration data.')
-  }
-
-  const integrations = {}
-  for (const definition of integrationDefinitions) {
-    const integration = data.integrations[definition.id]
-    if (!integration || typeof integration.enabled !== 'boolean') {
-      throw new Error(`The settings response is missing ${definition.title} settings.`)
-    }
-
-    const propertyValue = integration[definition.field.name]
-    integrations[definition.id] = {
-      enabled: integration.enabled,
-      [definition.field.name]: propertyValue === null || propertyValue === undefined
-        ? ''
-        : String(propertyValue),
-    }
+  if (!data || typeof data.fullname !== 'string') {
+    throw new Error('The settings response is missing profile data.')
   }
 
   return {
     fullname: data.fullname,
-    integrations,
   }
 }
 
@@ -108,21 +57,6 @@ export default function SettingsPage() {
     }
   }, [loadAttempt, navigate, signOut])
 
-  function updateIntegration(id, field, value) {
-    setSettings((current) => ({
-      ...current,
-      integrations: {
-        ...current.integrations,
-        [id]: {
-          ...current.integrations[id],
-          [field]: value,
-        },
-      },
-    }))
-    setSaveError('')
-    setSaveMessage('')
-  }
-
   function retryLoad() {
     setLoadError('')
     setIsLoading(true)
@@ -140,28 +74,8 @@ export default function SettingsPage() {
       return
     }
 
-    for (const definition of integrationDefinitions) {
-      const integration = settings.integrations[definition.id]
-      if (integration.enabled && !integration[definition.field.name].trim()) {
-        setSaveError(`Enter a ${definition.field.label.toLowerCase()} for ${definition.title}.`)
-        return
-      }
-    }
-
     const payload = {
       fullname,
-      integrations: Object.fromEntries(
-        integrationDefinitions.map((definition) => {
-          const value = settings.integrations[definition.id]
-          return [
-            definition.id,
-            {
-              enabled: value.enabled,
-              [definition.field.name]: value[definition.field.name].trim(),
-            },
-          ]
-        }),
-      ),
     }
 
     setIsSaving(true)
@@ -189,7 +103,7 @@ export default function SettingsPage() {
         <p className="dashboard-eyebrow [margin:0_0_11px] [color:var(--accent-text)] [font-size:11px] [font-weight:700] [letter-spacing:0.13em] [text-transform:uppercase]">Workspace</p>
         <h1>Settings</h1>
         <p className="settings-intro [margin:10px_0_27px] [color:var(--text-secondary)] [font-size:14px] [line-height:1.6]">
-          Update your profile and choose which data sources power your reports.
+          Update your workspace profile. Manage integrations separately for each client.
         </p>
 
         {isLoading ? (
@@ -223,25 +137,6 @@ export default function SettingsPage() {
               </div>
             </section>
 
-            <section className="settings-integrations [display:grid] [gap:0]" aria-labelledby="settings-integrations-heading">
-              <div className="settings-panel__heading [margin-bottom:17px] [&_h2]:[margin:0] [&_h2]:[font-family:'Manrope',_sans-serif] [&_h2]:[font-size:16px] [&_h2]:[font-weight:700] [&_h2]:[letter-spacing:-0.035em] [&_p]:[margin:5px_0_0] [&_p]:[color:var(--text-secondary)] [&_p]:[font-size:12px] [&_p]:[line-height:1.5]">
-                <h2 id="settings-integrations-heading">Integrations</h2>
-                <p>Enable the sources you want included in analytics.</p>
-              </div>
-              <div className="settings-integration-grid [display:grid] [grid-template-columns:repeat(2,_minmax(0,_1fr))] [gap:12px] max-[700px]:[grid-template-columns:1fr]">
-                {integrationDefinitions.map((definition) => (
-                  <IntegrationSettingsCard
-                    key={definition.id}
-                    definition={definition}
-                    disabled={isSaving}
-                    onEnabledChange={(id, enabled) => updateIntegration(id, 'enabled', enabled)}
-                    onPropertyChange={updateIntegration}
-                    value={settings.integrations[definition.id]}
-                  />
-                ))}
-              </div>
-            </section>
-
             <div className="settings-form__footer [display:flex] [align-items:center] [justify-content:space-between] [gap:16px] max-[520px]:[align-items:stretch] max-[520px]:[flex-direction:column-reverse]">
               <div aria-live="polite">
                 {saveError && <p className="settings-form__error [margin:0] [font-size:12px] [color:var(--error-text)]" role="alert">{saveError}</p>}
@@ -253,6 +148,8 @@ export default function SettingsPage() {
             </div>
           </form>
         )}
+
+        <ManageClientsPanel />
       </main>
     </div>
   )

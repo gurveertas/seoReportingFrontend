@@ -1,5 +1,4 @@
-import { API_V1_BASE_URL, API_ROUTES, MOCK_API_ENABLED } from '../config/api.js'
-import { mockGetCurrentUser, mockLogout, mockSubmitAuth } from './mockApi.js'
+import { API_V1_BASE_URL, API_ROUTES } from '../config/api.js'
 
 function parseResponseBody(responseText) {
   if (!responseText) return null
@@ -16,18 +15,11 @@ function getErrorMessage(result, fallback) {
 }
 
 export async function submitAuthForm(mode, values) {
-  if (MOCK_API_ENABLED) return mockSubmitAuth(mode, values)
-
   const payload = mode === 'signup'
     ? {
       fullname: values.fullName,
       username: values.username,
       password: values.password,
-      integrations: {
-        gsc: { enabled: false, property_url: '' },
-        ga4: { enabled: false, property_id: '' },
-        google_sheets: { enabled: false, property_id: '' },
-      },
     }
     : { username: values.username, password: values.password }
 
@@ -50,8 +42,6 @@ export async function submitAuthForm(mode, values) {
 }
 
 export async function getCurrentUser() {
-  if (MOCK_API_ENABLED) return mockGetCurrentUser()
-
   const response = await fetch(`${API_V1_BASE_URL}${API_ROUTES.me}`, {
     method: 'GET',
     credentials: 'include',
@@ -82,8 +72,6 @@ export class LogoutApiError extends Error {
 }
 
 export async function logout() {
-  if (MOCK_API_ENABLED) return mockLogout()
-
   const response = await fetch(`${API_V1_BASE_URL}${API_ROUTES.logout}`, {
     method: 'POST',
     credentials: 'include',
