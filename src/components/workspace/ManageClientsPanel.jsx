@@ -40,7 +40,7 @@ export default function ManageClientsPanel() {
   }
 
   return (
-    <section aria-labelledby="manage-clients-title" className="mb-7 rounded-xl border border-(--border) bg-(--surface) p-5 max-sm:p-4">
+    <section aria-labelledby="manage-clients-title" className="mt-6 mb-7 rounded-xl border border-(--border) bg-(--surface) p-5 max-sm:p-4">
       <header className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 className="m-0 text-base font-bold tracking-tight" id="manage-clients-title">Manage clients</h2>

@@ -103,7 +103,7 @@ export default function SettingsPage() {
         <p className="dashboard-eyebrow [margin:0_0_11px] [color:var(--accent-text)] [font-size:11px] [font-weight:700] [letter-spacing:0.13em] [text-transform:uppercase]">Workspace</p>
         <h1>Settings</h1>
         <p className="settings-intro [margin:10px_0_27px] [color:var(--text-secondary)] [font-size:14px] [line-height:1.6]">
-          Update your workspace profile. Manage integrations separately for each client.
+          Update your workspace profile and manage client accounts below.
         </p>
 
         {isLoading ? (
@@ -135,17 +135,16 @@ export default function SettingsPage() {
                   value={settings.fullname}
                 />
               </div>
-            </section>
-
-            <div className="settings-form__footer [display:flex] [align-items:center] [justify-content:space-between] [gap:16px] max-[520px]:[align-items:stretch] max-[520px]:[flex-direction:column-reverse]">
-              <div aria-live="polite">
-                {saveError && <p className="settings-form__error [margin:0] [font-size:12px] [color:var(--error-text)]" role="alert">{saveError}</p>}
-                {saveMessage && <p className="settings-form__success [margin:0] [font-size:12px] [color:var(--positive-text)]" role="status">{saveMessage}</p>}
+              <div className="mt-5 flex items-center justify-between gap-4 border-t border-(--border-subtle) pt-4 max-[520px]:items-stretch max-[520px]:flex-col-reverse">
+                <div aria-live="polite">
+                  {saveError && <p className="m-0 text-xs text-(--error-text)" role="alert">{saveError}</p>}
+                  {saveMessage && <p className="m-0 text-xs text-(--positive-text)" role="status">{saveMessage}</p>}
+                </div>
+                <button className="min-h-10 rounded-lg border border-(--accent) bg-(--accent) px-4 text-xs font-semibold text-white transition hover:bg-(--accent-hover) disabled:cursor-wait disabled:opacity-65 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--focus-ring) max-[520px]:w-full" disabled={isSaving} type="submit">
+                  {isSaving ? 'Saving…' : 'Save changes'}
+                </button>
               </div>
-              <button className="settings-form__submit [min-height:42px] [padding:0_16px] [border:1px_solid_var(--accent)] [border-radius:8px] [background:var(--accent)] [color:#fff] [cursor:pointer] [font:inherit] [font-size:12px] [font-weight:650] [transition:background_150ms_ease] [&:hover:not(:disabled)]:[background:var(--accent-hover)] [&:disabled]:[cursor:wait] [&:disabled]:[opacity:0.65] max-[520px]:[width:100%]" disabled={isSaving} type="submit">
-                {isSaving ? 'Saving…' : 'Save changes'}
-              </button>
-            </div>
+            </section>
           </form>
         )}
 

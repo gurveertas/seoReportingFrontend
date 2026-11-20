@@ -67,7 +67,6 @@ export default function AppHeader({ activePage }) {
 
   return (
     <header className="app-header [display:flex] [position:fixed] [top:18px] [left:50%] [z-index:20] [align-items:center] [justify-content:space-between] [width:min(1150px,_calc(100%_-_32px))] [min-height:66px] [padding:0_16px_0_22px] [transform:translateX(-50%)] [border:1px_solid_var(--border)] [border-radius:18px] [background:var(--surface)] [box-shadow:var(--shadow-float)] max-[560px]:[top:12px] max-[560px]:[min-height:60px] max-[560px]:[padding-left:16px]">
-      <a className="[position:fixed] [top:8px] [left:8px] [z-index:50] [transform:translateY(-160%)] [padding:10px_14px] [border-radius:8px] [background:var(--accent)] [color:#fff] [font-size:12px] [font-weight:700] [text-decoration:none] [transition:transform_150ms_ease] [&:focus]:[transform:translateY(0)] [&:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&:focus-visible]:[outline-offset:3px] motion-reduce:[transition:none]" href="#main-content">Skip to main content</a>
       <div className="[display:flex] [min-width:0] [align-items:center] [gap:8px] [overflow:hidden]">
         <Link aria-label={`${APP_NAME} dashboard`} className="app-header__brand [min-width:0] [overflow:hidden] [color:var(--text-strong)] [font-family:'Manrope',_sans-serif] [font-size:19px] [font-weight:750] [letter-spacing:-0.05em] [text-decoration:none] [text-overflow:ellipsis] [white-space:nowrap] hover:[color:var(--accent)] focus-visible:outline-2 focus-visible:outline-(--focus-ring) max-[560px]:[font-size:17px] max-[420px]:[font-size:14px]" to="/dashboard">{APP_NAME}</Link>
       </div>
@@ -75,7 +74,6 @@ export default function AppHeader({ activePage }) {
         {activePage === 'dashboard' && (
           <div className="relative mr-2">
             <button aria-expanded={isClientMenuOpen} aria-haspopup="menu" className="flex min-h-10 max-w-[min(34vw,240px)] items-center gap-2 rounded-xl border border-(--border) bg-(--surface) px-3 text-left text-sm font-semibold text-(--text-primary) transition hover:bg-(--surface-muted) focus-visible:outline-2 focus-visible:outline-(--focus-ring) max-sm:max-w-[42vw]" onClick={() => setIsClientMenuOpen((open) => !open)} type="button">
-              <span className="grid size-6 shrink-0 place-items-center rounded-md bg-(--accent-soft) text-[10px] font-bold text-(--accent-text)">{(selectedClient?.name || 'W').slice(0, 1).toUpperCase()}</span>
               <span className="truncate">{selectedClient?.name || 'Select client'}</span>
               <span aria-hidden="true" className="text-xs text-(--text-muted)">⌄</span>
             </button>
