@@ -24,9 +24,10 @@ VITE_API_BASE_URL=http://localhost:3000
 ```
 
 The login and signup paths are centralized in `src/config/api.js` and default to
-`/auth/login` and `/auth/signup`. Update those values to match your backend.
+`/auth/login` and `/auth/register`. Update those values to match your backend.
 The frontend sends JSON `POST` requests with `username` and `password`, and
-signup also includes `fullName`. A successful response may be any 2xx response;
+signup also includes `fullname` and disabled-by-default integrations. A
+successful response may be any 2xx response;
 error responses can include a JSON `message` to show a useful form error.
 
 The monthly and weekly dashboard views load from `GET /api/v1/analytics/monthly`

@@ -16,7 +16,16 @@ function getErrorMessage(result, fallback) {
 
 export async function submitAuthForm(mode, values) {
   const payload = mode === 'signup'
-    ? { fullName: values.fullName, username: values.username, password: values.password }
+    ? {
+      fullname: values.fullName,
+      username: values.username,
+      password: values.password,
+      integrations: {
+        gsc: { enabled: false, property_url: '' },
+        ga4: { enabled: false, property_id: '' },
+        google_sheets: { enabled: false, property_id: '' },
+      },
+    }
     : { username: values.username, password: values.password }
 
   const response = await fetch(`${API_V1_BASE_URL}${API_ROUTES[mode]}`, {
