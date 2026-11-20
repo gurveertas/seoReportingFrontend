@@ -6,7 +6,7 @@ export const API_V1_BASE_URL = normalizedApiBaseUrl.endsWith('/api/v1')
 
 export const API_ROUTES = {
   login: '/auth/login',
-  signup: '/auth/signup',
+  signup: '/auth/register',
   logout: '/auth/logout',
   me: '/auth/me',
   userSettings: '/me',
