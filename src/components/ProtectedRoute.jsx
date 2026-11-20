@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import { useAuth } from '../auth/useAuth.js'
+import SessionLoading from './SessionLoading.jsx'
 
 export function ProtectedRoute() {
   const { authStatus, isAuthenticated, refreshAuth } = useAuth()
@@ -12,7 +13,7 @@ export function ProtectedRoute() {
   }, [authStatus, refreshAuth])
 
   if (authStatus === 'idle' || authStatus === 'checking') {
-    return <div className="session-check" role="status">Verifying your session…</div>
+    return <SessionLoading message="Verifying your session…" />
   }
 
   if (authStatus === 'error') {
@@ -30,6 +31,10 @@ export function GuestRoute({ children }) {
       void refreshAuth()
     }
   }, [authStatus, refreshAuth])
+
+  if (authStatus === 'idle' || authStatus === 'checking') {
+    return <SessionLoading message="Restoring your session…" />
+  }
 
   return isAuthenticated ? <Navigate to="/dashboard" replace /> : children
 }
