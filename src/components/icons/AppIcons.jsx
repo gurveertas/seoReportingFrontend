@@ -43,3 +43,12 @@ export function RefreshIcon() {
     </svg>
   )
 }
+
+export function DocumentIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+      <path d="M7 3.75h7l4 4v12.5H7a2 2 0 0 1-2-2v-12.5a2 2 0 0 1 2-2Z" />
+      <path d="M14 3.75v4h4M8.5 13h7m-7 3h7" />
+    </svg>
+  )
+}

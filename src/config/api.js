@@ -8,6 +8,10 @@ export const API_ROUTES = {
   login: '/auth/login',
   signup: '/auth/signup',
   me: '/auth/me',
+  reports: {
+    monthly: '/reports/monthly',
+    weekly: '/reports/weekly',
+  },
 }
 
 export const DATA_TEST_ENDPOINTS = [

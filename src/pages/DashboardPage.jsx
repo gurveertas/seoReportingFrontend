@@ -8,8 +8,10 @@ import RefreshSummary from '../components/dashboard/RefreshSummary.jsx'
 import SourceStatusGrid from '../components/dashboard/SourceStatusGrid.jsx'
 import AppHeader from '../components/AppHeader.jsx'
 import DashboardWelcome from '../components/dashboard/DashboardWelcome.jsx'
+import ReportReadyDialog from '../components/dashboard/ReportReadyDialog.jsx'
 import { useAuth } from '../auth/useAuth.js'
 import { AnalyticsApiError, getAnalytics, refreshAnalytics } from '../services/analytics.js'
+import { getPdfReport, ReportApiError } from '../services/reports.js'
 import './DashboardPage.css'
 import './AnalyticsDashboard.css'
 
@@ -30,6 +32,9 @@ export default function DashboardPage() {
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [refreshError, setRefreshError] = useState('')
   const [refreshSummary, setRefreshSummary] = useState(null)
+  const [isGeneratingReport, setIsGeneratingReport] = useState(false)
+  const [reportError, setReportError] = useState('')
+  const [readyReport, setReadyReport] = useState(null)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -72,6 +77,7 @@ export default function DashboardPage() {
   function handlePeriodChange(nextPeriod) {
     setPeriod(nextPeriod)
     setRefreshError('')
+    setReportError('')
     setRefreshSummary(null)
   }
 
@@ -104,6 +110,26 @@ export default function DashboardPage() {
     }
   }
 
+  async function handleGenerateReport() {
+    setIsGeneratingReport(true)
+    setReportError('')
+
+    try {
+      const blob = await getPdfReport(period)
+      setReadyReport({ blob, period })
+    } catch (error) {
+      if (error instanceof ReportApiError && (error.status === 401 || error.status === 403)) {
+        signOut()
+        navigate('/', { replace: true })
+        return
+      }
+
+      setReportError(error instanceof Error ? error.message : 'Unable to generate the report.')
+    } finally {
+      setIsGeneratingReport(false)
+    }
+  }
+
   function retryLoad() {
     setLoadAttempt((attempt) => attempt + 1)
   }
@@ -119,7 +145,9 @@ export default function DashboardPage() {
             <PeriodControls
               isLoading={isLoading}
               isRefreshing={isRefreshing}
+              isGeneratingReport={isGeneratingReport}
               onChange={handlePeriodChange}
+              onGenerateReport={handleGenerateReport}
               onRefresh={handleRefresh}
               period={period}
             />
@@ -129,6 +157,12 @@ export default function DashboardPage() {
           {refreshError && (
             <div className="analytics-error" role="alert">
               <span>{refreshError}</span>
+            </div>
+          )}
+
+          {reportError && (
+            <div className="analytics-error" role="alert">
+              <span>{reportError}</span>
             </div>
           )}
 
@@ -160,6 +194,13 @@ export default function DashboardPage() {
         </section>
 
       </main>
+      {readyReport && (
+        <ReportReadyDialog
+          blob={readyReport.blob}
+          onClose={() => setReadyReport(null)}
+          period={readyReport.period}
+        />
+      )}
     </div>
   )
 }

@@ -37,6 +37,11 @@ The dashboard renders period and comparison dates, source statuses, KPI changes,
 daily line charts, animated click-share pie charts for top queries and pages, and
 the five report tables. Missing values and empty datasets use explicit
 unavailable/empty states instead of fabricated zeros.
+Use **Generate PDF** to request the selected period from
+`GET /api/v1/reports/monthly` or `GET /api/v1/reports/weekly` with cookies
+included. The report is built from stored backend snapshots; it does not refresh
+integrations. After the PDF is ready, **Save PDF** opens the native save picker
+where supported, with a standard browser download as the fallback.
 
 ## Dashboard and API route tester
 
