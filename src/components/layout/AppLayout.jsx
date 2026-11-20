@@ -252,7 +252,7 @@ function Topbar({ collapsed, onMenu, onToggleCollapsed }) {
         </ol>
       </nav>
       <Link className={`inline-flex h-9 items-center gap-2 rounded-lg bg-(--accent) px-3.5 text-[13px] font-semibold text-white transition hover:bg-(--accent-hover) max-sm:hidden ${iconClasses} [&_svg]:size-4`} to="/sites"><PlusIcon />Add websites</Link>
-      <button aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`} aria-pressed={theme === 'dark'} className={`grid size-9 place-items-center rounded-lg border border-(--border) bg-(--surface) text-(--text-secondary) transition hover:text-(--text-primary) ${iconClasses}`} onClick={toggleTheme} title="Toggle theme" type="button">
+      <button aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`} aria-pressed={theme === 'dark'} className={`grid size-9 place-items-center rounded-lg text-(--text-secondary) transition hover:text-(--text-primary) ${iconClasses}`} onClick={toggleTheme} title="Toggle theme" type="button">
         {theme === 'light' ? <MoonIcon /> : <SunIcon />}
       </button>
     </header>
