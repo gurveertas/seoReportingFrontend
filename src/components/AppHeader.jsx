@@ -75,7 +75,9 @@ export default function AppHeader({ activePage }) {
           <div className="relative mr-2">
             <button aria-expanded={isClientMenuOpen} aria-haspopup="menu" className="flex min-h-10 max-w-[min(34vw,240px)] items-center gap-2 rounded-xl border border-(--border) bg-(--surface) px-3 text-left text-sm font-semibold text-(--text-primary) transition hover:bg-(--surface-muted) focus-visible:outline-2 focus-visible:outline-(--focus-ring) max-sm:max-w-[42vw]" onClick={() => setIsClientMenuOpen((open) => !open)} type="button">
               <span className="truncate">{selectedClient?.name || 'Select client'}</span>
-              <span aria-hidden="true" className="text-xs text-(--text-muted)">⌄</span>
+              <svg aria-hidden="true" className={`size-4 shrink-0 text-(--text-muted) transition-transform ${isClientMenuOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24">
+                <path d="m7 10 5 5 5-5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" />
+              </svg>
             </button>
             {isClientMenuOpen && (
               <div className="absolute right-0 top-[calc(100%+10px)] z-30 w-72 max-w-[calc(100vw-32px)] rounded-xl border border-(--border) bg-(--surface) p-2 shadow-xl" role="menu" aria-label="Select a client">
