@@ -52,3 +52,12 @@ export function DocumentIcon() {
     </svg>
   )
 }
+
+export function LogoutIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+      <path d="M10 17l5-5-5-5m5 5H3" />
+      <path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6" />
+    </svg>
+  )
+}

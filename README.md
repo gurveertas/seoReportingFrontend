@@ -53,6 +53,8 @@ available without showing a `/me` error warning, while protected routes remain
 inaccessible until the session is verified. The API tester
 lets you enter a separate JSON body for each POST request and view its status
 and response. Routes are defined in `src/config/api.js`.
+The navbar's logout icon sends `POST /api/v1/auth/logout` with credentials
+before clearing the local session.
 
 The tester includes these POST endpoints:
 

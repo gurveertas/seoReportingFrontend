@@ -58,3 +58,28 @@ export async function getCurrentUser() {
 
   return result ?? {}
 }
+
+export class LogoutApiError extends Error {
+  constructor(message, status) {
+    super(message)
+    this.name = 'LogoutApiError'
+    this.status = status
+  }
+}
+
+export async function logout() {
+  const response = await fetch(`${API_V1_BASE_URL}${API_ROUTES.logout}`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      Accept: 'application/json',
+    },
+  })
+
+  if (!response.ok) {
+    throw new LogoutApiError(
+      getErrorMessage(parseResponseBody(await response.text()), 'Unable to sign out. Please try again.'),
+      response.status,
+    )
+  }
+}
