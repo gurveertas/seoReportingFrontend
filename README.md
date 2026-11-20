@@ -68,5 +68,7 @@ to allow the frontend origin and credentials.
 ## Appearance and settings
 
 The floating navigation bar provides icon links to the dashboard and the
-protected `/settings` placeholder, plus a light/dark theme toggle. The selected
-theme is saved in browser local storage and applies across the app.
+protected `/settings` page, plus a light/dark theme toggle. The settings page
+loads and updates the profile and integration settings through credentialed
+`GET /api/v1/me` and `PATCH /api/v1/me` requests. The selected theme is saved in
+browser local storage and applies across the app.

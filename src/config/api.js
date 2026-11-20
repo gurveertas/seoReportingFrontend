@@ -8,6 +8,7 @@ export const API_ROUTES = {
   login: '/auth/login',
   signup: '/auth/signup',
   me: '/auth/me',
+  userSettings: '/me',
   reports: {
     monthly: '/reports/monthly',
     weekly: '/reports/weekly',
