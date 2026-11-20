@@ -114,6 +114,8 @@ export default function AnalyticsChartCard({ title, description, chart }) {
                   color: 'var(--text-secondary)',
                   fontSize: 11,
                   paddingTop: 14,
+                  paddingLeft: 6,
+                  paddingRight: 6,
                 }}
               />
               {chartModel.series.map((series) => (
