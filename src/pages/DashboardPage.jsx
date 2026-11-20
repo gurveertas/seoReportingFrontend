@@ -5,7 +5,6 @@ import KpiGrid from '../components/dashboard/KpiGrid.jsx'
 import PeriodControls from '../components/dashboard/PeriodControls.jsx'
 import PeriodSummary from '../components/dashboard/PeriodSummary.jsx'
 import RefreshSummary from '../components/dashboard/RefreshSummary.jsx'
-import SourceStatusGrid from '../components/dashboard/SourceStatusGrid.jsx'
 import AppHeader from '../components/AppHeader.jsx'
 import DashboardWelcome from '../components/dashboard/DashboardWelcome.jsx'
 import ReportReadyDialog from '../components/dashboard/ReportReadyDialog.jsx'
@@ -178,7 +177,6 @@ export default function DashboardPage() {
               {refreshSummary?.period === period && (
                 <RefreshSummary refresh={refreshSummary.result} />
               )}
-              <SourceStatusGrid sources={dashboard.sources} />
               <KpiGrid kpis={dashboard.kpis} />
               <Suspense fallback={<div className="analytics-loading">Loading charts…</div>}>
                 <AnalyticsCharts charts={dashboard.charts} tables={dashboard.tables} />
