@@ -1,74 +1,45 @@
-import { lazy, Suspense, useEffect, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useState } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import PageHeader from '../components/layout/PageHeader.jsx'
+import SiteAvatar from '../components/layout/SiteAvatar.jsx'
 import AnalyticsTables from '../components/dashboard/AnalyticsTables.jsx'
 import KpiGrid from '../components/dashboard/KpiGrid.jsx'
 import PeriodControls from '../components/dashboard/PeriodControls.jsx'
 import PeriodSummary from '../components/dashboard/PeriodSummary.jsx'
 import RefreshSummary from '../components/dashboard/RefreshSummary.jsx'
-import AppHeader from '../components/AppHeader.jsx'
-import DashboardWelcome from '../components/dashboard/DashboardWelcome.jsx'
 import ReportReadyDialog from '../components/dashboard/ReportReadyDialog.jsx'
+import SourceStatusGrid from '../components/dashboard/SourceStatusGrid.jsx'
 import { useAuth } from '../auth/useAuth.js'
 import { AnalyticsApiError, getAnalytics, refreshAnalytics } from '../services/analytics.js'
 import { getPdfReport, ReportApiError } from '../services/reports.js'
 import { useWorkspace } from '../workspace/useWorkspace.js'
 import ClientFormDialog from '../components/workspace/ClientFormDialog.jsx'
 import SessionLoading from '../components/SessionLoading.jsx'
+import MonthlyReportsPanel from '../components/dashboard/MonthlyReportsPanel.jsx'
 
 const AnalyticsCharts = lazy(() => import('../components/dashboard/AnalyticsCharts.jsx'))
 
 export default function DashboardPage() {
-  const navigate = useNavigate()
   const { clientId } = useParams()
-  const { clients, isLoading, error, reloadClients, createClient } = useWorkspace()
-  const [isCreatingClient, setIsCreatingClient] = useState(false)
+  const { clients, isLoading, error, reloadClients } = useWorkspace()
   const selectedClient = clients.find((client) => client.id === clientId)
 
-  if (isLoading) {
-    return <SessionLoading message="Loading your clients…" />
-  }
-
+  if (isLoading) return <SessionLoading message="Loading website…" />
   if (error) {
     return (
-      <div className="min-h-screen bg-(--page-bg) text-(--text-primary)">
-        <AppHeader activePage="dashboard" />
-        <main className="mx-auto w-[min(720px,calc(100%-40px))] pt-36" id="main-content">
-          <div className="rounded-xl border border-(--error-border) bg-(--error-bg) p-5 text-sm text-(--error-text)" role="alert">
-            <p className="m-0">{error}</p>
-            <button className="mt-4 rounded-lg border border-(--error-border) bg-(--surface) px-3 py-2 text-xs font-semibold" onClick={() => reloadClients().catch(() => {})} type="button">Retry</button>
-          </div>
-        </main>
+      <div className="rounded-xl border border-(--error-border) bg-(--error-bg) p-5 text-sm text-(--error-text)" role="alert">
+        <p className="m-0">{error}</p>
+        <button className="mt-3 rounded-lg border border-(--error-border) bg-(--surface) px-3 py-1.5 text-xs font-semibold" onClick={() => reloadClients().catch(() => {})} type="button">Retry</button>
       </div>
     )
   }
+  if (!selectedClient) return <Navigate to="/dashboard" replace />
+  return <ClientDashboard key={selectedClient.id} client={selectedClient} />
+}
 
-  if (clients.length > 0) {
-    if (!clientId) return <Navigate to={`/dashboard/${clients[0].id}`} replace />
-    if (!selectedClient) return <Navigate to={`/dashboard/${clients[0].id}`} replace />
-    return <ClientDashboard key={selectedClient.id} client={selectedClient} />
-  }
-
-  async function handleCreateClient(client) {
-    const created = await createClient(client)
-    setIsCreatingClient(false)
-    navigate(`/dashboard/${created.id}`, { replace: true })
-  }
-
-  return (
-    <div className="min-h-screen bg-(--page-bg) text-(--text-primary)">
-      <AppHeader activePage="dashboard" />
-      <main className="mx-auto w-[min(720px,calc(100%-40px))] pb-16 pt-36 max-sm:pt-28" id="main-content" tabIndex="-1">
-        <section className="rounded-2xl border border-(--border) bg-(--surface) px-8 py-12 text-center shadow-sm max-sm:px-5 max-sm:py-9">
-          <span aria-hidden="true" className="mx-auto mb-5 grid size-14 place-items-center rounded-2xl bg-(--accent-soft) text-2xl font-semibold text-(--accent-text)">＋</span>
-          <p className="mb-2 text-[11px] font-bold uppercase tracking-[.14em] text-(--accent-text)">Your workspace</p>
-          <h1 className="m-0 font-[Manrope,sans-serif] text-3xl font-bold tracking-[-.05em] max-sm:text-2xl">Add your first client</h1>
-          <p className="mx-auto mb-6 mt-3 max-w-md text-sm leading-6 text-(--text-secondary)">Create a client workspace to organize its Search Console, Analytics, and Sheets connections and see its reporting in one place.</p>
-          <button className="min-h-11 rounded-lg bg-(--accent) px-5 text-sm font-semibold text-white transition hover:bg-(--accent-hover) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--focus-ring)" onClick={() => setIsCreatingClient(true)} type="button">Add client</button>
-        </section>
-      </main>
-      {isCreatingClient && <ClientFormDialog onClose={() => setIsCreatingClient(false)} onSave={handleCreateClient} />}
-    </div>
-  )
+function siteLabel(client) {
+  const url = client.integrations?.gsc?.property_url
+  return url ? url.replace(/^sc-domain:/, '').replace(/^https?:\/\//, '').replace(/\/$/, '') : 'Search Console not set'
 }
 
 function ClientDashboard({ client }) {
@@ -89,6 +60,16 @@ function ClientDashboard({ client }) {
   const [isGeneratingReport, setIsGeneratingReport] = useState(false)
   const [reportError, setReportError] = useState('')
   const [readyReport, setReadyReport] = useState(null)
+  const [isEditing, setIsEditing] = useState(false)
+  const { updateClient } = useWorkspace()
+  const handleAuthError = useCallback((error) => {
+    if (error?.status === 401) {
+      signOut()
+      navigate('/', { replace: true })
+      return true
+    }
+    return false
+  }, [navigate, signOut])
 
   useEffect(() => {
     const controller = new AbortController()
@@ -172,7 +153,7 @@ function ClientDashboard({ client }) {
     setRefreshError('')
 
     try {
-      const blob = await getPdfReport(period)
+      const blob = await getPdfReport(period, client.id)
       setReadyReport({ blob, period })
     } catch (error) {
       if (error instanceof ReportApiError && (error.status === 401 || error.status === 403)) {
@@ -192,13 +173,20 @@ function ClientDashboard({ client }) {
   }
 
   return (
-    <div className="dashboard-page min-h-screen bg-(--page-bg) text-(--text-primary)">
-      <AppHeader activePage="dashboard" />
-      <main className="dashboard-content mx-auto w-[min(1120px,calc(100%_-_48px))] pt-[126px] pb-22 max-[520px]:w-[min(100%_-_36px,1120px)] max-[520px]:pt-[112px]" id="main-content" tabIndex="-1">
-        <DashboardWelcome clientName={client.name} />
+    <div className="dashboard-page">
+        <PageHeader
+          actions={(
+            <button className="h-9 rounded-lg border border-(--border-strong) bg-(--surface) px-3.5 text-[13px] font-semibold transition hover:bg-(--surface-muted)" onClick={() => setIsEditing(true)} type="button">Edit website</button>
+          )}
+          description={siteLabel(client)}
+          eyebrow={client.autoMonthly ? 'Website · auto-monthly on' : 'Website'}
+          leading={<SiteAvatar name={client.name} size="lg" />}
+          title={client.name}
+        />
+        <MonthlyReportsPanel client={client} onAuthError={handleAuthError} onReportGenerated={() => setLoadAttempt((attempt) => attempt + 1)} />
 
-        <section aria-busy={isLoading} className="analytics-dashboard" aria-label="Analytics dashboard">
-          <div className="analytics-dashboard__toolbar grid gap-4 mb-7">
+        <section aria-busy={isLoading} className="analytics-dashboard [&_button:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&_button:focus-visible]:[outline-offset:3px]" aria-label="Analytics dashboard">
+          <div className="analytics-dashboard__toolbar [display:grid] [gap:16px] [margin-bottom:28px]">
             <PeriodControls
               isLoading={isLoading}
               isRefreshing={isRefreshing}
@@ -212,49 +200,56 @@ function ClientDashboard({ client }) {
           </div>
 
           {refreshError && (
-            <div className="analytics-error flex items-center justify-between gap-4.5 py-3.75 px-4.25 border border-(--error-border) rounded-[9px] bg-(--error-bg) text-(--error-text) text-[13px]" role="alert">
+            <div className="analytics-error [display:flex] [align-items:center] [justify-content:space-between] [gap:18px] [padding:15px_17px] [border:1px_solid_var(--error-border)] [border-radius:9px] [background:var(--error-bg)] [color:var(--error-text)] [font-size:13px] [&_button]:[flex:0_0_auto] [&_button]:[padding:7px_10px] [&_button]:[border:1px_solid_var(--error-border)] [&_button]:[border-radius:6px] [&_button]:[background:var(--surface)] [&_button]:[color:var(--error-strong)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:11px] [&_button]:[font-weight:700]" role="alert">
               <span>{refreshError}</span>
             </div>
           )}
 
           {reportError && (
-            <div className="analytics-error flex items-center justify-between gap-4.5 py-3.75 px-4.25 border border-(--error-border) rounded-[9px] bg-(--error-bg) text-(--error-text) text-[13px]" role="alert">
+            <div className="analytics-error [display:flex] [align-items:center] [justify-content:space-between] [gap:18px] [padding:15px_17px] [border:1px_solid_var(--error-border)] [border-radius:9px] [background:var(--error-bg)] [color:var(--error-text)] [font-size:13px] [&_button]:[flex:0_0_auto] [&_button]:[padding:7px_10px] [&_button]:[border:1px_solid_var(--error-border)] [&_button]:[border-radius:6px] [&_button]:[background:var(--surface)] [&_button]:[color:var(--error-strong)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:11px] [&_button]:[font-weight:700]" role="alert">
               <span>{reportError}</span>
             </div>
           )}
 
           {isLoading ? (
-            <div className="analytics-loading py-[30px] px-5 border border-dashed border-(--border-strong) rounded-[11px] bg-(--surface) text-(--text-secondary) text-[13px] text-center" role="status">Loading {period} analytics…</div>
+            <div className="analytics-loading [padding:30px_20px] [border:1px_dashed_var(--border-strong)] [border-radius:11px] [background:var(--surface)] [color:var(--text-secondary)] [font-size:13px] [text-align:center]" role="status">Loading {period} analytics…</div>
           ) : loadError ? (
-            <div className="analytics-error flex items-center justify-between gap-4.5 py-3.75 px-4.25 border border-(--error-border) rounded-[9px] bg-(--error-bg) text-(--error-text) text-[13px]" role="alert">
+            <div className="analytics-error [display:flex] [align-items:center] [justify-content:space-between] [gap:18px] [padding:15px_17px] [border:1px_solid_var(--error-border)] [border-radius:9px] [background:var(--error-bg)] [color:var(--error-text)] [font-size:13px] [&_button]:[flex:0_0_auto] [&_button]:[padding:7px_10px] [&_button]:[border:1px_solid_var(--error-border)] [&_button]:[border-radius:6px] [&_button]:[background:var(--surface)] [&_button]:[color:var(--error-strong)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:11px] [&_button]:[font-weight:700]" role="alert">
               <span>{loadError}</span>
-              <button className="shrink-0 rounded-md border border-(--error-border) bg-(--surface) px-2.5 py-1.75 text-[11px] font-bold text-(--error-strong) focus-visible:outline-2 focus-visible:outline-(--focus-ring)" onClick={retryLoad} type="button">Try again</button>
+              <button onClick={retryLoad} type="button">Try again</button>
             </div>
           ) : dashboard ? (
             <>
               {refreshSummary?.period === period && (
                 <RefreshSummary refresh={refreshSummary.result} />
               )}
+              {dashboard.sources && <SourceStatusGrid sources={dashboard.sources} />}
               <KpiGrid kpis={dashboard.kpis} />
-              <Suspense fallback={<div className="analytics-loading py-[30px] px-5 border border-dashed border-(--border-strong) rounded-[11px] bg-(--surface) text-(--text-secondary) text-[13px] text-center">Loading charts…</div>}>
+              <Suspense fallback={<div className="analytics-loading [padding:30px_20px] [border:1px_dashed_var(--border-strong)] [border-radius:11px] [background:var(--surface)] [color:var(--text-secondary)] [font-size:13px] [text-align:center]">Loading charts…</div>}>
                 <AnalyticsCharts charts={dashboard.charts} tables={dashboard.tables} />
               </Suspense>
               <AnalyticsTables tables={dashboard.tables} />
             </>
           ) : (
-            <div className="analytics-error flex items-center justify-between gap-4.5 py-3.75 px-4.25 border border-(--error-border) rounded-[9px] bg-(--error-bg) text-(--error-text) text-[13px]" role="alert">
+            <div className="analytics-error [display:flex] [align-items:center] [justify-content:space-between] [gap:18px] [padding:15px_17px] [border:1px_solid_var(--error-border)] [border-radius:9px] [background:var(--error-bg)] [color:var(--error-text)] [font-size:13px] [&_button]:[flex:0_0_auto] [&_button]:[padding:7px_10px] [&_button]:[border:1px_solid_var(--error-border)] [&_button]:[border-radius:6px] [&_button]:[background:var(--surface)] [&_button]:[color:var(--error-strong)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:11px] [&_button]:[font-weight:700]" role="alert">
               Analytics data is unavailable.
-              <button className="shrink-0 rounded-md border border-(--error-border) bg-(--surface) px-2.5 py-1.75 text-[11px] font-bold text-(--error-strong) focus-visible:outline-2 focus-visible:outline-(--focus-ring)" onClick={retryLoad} type="button">Try again</button>
+              <button onClick={retryLoad} type="button">Try again</button>
             </div>
           )}
         </section>
 
-      </main>
       {readyReport && (
         <ReportReadyDialog
           blob={readyReport.blob}
           onClose={() => setReadyReport(null)}
           period={readyReport.period}
+        />
+      )}
+      {isEditing && (
+        <ClientFormDialog
+          client={client}
+          onClose={() => setIsEditing(false)}
+          onSave={async (values) => { await updateClient(client.id, values); setIsEditing(false) }}
         />
       )}
     </div>

@@ -17,14 +17,14 @@ const pieDefinitions = [
 
 export default function AnalyticsPieCharts({ tables }) {
   return (
-    <section className="analytics-section mt-10" aria-labelledby="analytics-pie-charts-heading">
-      <div className="analytics-section__heading flex items-end justify-between gap-5 mb-3.75">
+    <section className="analytics-section [margin-top:40px]" aria-labelledby="analytics-pie-charts-heading">
+      <div className="analytics-section__heading [display:flex] [align-items:end] [justify-content:space-between] [gap:20px] [margin-bottom:15px] [&_h2]:[margin:0] [&_h2]:[font-family:'Manrope',_sans-serif] [&_h2]:[font-size:21px] [&_h2]:[font-weight:650] [&_h2]:[letter-spacing:-0.045em] [&.dashboard-eyebrow]:[margin-bottom:7px]">
         <div>
-          <p className="dashboard-eyebrow mb-1.75 px-0 text-(--accent-text) text-[11px] font-bold tracking-[0.13em] uppercase">Click distribution</p>
-          <h2 className="m-0 font-manrope text-[21px] font-semibold tracking-[-0.045em]" id="analytics-pie-charts-heading">Where search clicks go</h2>
+          <p className="dashboard-eyebrow [margin:0_0_11px] [color:var(--accent-text)] [font-size:11px] [font-weight:700] [letter-spacing:0.13em] [text-transform:uppercase]">Click distribution</p>
+          <h2 id="analytics-pie-charts-heading">Where search clicks go</h2>
         </div>
       </div>
-      <div className="analytics-pie-grid grid grid-cols-2 gap-3.5 max-[820px]:grid-cols-1">
+      <div className="analytics-pie-grid [display:grid] [grid-template-columns:repeat(2,_minmax(0,_1fr))] [gap:14px] max-[820px]:[grid-template-columns:1fr]">
         {pieDefinitions.map((definition) => (
           <AnalyticsPieCard
             key={definition.key}

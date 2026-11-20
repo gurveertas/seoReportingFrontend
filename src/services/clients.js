@@ -41,6 +41,8 @@ function fromApiClient(client) {
     id: String(client?.id ?? client?.client_id ?? client?.uuid ?? ''),
     name: String(client?.name ?? ''),
     integrations,
+    autoMonthly: Boolean(client?.auto_monthly),
+    googleConnectionId: client?.google_connection_id ?? null,
     createdAt: client?.created_at ?? client?.createdAt ?? null,
   }
 }
@@ -109,4 +111,14 @@ export async function deleteClient(clientId) {
     headers: { Accept: 'application/json' },
   })
   await readResponse(response, 'Unable to delete client.')
+}
+
+export async function setClientAutoMonthly(clientId, autoMonthly) {
+  const response = await fetch(`${CLIENTS_URL}/${encodeURIComponent(clientId)}`, {
+    method: 'PATCH',
+    credentials: 'include',
+    headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+    body: JSON.stringify({ auto_monthly: Boolean(autoMonthly) }),
+  })
+  return fromApiClient(await readResponse(response, 'Unable to update the monthly schedule.'))
 }

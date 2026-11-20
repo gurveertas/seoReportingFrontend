@@ -15,13 +15,13 @@ export default function PeriodControls({
   isGeneratingReport,
 }) {
   return (
-    <div className="analytics-controls flex items-center justify-between gap-4 max-[560px]:items-stretch max-[560px]:flex-col">
-      <div className="period-toggle inline-flex p-1 border border-(--border) rounded-[9px] bg-(--surface) max-[560px]:grid max-[560px]:grid-cols-2" role="group" aria-label="Analytics period">
+    <div className="analytics-controls [display:flex] [align-items:center] [justify-content:space-between] [gap:16px] max-[560px]:[align-items:stretch] max-[560px]:[flex-direction:column]">
+      <div className="period-toggle [display:inline-flex] [padding:4px] [border:1px_solid_var(--border)] [border-radius:9px] [background:var(--surface)] [&_button]:[min-width:88px] [&_button]:[min-height:36px] [&_button]:[padding:0_14px] [&_button]:[border:0] [&_button]:[border-radius:6px] [&_button]:[background:transparent] [&_button]:[color:var(--text-secondary)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:12px] [&_button]:[font-weight:650] [&_button]:[transition:background_160ms_ease,_color_160ms_ease] [&_button.is-active]:[background:var(--accent)] [&_button.is-active]:[color:#fff] [&_button:disabled]:[cursor:wait] [&_button:disabled]:[opacity:0.6] max-[560px]:[display:grid] max-[560px]:[grid-template-columns:1fr_1fr] max-[560px]:[&_button]:[width:100%]" role="group" aria-label="Analytics period">
         {periods.map((option) => (
           <button
             key={option.id}
             aria-pressed={period === option.id}
-            className={`min-w-22 min-h-9 rounded-md text-xs font-semibold transition-colors disabled:cursor-wait disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-(--focus-ring) max-[560px]:w-full ${period === option.id ? 'bg-(--accent) text-white' : 'bg-transparent text-(--text-secondary)'}`}
+            className={period === option.id ? 'is-active' : ''}
             disabled={isLoading || isRefreshing || isGeneratingReport}
             onClick={() => onChange(option.id)}
             type="button"
@@ -30,27 +30,27 @@ export default function PeriodControls({
           </button>
         ))}
       </div>
-      <div className="analytics-controls__actions flex items-center gap-2.25 max-[560px]:justify-end">
+      <div className="analytics-controls__actions [display:flex] [align-items:center] [gap:9px] max-[560px]:[justify-content:flex-end]">
         <button
           aria-busy={isGeneratingReport}
-          className="analytics-report-button inline-flex items-center justify-center gap-2 min-h-10.5 px-3.25 border border-(--border-strong) rounded-lg bg-(--surface) text-(--text-primary) text-xs font-semibold transition-[background,border-color] hover:not-disabled:border-(--accent) hover:not-disabled:bg-(--surface-muted) disabled:cursor-wait disabled:opacity-65 focus-visible:outline-2 focus-visible:outline-(--focus-ring)"
+          className="analytics-report-button [display:inline-flex] [align-items:center] [justify-content:center] [gap:8px] [min-height:42px] [padding:0_13px] [border:1px_solid_var(--border-strong)] [border-radius:8px] [background:var(--surface)] [color:var(--text-primary)] [cursor:pointer] [font:inherit] [font-size:12px] [font-weight:650] [transition:background_160ms_ease,_border-color_160ms_ease] [&:hover:not(:disabled)]:[border-color:var(--accent)] [&:hover:not(:disabled)]:[background:var(--surface-muted)] [&:disabled]:[cursor:wait] [&:disabled]:[opacity:0.65] [&_svg]:[width:16px] [&_svg]:[height:16px] [&_svg]:[stroke:var(--accent-text)] [&_svg]:[stroke-linecap:round] [&_svg]:[stroke-linejoin:round] [&_svg]:[stroke-width:1.7]"
           disabled={isLoading || isRefreshing || isGeneratingReport}
           onClick={onGenerateReport}
           type="button"
         >
-          <DocumentIcon className="size-4 stroke-(--accent-text) stroke-[1.7]" />
+          <DocumentIcon />
           {isGeneratingReport ? 'Generating…' : 'Generate PDF'}
         </button>
         <button
           aria-label={isRefreshing ? 'Refreshing analytics' : 'Refresh analytics'}
           aria-busy={isRefreshing}
-          className="analytics-refresh grid size-10.5 place-items-center border border-(--accent) rounded-lg bg-(--accent) text-white transition-colors hover:not-disabled:bg-(--accent-hover) disabled:cursor-wait disabled:opacity-65 focus-visible:outline-2 focus-visible:outline-(--focus-ring)"
+          className="analytics-refresh [display:grid] [align-items:center] [justify-items:center] [width:42px] [height:42px] [padding:0] [border:1px_solid_var(--accent)] [border-radius:8px] [background:var(--accent)] [color:#fff] [cursor:pointer] [transition:background_160ms_ease] [&:hover:not(:disabled)]:[background:var(--accent-hover)] [&:disabled]:[cursor:wait] [&:disabled]:[opacity:0.65] [&_svg]:[width:18px] [&_svg]:[height:18px] [&_svg]:[stroke:currentColor] [&_svg]:[stroke-linecap:round] [&_svg]:[stroke-linejoin:round] [&_svg]:[stroke-width:1.8] [&[aria-busy='true']_svg]:[animation:refresh-icon-spin_850ms_linear_infinite] motion-reduce:[&_svg]:[animation:none]"
           disabled={isLoading || isRefreshing || isGeneratingReport}
           onClick={onRefresh}
           type="button"
           title={isRefreshing ? 'Refreshing analytics' : 'Refresh analytics'}
         >
-          <RefreshIcon className={`size-4.5 stroke-current stroke-[1.8] ${isRefreshing ? 'animate-[refresh-icon-spin_850ms_linear_infinite] motion-reduce:animate-none' : ''}`} />
+          <RefreshIcon />
         </button>
       </div>
     </div>

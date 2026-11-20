@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import AppHeader from '../components/AppHeader.jsx'
+import PageHeader from '../components/layout/PageHeader.jsx'
 import { useAuth } from '../auth/useAuth.js'
 import { getUserSettings, SettingsApiError, updateUserSettings } from '../services/settings.js'
 import ManageClientsPanel from '../components/workspace/ManageClientsPanel.jsx'
+import GoogleAccountsPanel from '../components/google/GoogleAccountsPanel.jsx'
 
 function normalizeSettings(data) {
   if (!data || typeof data.fullname !== 'string') {
@@ -97,36 +98,29 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="settings-page min-h-screen bg-(--page-bg) text-(--text-primary)">
-      <AppHeader activePage="settings" />
-      <main className="settings-content mx-auto w-[min(940px,calc(100%_-_48px))] pt-[142px] pb-18 max-[520px]:w-[calc(100%_-_36px)] max-[520px]:pt-[128px]" id="main-content" tabIndex="-1">
-        <p className="dashboard-eyebrow m-0 pb-2.75 text-(--accent-text) text-[11px] font-bold tracking-[0.13em] uppercase">Workspace</p>
-        <h1 className="m-0 font-manrope text-[clamp(32px,4vw,44px)] font-semibold tracking-[-0.055em]">Settings</h1>
-        <p className="settings-intro mt-2.5 mb-[27px] text-(--text-secondary) text-sm leading-[1.6]">
-          Update your workspace profile and manage client accounts below.
-        </p>
+    <div className="settings-page max-w-[940px]">
+        <PageHeader description="Update your profile, connect Google accounts and manage your websites." eyebrow="Workspace" title="Settings" />
 
         {isLoading ? (
-          <div className="settings-message flex items-center justify-between gap-4 min-h-17.5 py-4 px-4.5 border border-(--border) rounded-[11px] bg-(--surface) text-(--text-secondary) text-[13px]" role="status">Loading settings…</div>
+          <div className="settings-message [display:flex] [align-items:center] [justify-content:space-between] [gap:16px] [min-height:70px] [padding:16px_18px] [border:1px_solid_var(--border)] [border-radius:11px] [background:var(--surface)] [color:var(--text-secondary)] [font-size:13px] [&_button]:[flex:0_0_auto] [&_button]:[padding:7px_10px] [&_button]:[border:1px_solid_var(--error-border)] [&_button]:[border-radius:7px] [&_button]:[background:var(--surface)] [&_button]:[color:var(--error-strong)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:11px] [&_button]:[font-weight:650] [&_button:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&_button:focus-visible]:[outline-offset:3px]" role="status">Loading settings…</div>
         ) : loadError ? (
-          <div className="settings-message settings-message--error flex items-center justify-between gap-4 min-h-17.5 py-4 px-4.5 border border-(--error-border) rounded-[11px] bg-(--error-bg) text-(--error-text) text-[13px]" role="alert">
+          <div className="settings-message settings-message--error [display:flex] [align-items:center] [justify-content:space-between] [gap:16px] [min-height:70px] [padding:16px_18px] [border:1px_solid_var(--border)] [border-radius:11px] [background:var(--surface)] [color:var(--text-secondary)] [font-size:13px] [&_button]:[flex:0_0_auto] [&_button]:[padding:7px_10px] [&_button]:[border:1px_solid_var(--error-border)] [&_button]:[border-radius:7px] [&_button]:[background:var(--surface)] [&_button]:[color:var(--error-strong)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:11px] [&_button]:[font-weight:650] [&_button:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&_button:focus-visible]:[outline-offset:3px] [border-color:var(--error-border)] [background:var(--error-bg)] [color:var(--error-text)]" role="alert">
             <span>{loadError}</span>
-            <button className="shrink-0 rounded-md border border-(--error-border) bg-(--surface) px-2.5 py-1.75 text-[11px] font-semibold text-(--error-strong) focus-visible:outline-2 focus-visible:outline-(--focus-ring)" onClick={retryLoad} type="button">Try again</button>
+            <button onClick={retryLoad} type="button">Try again</button>
           </div>
         ) : settings && (
-          <form aria-busy={isSaving} className="settings-form grid gap-5" onSubmit={handleSubmit}>
-            <section className="settings-panel min-w-0 p-5 border border-(--border) rounded-[13px] bg-(--surface) max-[520px]:p-4" aria-labelledby="settings-profile-heading">
-              <div className="settings-panel__heading mb-4.25">
-                <h2 className="m-0 font-manrope text-base font-bold tracking-[-0.035em]" id="settings-profile-heading">Profile</h2>
-                <p className="mt-1.25 mb-0 text-(--text-secondary) text-xs leading-normal">Keep your account details up to date.</p>
+          <form aria-busy={isSaving} className="settings-form [display:grid] [gap:20px] [&_button:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&_button:focus-visible]:[outline-offset:3px]" onSubmit={handleSubmit}>
+            <section className="settings-panel [min-width:0] [padding:20px] [border:1px_solid_var(--border)] [border-radius:13px] [background:var(--surface)] max-[520px]:[padding:16px]" aria-labelledby="settings-profile-heading">
+              <div className="settings-panel__heading [margin-bottom:17px] [&_h2]:[margin:0] [&_h2]:[font-family:'Manrope',_sans-serif] [&_h2]:[font-size:16px] [&_h2]:[font-weight:700] [&_h2]:[letter-spacing:-0.035em] [&_p]:[margin:5px_0_0] [&_p]:[color:var(--text-secondary)] [&_p]:[font-size:12px] [&_p]:[line-height:1.5]">
+                <h2 id="settings-profile-heading">Profile</h2>
+                <p>Keep your account details up to date.</p>
               </div>
-              <div className="settings-field grid gap-1.75">
-                <label className="text-(--text-body) text-[11px] font-semibold" htmlFor="settings-fullname">Full name</label>
+              <div className="settings-field [display:grid] [gap:7px] [&_label]:[color:var(--text-body)] [&_label]:[font-size:11px] [&_label]:[font-weight:650] [&_input]:[width:100%] [&_input]:[min-height:42px] [&_input]:[padding:0_12px] [&_input]:[border:1px_solid_var(--border-strong)] [&_input]:[border-radius:8px] [&_input]:[background:var(--surface)] [&_input]:[color:var(--text-primary)] [&_input]:[font:inherit] [&_input]:[font-size:12px] [&_input]:[transition:border-color_150ms_ease,_box-shadow_150ms_ease] [&_input::placeholder]:[color:var(--text-muted)] [&_input:focus]:[border-color:var(--accent)] [&_input:focus]:[outline:0] [&_input:focus]:[box-shadow:0_0_0_3px_color-mix(in_srgb,_var(--accent)_12%,_transparent)]">
+                <label htmlFor="settings-fullname">Full name</label>
                 <input
                   autoComplete="name"
                   disabled={isSaving}
                   id="settings-fullname"
-                  className="w-full min-h-10.5 px-3 border border-(--border-strong) rounded-[8px] bg-(--surface) text-(--text-primary) text-xs transition-[border-color,box-shadow] placeholder:text-(--text-muted) focus:border-(--accent) focus:outline-none focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--accent)_12%,transparent)] disabled:cursor-not-allowed disabled:opacity-65"
                   onChange={(event) => {
                     setSettings((current) => ({ ...current, fullname: event.target.value }))
                     setSaveError('')
@@ -149,8 +143,8 @@ export default function SettingsPage() {
           </form>
         )}
 
+        <GoogleAccountsPanel />
         <ManageClientsPanel />
-      </main>
     </div>
   )
 }

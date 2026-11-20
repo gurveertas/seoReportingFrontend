@@ -21,21 +21,21 @@ function formatRange(start, end) {
 export default function PeriodSummary({ period }) {
   if (!period) {
     return (
-      <div className="period-summary flex flex-wrap gap-8 py-4 px-4.75 border border-(--border) rounded-[10px] bg-(--surface) max-[560px]:gap-3.5 max-[560px]:flex-col">
+      <div className="period-summary [display:flex] [flex-wrap:wrap] [gap:32px] [padding:16px_19px] [border:1px_solid_var(--border)] [border-radius:10px] [background:var(--surface)] [&>_div]:[display:grid] [&>_div]:[gap:5px] [&_strong]:[color:var(--text-primary)] [&_strong]:[font-size:12px] [&_strong]:[font-weight:650] max-[560px]:[gap:14px] max-[560px]:[flex-direction:column]">
         <span>Period dates unavailable</span>
       </div>
     )
   }
 
   return (
-    <div className="period-summary flex flex-wrap gap-8 py-4 px-4.75 border border-(--border) rounded-[10px] bg-(--surface) max-[560px]:gap-3.5 max-[560px]:flex-col">
-      <div className="grid gap-1.25">
-        <span className="period-summary__label text-(--text-muted) text-[10px] font-bold tracking-[0.08em] uppercase">Current period</span>
-        <strong className="text-(--text-primary) text-xs font-semibold">{formatRange(period.start_date, period.end_date)}</strong>
+    <div className="period-summary [display:flex] [flex-wrap:wrap] [gap:32px] [padding:16px_19px] [border:1px_solid_var(--border)] [border-radius:10px] [background:var(--surface)] [&>_div]:[display:grid] [&>_div]:[gap:5px] [&_strong]:[color:var(--text-primary)] [&_strong]:[font-size:12px] [&_strong]:[font-weight:650] max-[560px]:[gap:14px] max-[560px]:[flex-direction:column]">
+      <div>
+        <span className="period-summary__label [color:var(--text-muted)] [font-size:10px] [font-weight:700] [letter-spacing:0.08em] [text-transform:uppercase]">Current period</span>
+        <strong>{formatRange(period.start_date, period.end_date)}</strong>
       </div>
-      <div className="grid gap-1.25">
-        <span className="period-summary__label text-(--text-muted) text-[10px] font-bold tracking-[0.08em] uppercase">Compared with</span>
-        <strong className="text-(--text-primary) text-xs font-semibold">
+      <div>
+        <span className="period-summary__label [color:var(--text-muted)] [font-size:10px] [font-weight:700] [letter-spacing:0.08em] [text-transform:uppercase]">Compared with</span>
+        <strong>
           {formatRange(period.comparison_start_date, period.comparison_end_date)}
         </strong>
       </div>
