@@ -72,7 +72,7 @@ export default function AnalyticsChartCard({ title, description, chart }) {
         </div>
       </header>
       {chartModel ? (
-        <div aria-label={`${title}: ${description}`} className="analytics-chart-card__canvas w-full h-[282px] pt-3.25 pb-0 pr-4.5 pl-3" role="img">
+        <div aria-label={`${title}: ${description}`} className="analytics-chart-card__canvas w-full h-70.5 pt-3.25 pb-0 pr-4.5 pl-3" role="img">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartModel.data} margin={{ top: 8, right: 12, bottom: 0, left: 0 }}>
               <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="3 5" vertical={false} />
@@ -135,7 +135,7 @@ export default function AnalyticsChartCard({ title, description, chart }) {
           </ResponsiveContainer>
         </div>
       ) : (
-        <div className="analytics-chart-card__empty grid min-h-[150px] p-5 place-items-center text-(--text-muted) text-xs text-center">
+        <div className="analytics-chart-card__empty grid min-h-37.5 p-5 place-items-center text-(--text-muted) text-xs text-center">
           No chart data is available for this period yet.
         </div>
       )}
