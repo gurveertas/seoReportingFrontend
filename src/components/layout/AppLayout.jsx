@@ -99,9 +99,6 @@ function Sidebar({ collapsed, mobileOpen, onCloseMobile }) {
     >
       <div className={`flex h-16 shrink-0 items-center gap-3 border-b border-(--border-subtle) px-5 ${collapsed ? 'lg:justify-center lg:px-0' : ''}`}>
         <Link aria-label={`${APP_NAME} overview`} className="flex min-w-0 items-center gap-3" to="/dashboard">
-          <span aria-hidden="true" className="grid size-9 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-(--accent) to-(--accent-hover) font-[Manrope,sans-serif] text-[15px] font-extrabold text-white shadow-sm">
-            {APP_NAME.slice(0, 1).toUpperCase()}
-          </span>
           <span className={`min-w-0 ${hide}`}>
             <span className="block truncate font-[Manrope,sans-serif] text-[17px] font-extrabold tracking-[-.04em] text-(--text-strong)">{APP_NAME}</span>
             <span className="block text-[11px] font-medium text-(--text-muted)">SEO reporting</span>

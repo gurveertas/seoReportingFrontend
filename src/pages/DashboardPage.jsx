@@ -8,7 +8,6 @@ import PeriodControls from '../components/dashboard/PeriodControls.jsx'
 import PeriodSummary from '../components/dashboard/PeriodSummary.jsx'
 import RefreshSummary from '../components/dashboard/RefreshSummary.jsx'
 import ReportReadyDialog from '../components/dashboard/ReportReadyDialog.jsx'
-import SourceStatusGrid from '../components/dashboard/SourceStatusGrid.jsx'
 import { useAuth } from '../auth/useAuth.js'
 import { AnalyticsApiError, getAnalytics, refreshAnalytics } from '../services/analytics.js'
 import { getPdfReport, ReportApiError } from '../services/reports.js'
@@ -223,7 +222,6 @@ function ClientDashboard({ client }) {
               {refreshSummary?.period === period && (
                 <RefreshSummary refresh={refreshSummary.result} />
               )}
-              {dashboard.sources && <SourceStatusGrid sources={dashboard.sources} />}
               <KpiGrid kpis={dashboard.kpis} />
               <Suspense fallback={<div className="analytics-loading [padding:30px_20px] [border:1px_dashed_var(--border-strong)] [border-radius:11px] [background:var(--surface)] [color:var(--text-secondary)] [font-size:13px] [text-align:center]">Loading charts…</div>}>
                 <AnalyticsCharts charts={dashboard.charts} tables={dashboard.tables} />
