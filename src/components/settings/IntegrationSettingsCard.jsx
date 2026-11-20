@@ -29,7 +29,7 @@ export default function IntegrationSettingsCard({
         <label className="text-(--text-body) text-[11px] font-semibold" htmlFor={fieldId}>{definition.field.label}</label>
         <input
           autoComplete="off"
-          className="w-full min-h-10.5 px-3 border border-(--border-strong) rounded-[8px] bg-(--surface) text-(--text-primary) text-xs transition-[border-color,box-shadow] disabled:cursor-not-allowed disabled:opacity-65 placeholder:text-(--text-muted) focus:border-(--accent) focus:outline-none focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--accent)_12%,transparent)]"
+          className="w-full min-h-10.5 px-3 border border-(--border-strong) rounded-lg bg-(--surface) text-(--text-primary) text-xs transition-[border-color,box-shadow] disabled:cursor-not-allowed disabled:opacity-65 placeholder:text-(--text-muted) focus:border-(--accent) focus:outline-none focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--accent)_12%,transparent)]"
           id={fieldId}
           onChange={(event) => onPropertyChange(
             definition.id,

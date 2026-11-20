@@ -16,7 +16,7 @@ export default function FormField({
       </label>
       <input
         autoComplete={autoComplete}
-        className="form-field__input w-full h-12 px-3.5 border border-(--border-strong) rounded-[8px] bg-(--surface) text-(--ink) text-sm transition-[border-color,box-shadow] disabled:cursor-not-allowed disabled:opacity-[0.65] placeholder:text-(--text-faint) focus:border-(--accent) focus:outline-none focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--accent)_12%,transparent)]"
+        className="form-field__input w-full h-12 px-3.5 border border-(--border-strong) rounded-lg bg-(--surface) text-(--ink) text-sm transition-[border-color,box-shadow] disabled:cursor-not-allowed disabled:opacity-[0.65] placeholder:text-(--text-faint) focus:border-(--accent) focus:outline-none focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--accent)_12%,transparent)]"
         disabled={disabled}
         id={id}
         name={name}

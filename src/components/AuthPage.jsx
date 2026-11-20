@@ -14,7 +14,7 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="auth-layout grid grid-cols-[minmax(420px,_0.8fr)_minmax(460px,_1.2fr)] min-h-screen bg-(--surface) text-(--text-primary) font-sans max-[900px]:grid-cols-[minmax(370px,_1fr)_minmax(330px,_0.9fr)] max-[700px]:block max-[700px]:min-h-screen">
+    <div className="auth-layout grid grid-cols-[minmax(420px,0.8fr)_minmax(460px,1.2fr)] min-h-screen bg-(--surface) text-(--text-primary) font-sans max-[900px]:grid-cols-[minmax(370px,1fr)_minmax(330px,0.9fr)] max-[700px]:block max-[700px]:min-h-screen">
       <AuthForm
         mode={mode}
         onModeChange={handleModeChange}
