@@ -47,12 +47,12 @@ export default function KpiCard({ kpi }) {
   const directionIcon = kpi.trend === 'up' ? '↗' : kpi.trend === 'down' ? '↘' : '·'
 
   return (
-    <article className="kpi-card grid content-start min-w-0 min-h-[154px] p-4.5 border border-(--border) rounded-[11px] bg-(--surface) transition-[border-color_160ms_ease,_background_160ms_ease] hover:border-(--border-strong) motion-reduce:animate-none motion-reduce:transition-none">
+    <article className="kpi-card grid content-start min-w-0 min-h-38.5 p-4.5 border border-(--border) rounded-[11px] bg-(--surface) transition-[border-color_160ms_ease,background_160ms_ease] hover:border-(--border-strong) motion-reduce:animate-none motion-reduce:transition-none">
       <header className="kpi-card__topline m-0">
         <h3 className="m-0 overflow-hidden text-(--text-secondary) text-xs font-semibold text-ellipsis whitespace-nowrap">{kpi.label}</h3>
       </header>
       <div className="kpi-card__value-row flex items-baseline justify-between gap-2.5 min-w-0 mt-5.25">
-        <strong className="kpi-card__value block overflow-hidden min-w-0 m-0 text-(--text-strong) font-manrope text-[clamp(25px,_3vw,_32px)] tabular-nums font-bold tracking-[-0.06em] leading-[1.05] text-ellipsis">{formatValue(kpi)}</strong>
+        <strong className="kpi-card__value block overflow-hidden min-w-0 m-0 text-(--text-strong) font-manrope text-[clamp(25px,3vw,32px)] tabular-nums font-bold tracking-[-0.06em] leading-[1.05] text-ellipsis">{formatValue(kpi)}</strong>
         <span
           aria-label={`${trendLabel(kpi)}: ${formatChange(kpi)}`}
           className={`kpi-card__trend ${statusClass} inline-flex shrink-0 grow-0 basis-auto items-center gap-0.75 max-w-[50%] text-[10px] tabular-nums font-semibold whitespace-nowrap`}

@@ -10,7 +10,7 @@ export default function KpiGrid({ kpis }) {
             <h2 className="m-0 font-manrope text-[21px] font-semibold tracking-[-0.045em]" id="kpi-heading">Key performance indicators</h2>
           </div>
         </div>
-        <div className="analytics-empty py-[30px] px-5 border border-dashed border-(--border-strong) rounded-[11px] bg-(--surface) text-(--text-secondary) text-[13px] text-center">No KPI data is available for this period yet.</div>
+        <div className="analytics-empty py-7.5 px-5 border border-dashed border-(--border-strong) rounded-[11px] bg-(--surface) text-(--text-secondary) text-[13px] text-center">No KPI data is available for this period yet.</div>
       </section>
     )
   }
