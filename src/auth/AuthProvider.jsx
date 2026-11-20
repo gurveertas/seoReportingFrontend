@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { AuthContext } from './authContext.js'
 import { getCurrentUser } from '../services/auth.js'
 
@@ -18,6 +18,7 @@ async function readAuthState() {
 }
 
 export default function AuthProvider({ children }) {
+  const authRequestId = useRef(0)
   const [authState, setAuthState] = useState({
     status: 'idle',
     user: null,
@@ -25,21 +26,25 @@ export default function AuthProvider({ children }) {
   })
 
   const refreshAuth = useCallback(async () => {
+    const requestId = authRequestId.current + 1
+    authRequestId.current = requestId
     setAuthState({ status: 'checking', user: null, error: null })
     const nextState = await readAuthState()
-    setAuthState(nextState)
+
+    if (requestId === authRequestId.current) {
+      setAuthState(nextState)
+    }
+
     return {
-      authenticated: nextState.status === 'authenticated',
-      error: nextState.error,
+      authenticated: requestId === authRequestId.current
+        && nextState.status === 'authenticated',
+      error: requestId === authRequestId.current ? nextState.error : null,
     }
   }, [])
 
   const signOut = useCallback(() => {
+    authRequestId.current += 1
     setAuthState({ status: 'unauthenticated', user: null, error: null })
-  }, [])
-
-  const resetAuthError = useCallback(() => {
-    setAuthState({ status: 'idle', user: null, error: null })
   }, [])
 
   return (
@@ -50,7 +55,6 @@ export default function AuthProvider({ children }) {
         currentUser: authState.user,
         isAuthenticated: authState.status === 'authenticated',
         refreshAuth,
-        resetAuthError,
         signOut,
       }}
     >

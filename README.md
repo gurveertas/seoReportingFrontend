@@ -47,9 +47,10 @@ where supported, with a standard browser download as the fallback.
 
 After a successful login, the app opens the dashboard. The dashboard and
 `/test-api` route are guarded by a cookie-verified session. Protected-route
-navigation calls `GET /auth/me` with credentials; the login and signup screens
-do not make session-check requests. A `401` or `403` redirects to the login page.
-The API tester
+navigation and the guest route call `GET /auth/me` with credentials, including
+after successful login or signup. A failed session check leaves the auth form
+available without showing a `/me` error warning, while protected routes remain
+inaccessible until the session is verified. The API tester
 lets you enter a separate JSON body for each POST request and view its status
 and response. Routes are defined in `src/config/api.js`.
 

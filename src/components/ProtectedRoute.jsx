@@ -19,21 +19,17 @@ export function ProtectedRoute() {
     return <Navigate to="/" replace />
   }
 
-  return isAuthenticated
-    ? <Outlet />
-    : (
-      <Navigate
-        to="/"
-        replace
-        state={{
-          sessionError: 'No authenticated session cookie was found. Please sign in again.',
-        }}
-      />
-    )
+  return isAuthenticated ? <Outlet /> : <Navigate to="/" replace />
 }
 
 export function GuestRoute({ children }) {
-  const { isAuthenticated } = useAuth()
+  const { authStatus, isAuthenticated, refreshAuth } = useAuth()
+
+  useEffect(() => {
+    if (authStatus === 'idle') {
+      void refreshAuth()
+    }
+  }, [authStatus, refreshAuth])
 
   return isAuthenticated ? <Navigate to="/dashboard" replace /> : children
 }

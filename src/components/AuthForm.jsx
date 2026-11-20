@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import FormField from './FormField.jsx'
 import { submitAuthForm } from '../services/auth.js'
 import { APP_NAME } from '../config/app.js'
@@ -20,14 +20,9 @@ const fieldDefinitions = {
 export default function AuthForm({ mode, onModeChange, transitionDirection }) {
   const isSignup = mode === 'signup'
   const navigate = useNavigate()
-  const location = useLocation()
-  const { authError, authStatus, resetAuthError } = useAuth()
-  const sessionError = location.state?.sessionError
+  const { refreshAuth } = useAuth()
   const [values, setValues] = useState({ fullName: '', username: '', password: '' })
-  const [status, setStatus] = useState(() => ({
-    type: sessionError ? 'error' : '',
-    message: sessionError || '',
-  }))
+  const [status, setStatus] = useState({ type: '', message: '' })
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   function handleChange(event) {
@@ -43,8 +38,14 @@ export default function AuthForm({ mode, onModeChange, transitionDirection }) {
 
     try {
       await submitAuthForm(mode, values)
-      if (mode === 'login') {
+      const session = await refreshAuth()
+
+      if (session.authenticated) {
         navigate('/dashboard', { replace: true })
+        return
+      }
+
+      if (mode === 'login') {
         return
       }
 
@@ -60,11 +61,6 @@ export default function AuthForm({ mode, onModeChange, transitionDirection }) {
     } finally {
       setIsSubmitting(false)
     }
-  }
-
-  function handleRetrySession() {
-    resetAuthError()
-    navigate('/dashboard', { replace: true })
   }
 
   return (
@@ -100,14 +96,6 @@ export default function AuthForm({ mode, onModeChange, transitionDirection }) {
         </div>
 
         <form className="auth-form" onSubmit={handleSubmit}>
-          {authStatus === 'error' && !status.message && (
-            <div className="auth-form__session-error" role="alert">
-              <span>{authError}</span>
-              <button onClick={handleRetrySession} type="button">
-                Retry
-              </button>
-            </div>
-          )}
           {fieldDefinitions[mode].map((field) => (
             <FormField
               key={field.name}
