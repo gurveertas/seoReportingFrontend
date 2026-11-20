@@ -80,7 +80,7 @@ export default function AnalyticsPieCard({ title, description, table, labelKey }
     : 'No click data is available'
 
   return (
-    <article className={`analytics-pie-card min-w-0 overflow-hidden border border-(--border) rounded-[11px] bg-(--surface) animate-[pie-card-enter_440ms_ease-out_both] motion-reduce:animate-none ${title === 'Top page click share' ? 'delay-[90ms]' : ''}`}>
+    <article className={`analytics-pie-card min-w-0 overflow-hidden border border-(--border) rounded-[11px] bg-(--surface) animate-[pie-card-enter_440ms_ease-out_both] motion-reduce:animate-none ${title === 'Top page click share' ? 'delay-90' : ''}`}>
       <header className="analytics-chart-card__header flex items-start justify-between gap-3 pt-4.25 px-4.5">
         <div>
           <h3 className="m-0 text-(--text-primary) text-xs font-bold">{title}</h3>
@@ -88,10 +88,10 @@ export default function AnalyticsPieCard({ title, description, table, labelKey }
         </div>
       </header>
       {share ? (
-        <div className="analytics-pie-card__body grid grid-cols-[minmax(155px,_0.9fr)_minmax(0,_1.1fr)] items-center gap-3 pt-2 pb-4.25 px-4.5 max-[560px]:grid-cols-[minmax(115px,_0.85fr)_minmax(0,_1.15fr)] max-[560px]:gap-1.75 max-[560px]:pr-3 max-[560px]:pl-3">
+        <div className="analytics-pie-card__body grid grid-cols-[minmax(155px,0.9fr)_minmax(0,1.1fr)] items-center gap-3 pt-2 pb-4.25 px-4.5 max-[560px]:grid-cols-[minmax(115px,0.85fr)_minmax(0,1.15fr)] max-[560px]:gap-1.75 max-[560px]:pr-3 max-[560px]:pl-3">
           <div
             aria-label={chartDescription}
-            className="analytics-pie-card__visual relative w-full h-[208px] min-w-0 max-[560px]:h-[174px]"
+            className="analytics-pie-card__visual relative w-full h-52 min-w-0 max-[560px]:h-43.5"
             role="img"
           >
             <ResponsiveContainer width="100%" height="100%">
@@ -130,7 +130,7 @@ export default function AnalyticsPieCard({ title, description, table, labelKey }
               </PieChart>
             </ResponsiveContainer>
             <div className="analytics-pie-card__center grid absolute top-[50%] left-[50%] gap-0.5 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none" aria-hidden="true">
-              <strong className="text-(--text-strong) font-manrope text-[21px] tabular-nums font-bold tracking-[-0.05em]">{compactNumberFormatter.format(share.total)}</strong>
+              <strong className="text-(--text-strong) font-manrope text-[21px] tabular-nums font-bold tracking-tighter">{compactNumberFormatter.format(share.total)}</strong>
               <span className="text-(--text-muted) text-[10px]">clicks</span>
             </div>
           </div>
@@ -153,7 +153,7 @@ export default function AnalyticsPieCard({ title, description, table, labelKey }
           </ul>
         </div>
       ) : (
-        <div className="analytics-chart-card__empty grid min-h-[150px] p-5 place-items-center text-(--text-muted) text-xs text-center">
+        <div className="analytics-chart-card__empty grid min-h-37.5 p-5 place-items-center text-(--text-muted) text-xs text-center">
           Click data is not available for this period yet.
         </div>
       )}
