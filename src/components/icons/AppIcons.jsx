@@ -34,3 +34,12 @@ export function MoonIcon() {
     </svg>
   )
 }
+
+export function RefreshIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+      <path d="M20 7v5h-5M4 17v-5h5" />
+      <path d="M5.6 9a7 7 0 0 1 11.6-2L20 12M4 12l2.8 5a7 7 0 0 0 11.6-2" />
+    </svg>
+  )
+}

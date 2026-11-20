@@ -49,20 +49,17 @@
 }
 
 .analytics-refresh {
-  display: inline-flex;
+  display: grid;
   align-items: center;
-  justify-content: center;
-  gap: 9px;
-  min-height: 42px;
-  padding: 0 15px;
+  justify-items: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
   border: 1px solid var(--accent);
   border-radius: 8px;
   background: var(--accent);
   color: #fff;
   cursor: pointer;
-  font: inherit;
-  font-size: 12px;
-  font-weight: 650;
   transition: background 160ms ease;
 }
 
@@ -75,9 +72,23 @@
   opacity: 0.65;
 }
 
-.analytics-refresh span {
-  font-size: 17px;
-  line-height: 1;
+.analytics-refresh svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.analytics-refresh[aria-busy='true'] svg {
+  animation: refresh-icon-spin 850ms linear infinite;
+}
+
+@keyframes refresh-icon-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .period-summary {
@@ -786,5 +797,9 @@
   .kpi-card {
     animation: none;
     transition: none;
+  }
+
+  .analytics-refresh svg {
+    animation: none;
   }
 }

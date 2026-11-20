@@ -1,3 +1,5 @@
+import { RefreshIcon } from '../icons/AppIcons.jsx'
+
 const periods = [
   { id: 'monthly', label: 'Monthly' },
   { id: 'weekly', label: 'Weekly' },
@@ -27,13 +29,15 @@ export default function PeriodControls({
         ))}
       </div>
       <button
+        aria-label={isRefreshing ? 'Refreshing analytics' : 'Refresh analytics'}
+        aria-busy={isRefreshing}
         className="analytics-refresh"
         disabled={isLoading || isRefreshing}
         onClick={onRefresh}
         type="button"
+        title={isRefreshing ? 'Refreshing analytics' : 'Refresh analytics'}
       >
-        <span aria-hidden="true">↻</span>
-        {isRefreshing ? 'Refreshing…' : 'Refresh data'}
+        <RefreshIcon />
       </button>
     </div>
   )
