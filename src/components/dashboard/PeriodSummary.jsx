@@ -21,21 +21,21 @@ function formatRange(start, end) {
 export default function PeriodSummary({ period }) {
   if (!period) {
     return (
-      <div className="period-summary flex flex-wrap gap-8 py-4 px-[19px] border border-(--border) rounded-[10px] bg-(--surface) [&>_div]:grid [&>_div]:gap-1.25 [&_strong]:text-(--text-primary) [&_strong]:text-xs [&_strong]:font-semibold max-[560px]:gap-3.5 max-[560px]:flex-col">
+      <div className="period-summary flex flex-wrap gap-8 py-4 px-4.75 border border-(--border) rounded-[10px] bg-(--surface) max-[560px]:gap-3.5 max-[560px]:flex-col">
         <span>Period dates unavailable</span>
       </div>
     )
   }
 
   return (
-    <div className="period-summary flex flex-wrap gap-8 py-4 px-[19px] border border-(--border) rounded-[10px] bg-(--surface) [&>_div]:grid [&>_div]:gap-1.25 [&_strong]:text-(--text-primary) [&_strong]:text-xs [&_strong]:font-semibold max-[560px]:gap-3.5 max-[560px]:flex-col">
-      <div>
+    <div className="period-summary flex flex-wrap gap-8 py-4 px-4.75 border border-(--border) rounded-[10px] bg-(--surface) max-[560px]:gap-3.5 max-[560px]:flex-col">
+      <div className="grid gap-1.25">
         <span className="period-summary__label text-(--text-muted) text-[10px] font-bold tracking-[0.08em] uppercase">Current period</span>
-        <strong>{formatRange(period.start_date, period.end_date)}</strong>
+        <strong className="text-(--text-primary) text-xs font-semibold">{formatRange(period.start_date, period.end_date)}</strong>
       </div>
-      <div>
+      <div className="grid gap-1.25">
         <span className="period-summary__label text-(--text-muted) text-[10px] font-bold tracking-[0.08em] uppercase">Compared with</span>
-        <strong>
+        <strong className="text-(--text-primary) text-xs font-semibold">
           {formatRange(period.comparison_start_date, period.comparison_end_date)}
         </strong>
       </div>

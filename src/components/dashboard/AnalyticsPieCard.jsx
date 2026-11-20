@@ -80,11 +80,11 @@ export default function AnalyticsPieCard({ title, description, table, labelKey }
     : 'No click data is available'
 
   return (
-    <article className="analytics-pie-card min-w-0 [overflow:hidden] border border-(--border) rounded-[11px] bg-(--surface) animate-[pie-card-enter_440ms_ease-out_both] [&:nth-child(2)]:delay-[90ms] motion-reduce:animate-none">
-      <header className="analytics-chart-card__header flex items-start justify-between gap-3 pt-4.25 pb-0 px-4.5 [&_h3]:m-0 [&_h3]:text-(--text-primary) [&_h3]:text-xs [&_h3]:font-bold [&_p]:pt-1.25 pb-0 px-0 [&_p]:text-(--text-muted) [&_p]:text-[10px]">
+    <article className={`analytics-pie-card min-w-0 overflow-hidden border border-(--border) rounded-[11px] bg-(--surface) animate-[pie-card-enter_440ms_ease-out_both] motion-reduce:animate-none ${title === 'Top page click share' ? 'delay-[90ms]' : ''}`}>
+      <header className="analytics-chart-card__header flex items-start justify-between gap-3 pt-4.25 px-4.5">
         <div>
-          <h3>{title}</h3>
-          <p>{description}</p>
+          <h3 className="m-0 text-(--text-primary) text-xs font-bold">{title}</h3>
+          <p className="mt-1.25 mb-0 text-(--text-muted) text-[10px]">{description}</p>
         </div>
       </header>
       {share ? (
@@ -129,20 +129,20 @@ export default function AnalyticsPieCard({ title, description, table, labelKey }
                 />
               </PieChart>
             </ResponsiveContainer>
-            <div className="analytics-pie-card__center grid absolute top-[50%] left-[50%] gap-0.5 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none [&_strong]:text-(--text-strong) [&_strong]:font-manrope [&_strong]:text-[21px] [&_strong]:tabular-nums [&_strong]:font-bold [&_strong]:tracking-[-0.05em] [&_span]:text-(--text-muted) [&_span]:text-[10px]" aria-hidden="true">
-              <strong>{compactNumberFormatter.format(share.total)}</strong>
-              <span>clicks</span>
+            <div className="analytics-pie-card__center grid absolute top-[50%] left-[50%] gap-0.5 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none" aria-hidden="true">
+              <strong className="text-(--text-strong) font-manrope text-[21px] tabular-nums font-bold tracking-[-0.05em]">{compactNumberFormatter.format(share.total)}</strong>
+              <span className="text-(--text-muted) text-[10px]">clicks</span>
             </div>
           </div>
-          <ul className="analytics-pie-legend grid min-w-0 gap-2.75 m-0 p-0 list-none [&_li]:grid [&_li]:grid-cols-[8px_minmax(0,_1fr)_auto] [&_li]:items-center [&_li]:gap-2 [&_li]:min-w-0 max-[560px]:gap-2.25 max-[560px]:[&_li]:grid-cols-[7px_minmax(0,_1fr)_auto] max-[560px]:[&_li]:gap-1.5">
+          <ul className="analytics-pie-legend grid min-w-0 gap-2.75 m-0 p-0 list-none max-[560px]:gap-2.25">
             {share.data.map((item, index) => (
-              <li key={item.name}>
+              <li className="grid min-w-0 grid-cols-[8px_minmax(0,1fr)_auto] items-center gap-2 max-[560px]:grid-cols-[7px_minmax(0,1fr)_auto] max-[560px]:gap-1.5" key={item.name}>
                 <span
                   aria-hidden="true"
                   className="analytics-pie-legend__swatch w-2 h-2 rounded-full"
                   style={{ backgroundColor: COLORS[index % COLORS.length] }}
                 />
-                <span className="analytics-pie-legend__name [overflow:hidden] text-(--text-body) text-[10px] text-ellipsis whitespace-nowrap max-[560px]:text-[9px]" title={item.name}>
+                <span className="analytics-pie-legend__name overflow-hidden text-(--text-body) text-[10px] text-ellipsis whitespace-nowrap max-[560px]:text-[9px]" title={item.name}>
                   {item.name}
                 </span>
                 <span className="analytics-pie-legend__value text-(--text-secondary) text-[10px] tabular-nums font-semibold max-[560px]:text-[9px]">

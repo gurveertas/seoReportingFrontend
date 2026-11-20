@@ -64,20 +64,20 @@ export default function AuthForm({ mode, onModeChange, transitionDirection }) {
   }
 
   return (
-    <main className="auth-panel relative flex min-h-screen flex-col justify-center px-[clamp(48px,8.2vw,128px)] py-12 max-[900px]:px-[38px] max-[700px]:min-h-screen max-[700px]:px-6 max-[700px]:pt-7 max-[700px]:pb-17.5 max-[380px]:px-4.5">
-      <div className={`auth-panel__inner auth-panel__inner--${transitionDirection} mx-auto w-full max-w-[360px] ${transitionDirection === 'forward' ? 'animate-[auth-slide-from-right_280ms_ease-out_both]' : 'animate-[auth-slide-from-left_280ms_ease-out_both]'}`}>
-        <p className="auth-panel__welcome pt-0 pb-3 px-0 text-(--green) text-[13px] font-bold tracking-[0.11em] uppercase">{isSignup ? 'Get started' : 'Welcome back'}</p>
-        <h1 className="m-0 font-manrope text-[clamp(30px,_3vw,_38px)] font-semibold tracking-[-0.055em] leading-[1.2]">{isSignup ? 'Create your account' : `Sign in to ${APP_NAME}`}</h1>
-        <p className="auth-panel__subtitle pt-3 pb-[30px] px-0 text-(--muted) text-[15px] leading-[1.6]">
+    <main className="auth-panel relative flex min-h-screen flex-col justify-center px-[clamp(48px,8.2vw,128px)] py-12 max-[900px]:px-9.5 max-[700px]:min-h-screen max-[700px]:px-6 max-[700px]:pt-7 max-[700px]:pb-17.5 max-[380px]:px-4.5">
+      <div className={`auth-panel__inner auth-panel__inner--${transitionDirection} mx-auto w-full max-w-90 ${transitionDirection === 'forward' ? 'animate-[auth-slide-from-right_280ms_ease-out_both]' : 'animate-[auth-slide-from-left_280ms_ease-out_both]'}`}>
+        <p className="auth-panel__welcome pt-0 pb-3 px-0 text-(--accent) text-[13px] font-bold tracking-[0.11em] uppercase">{isSignup ? 'Get started' : 'Welcome back'}</p>
+        <h1 className="m-0 font-manrope text-[clamp(30px,3vw,38px)] font-semibold tracking-[-0.055em] leading-[1.2]">{isSignup ? 'Create your account' : `Sign in to ${APP_NAME}`}</h1>
+        <p className="auth-panel__subtitle pt-3 pb-7.5 px-0 text-(--text-secondary) text-[15px] leading-[1.6]">
           {isSignup
             ? 'A better view of your search performance starts here.'
             : 'Your insights are right where you left them.'}
         </p>
-        <div className="auth-tabs grid relative grid-cols-2 p-1 border border-(--line) rounded-[10px] bg-(--surface-muted)" role="tablist" aria-label="Account access">
-          <span aria-hidden="true" className={`absolute top-1 bottom-1 left-1 w-[calc(50%_-_4px)] rounded-[7px] bg-(--surface) shadow-[0_1px_3px_#1d29251a] pointer-events-none transition-transform duration-200 ${isSignup ? 'translate-x-full' : ''}`} />
+        <div className="auth-tabs grid relative grid-cols-2 p-1 border border-(--border) rounded-[10px] bg-(--surface-muted)" role="tablist" aria-label="Account access">
+          <span aria-hidden="true" className={`absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] rounded-[7px] bg-(--surface) shadow-[0_1px_3px_#1d29251a] pointer-events-none transition-transform duration-200 ${isSignup ? 'translate-x-full' : ''}`} />
           <button
             aria-selected={!isSignup}
-            className={`auth-tabs__tab relative z-1 min-h-10 border-0 rounded-[7px] bg-transparent text-(--text-secondary) cursor-pointer text-[13px] font-semibold transition-colors focus-visible:outline-3 focus-visible:outline-(--focus-ring) focus-visible:outline-offset-[3px] ${!isSignup ? 'text-(--ink)' : ''}`}
+            className={`auth-tabs__tab relative z-1 min-h-10 border-0 rounded-[7px] bg-transparent text-(--text-secondary) cursor-pointer text-[13px] font-semibold transition-colors focus-visible:outline-3 focus-visible:outline-(--focus-ring) focus-visible:outline-offset-[3px] ${!isSignup ? 'text-(--text-primary)' : ''}`}
             onClick={() => onModeChange('login')}
             role="tab"
             type="button"
@@ -86,7 +86,7 @@ export default function AuthForm({ mode, onModeChange, transitionDirection }) {
           </button>
           <button
             aria-selected={isSignup}
-            className={`auth-tabs__tab relative z-1 min-h-10 border-0 rounded-[7px] bg-transparent text-(--text-secondary) cursor-pointer text-[13px] font-semibold transition-colors focus-visible:outline-3 focus-visible:outline-(--focus-ring) focus-visible:outline-offset-[3px] ${isSignup ? 'text-(--ink)' : ''}`}
+            className={`auth-tabs__tab relative z-1 min-h-10 border-0 rounded-[7px] bg-transparent text-(--text-secondary) cursor-pointer text-[13px] font-semibold transition-colors focus-visible:outline-3 focus-visible:outline-(--focus-ring) focus-visible:outline-offset-[3px] ${isSignup ? 'text-(--text-primary)' : ''}`}
             onClick={() => onModeChange('signup')}
             role="tab"
             type="button"
@@ -95,7 +95,7 @@ export default function AuthForm({ mode, onModeChange, transitionDirection }) {
           </button>
         </div>
 
-        <form className="auth-form grid gap-4.5 mt-[26px]" onSubmit={handleSubmit}>
+        <form className="auth-form grid gap-4.5 mt-6.5" onSubmit={handleSubmit}>
           {fieldDefinitions[mode].map((field) => (
             <FormField
               key={field.name}
@@ -107,11 +107,11 @@ export default function AuthForm({ mode, onModeChange, transitionDirection }) {
             />
           ))}
           {status.message && (
-            <p className={`auth-form__status auth-form__status--${status.type} pt-[-2px] pb-0 px-0 text-[13px] leading-normal ${status.type === 'error' ? 'text-(--error-text)' : 'text-(--positive-text)'}`} role={status.type === 'error' ? 'alert' : 'status'}>
+            <p className={`auth-form__status auth-form__status--${status.type} -mt-0.5 text-[13px] leading-normal ${status.type === 'error' ? 'text-(--error-text)' : 'text-(--positive-text)'}`} role={status.type === 'error' ? 'alert' : 'status'}>
               {status.message}
             </p>
           )}
-          <button className="auth-form__submit flex items-center justify-between min-h-12.5 mt-0.5 px-4.25 border-0 rounded-[8px] bg-(--green) text-white cursor-pointer text-sm font-semibold transition-[background,transform] hover:not-disabled:-translate-y-px hover:not-disabled:bg-(--green-dark) disabled:cursor-wait disabled:opacity-[0.75] focus-visible:outline-3 focus-visible:outline-(--focus-ring) focus-visible:outline-offset-[3px]" disabled={isSubmitting} type="submit">
+          <button className="auth-form__submit flex items-center justify-between min-h-12.5 mt-0.5 px-4.25 border-0 rounded-lg bg-(--accent) text-white cursor-pointer text-sm font-semibold transition-[background,transform] hover:not-disabled:-translate-y-px hover:not-disabled:bg-(--accent-hover) disabled:cursor-wait disabled:opacity-[0.75] focus-visible:outline-3 focus-visible:outline-(--focus-ring) focus-visible:outline-offset-[3px]" disabled={isSubmitting} type="submit">
             {isSubmitting ? 'Please wait…' : isSignup ? 'Create account' : 'Sign in'}
             {!isSubmitting && <span aria-hidden="true" className="text-[19px] font-normal">→</span>}
           </button>

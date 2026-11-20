@@ -66,9 +66,9 @@ export default function AppHeader({ activePage }) {
   }
 
   return (
-    <header className="app-header flex fixed top-4.5 left-[50%] z-20 items-center justify-between w-[min(1150px,_calc(100%_-_32px))] min-h-16.5 py-0 pr-4 pl-5.5 -translate-x-1/2 border border-(--border) rounded-[18px] bg-(--surface) shadow-(--shadow-float) max-[560px]:top-3 max-[560px]:min-h-15 max-[560px]:pl-4">
+    <header className="app-header flex fixed top-4.5 left-[50%] z-20 items-center justify-between w-[min(1150px,calc(100%-32px))] min-h-16.5 py-0 pr-4 pl-5.5 -translate-x-1/2 border border-(--border) rounded-[18px] bg-(--surface) shadow-(--shadow-float) max-[560px]:top-3 max-[560px]:min-h-15 max-[560px]:pl-4">
       <div className="flex min-w-0 items-center gap-2 overflow-hidden">
-        <Link aria-label={`${APP_NAME} dashboard`} className="app-header__brand min-w-0 overflow-hidden text-(--text-strong) font-manrope text-[19px] font-bold tracking-[-0.05em] no-underline text-ellipsis whitespace-nowrap hover:text-(--accent) focus-visible:outline-2 focus-visible:outline-(--focus-ring) max-[560px]:text-[17px] max-[420px]:text-sm" to="/dashboard">{APP_NAME}</Link>
+        <Link aria-label={`${APP_NAME} dashboard`} className="app-header__brand min-w-0 overflow-hidden text-(--text-strong) font-manrope text-[19px] font-bold tracking-tighter no-underline text-ellipsis whitespace-nowrap hover:text-(--accent) focus-visible:outline-2 focus-visible:outline-(--focus-ring) max-[560px]:text-[17px] max-[420px]:text-sm" to="/dashboard">{APP_NAME}</Link>
       </div>
       <nav className="app-header__nav flex shrink-0 grow-0 basis-auto items-center gap-1.75 max-[420px]:gap-1" aria-label="Main navigation">
         {activePage === 'dashboard' && (
@@ -146,7 +146,7 @@ export default function AppHeader({ activePage }) {
         </button>
       </nav>
       {logoutError && (
-        <div className="app-header__feedback flex absolute top-[calc(100%_+_10px)] right-0 items-start justify-between gap-3 w-[min(360px,_calc(100vw_-_32px))] py-3 px-3.25 border border-(--error-border) rounded-[12px] bg-(--error-bg) shadow-(--shadow-float) text-(--error-text) text-xs leading-normal" role="alert">
+        <div className="app-header__feedback flex absolute top-[calc(100%+10px)] right-0 items-start justify-between gap-3 w-[min(360px,calc(100vw-32px))] py-3 px-3.25 border border-(--error-border) rounded-xl bg-(--error-bg) shadow-(--shadow-float) text-(--error-text) text-xs leading-normal" role="alert">
           <span>{logoutError}</span>
           <button
             aria-label="Dismiss sign out error"

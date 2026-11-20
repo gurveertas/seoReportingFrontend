@@ -56,38 +56,38 @@ export default function ReportReadyDialog({ blob, period, onClose }) {
       aria-describedby="report-ready-description"
       aria-labelledby="report-ready-title"
       aria-modal="true"
-      className="report-ready-dialog w-[min(440px,_calc(100%_-_32px))] max-w-none p-0 border border-(--border) rounded-[18px] bg-(--surface) text-(--text-primary) shadow-(--shadow-float) [&::backdrop]:bg-[#101914a8] [&::backdrop]:backdrop-blur-[3px] [&_h2]:m-0 [&_h2]:font-manrope [&_h2]:text-[25px] [&_h2]:font-bold [&_h2]:tracking-[-0.05em]"
+      className="report-ready-dialog w-[min(440px,calc(100%-32px))] max-w-none p-0 border border-(--border) rounded-[18px] bg-(--surface) text-(--text-primary) shadow-(--shadow-float) backdrop:bg-[#101914a8] backdrop:backdrop-blur-[3px]"
       onCancel={handleCancel}
       onClick={handleBackdropClick}
       ref={dialogRef}
     >
-      <div className="report-ready-dialog__content relative p-[30px] max-[480px]:py-6 px-5">
+      <div className="report-ready-dialog__content relative p-7.5 max-[480px]:py-6 px-5">
         <button
           aria-label="Close report dialog"
-          className="report-ready-dialog__close grid absolute top-4 right-4 w-[34px] h-[34px] p-0 place-items-center border border-(--border) rounded-[10px] bg-(--surface) text-(--text-secondary) cursor-pointer [font:inherit] [&_span]:text-[21px] [&_span]:leading-none [&:disabled]:cursor-wait [&:disabled]:opacity-[0.65] [&:focus-visible]:outline-3 outline-(--focus-ring) [&:focus-visible]:outline-offset-[3px]"
+          className="report-ready-dialog__close grid absolute top-4 right-4 size-8.5 place-items-center border border-(--border) rounded-[10px] bg-(--surface) text-(--text-secondary) cursor-pointer disabled:cursor-wait disabled:opacity-65 focus-visible:outline-3 focus-visible:outline-(--focus-ring) focus-visible:outline-offset-[3px]"
           disabled={isSaving}
           onClick={onClose}
           type="button"
         >
-          <span aria-hidden="true">×</span>
+          <span aria-hidden="true" className="text-[21px] leading-none">×</span>
         </button>
-        <div className="report-ready-dialog__icon flex items-center gap-1.75 w-fit mb-5 py-2.5 px-3 border border-(--border-subtle) rounded-[12px] bg-(--surface-subtle) text-(--accent-text) [&_svg]:w-[19px] [&_svg]:h-[19px] [&_svg]:stroke-current [&_svg]:stroke-cap-round [&_svg]:stroke-join-round [&_svg]:stroke-[1.7] [&_span]:text-[9px] [&_span]:font-extrabold [&_span]:tracking-[0.06em]" aria-hidden="true">
-          <DocumentIcon />
-          <span>PDF</span>
+        <div className="report-ready-dialog__icon flex items-center gap-1.75 w-fit mb-5 py-2.5 px-3 border border-(--border-subtle) rounded-xl bg-(--surface-subtle) text-(--accent-text)" aria-hidden="true">
+          <DocumentIcon className="size-4.75 stroke-current stroke-[1.7]" />
+          <span className="text-[9px] font-extrabold tracking-[0.06em]">PDF</span>
         </div>
-        <p className="report-ready-dialog__eyebrow pt-0 pb-1.75 px-0 text-(--accent-text) text-[10px] font-bold tracking-[0.1em] uppercase">{periodLabel} analytics</p>
-        <h2 id="report-ready-title">Report ready</h2>
+        <p className="report-ready-dialog__eyebrow pt-0 pb-1.75 px-0 text-(--accent-text) text-[10px] font-bold tracking-widest uppercase">{periodLabel} analytics</p>
+        <h2 className="m-0 font-manrope text-[25px] font-bold tracking-tighter" id="report-ready-title">Report ready</h2>
         <p className="report-ready-dialog__description pt-2.25 pb-4.5 px-0 text-(--text-secondary) text-[13px] leading-[1.6]" id="report-ready-description">
           Your report is ready to save. It includes the data currently stored for this period.
         </p>
-        <div className="report-ready-dialog__file flex items-center justify-between gap-3 py-2.75 px-3 border border-(--border-subtle) rounded-[9px] bg-(--surface-subtle) text-(--text-body) text-[11px] [&_span:first-child]:[overflow:hidden] [&_span:first-child]:text-ellipsis [&_span:first-child]:whitespace-nowrap [&_span:last-child]:shrink-0 grow-0 basis-auto [&_span:last-child]:text-(--text-muted) [&_span:last-child]:tabular-nums">
-          <span>{filename}</span>
-          <span>{formatFileSize(blob.size)}</span>
+        <div className="report-ready-dialog__file flex items-center justify-between gap-3 py-2.75 px-3 border border-(--border-subtle) rounded-[9px] bg-(--surface-subtle) text-(--text-body) text-[11px]">
+          <span className="min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">{filename}</span>
+          <span className="shrink-0 text-(--text-muted) tabular-nums">{formatFileSize(blob.size)}</span>
         </div>
         {saveError && <p className="report-ready-dialog__error pt-3 pb-0 px-0 text-(--error-text) text-xs leading-normal" role="alert">{saveError}</p>}
-        <div className="report-ready-dialog__actions flex justify-end gap-2.25 mt-5.25 [&_button]:min-h-10 [&_button]:py-0 px-3.5 [&_button]:rounded-[8px] [&_button]:cursor-pointer [&_button]:[font:inherit] [&_button]:text-xs [&_button]:font-semibold [&_button]:transition-[background_150ms_ease,_border-color_150ms_ease] [&_button:disabled]:cursor-wait [&_button:disabled]:opacity-[0.65] [&_button:focus-visible]:outline-3 outline-(--focus-ring) [&_button:focus-visible]:outline-offset-[3px]">
+        <div className="report-ready-dialog__actions flex justify-end gap-2.25 mt-5.25">
           <button
-            className="report-ready-dialog__cancel border border-(--border-strong) bg-(--surface) text-(--text-primary) [&:hover:not(:disabled)]:bg-(--surface-muted)"
+            className="report-ready-dialog__cancel min-h-10 px-3.5 rounded-lg border border-(--border-strong) bg-(--surface) text-xs font-semibold text-(--text-primary) transition-colors hover:not-disabled:bg-(--surface-muted) disabled:cursor-wait disabled:opacity-65 focus-visible:outline-2 focus-visible:outline-(--focus-ring)"
             disabled={isSaving}
             onClick={onClose}
             type="button"
@@ -95,7 +95,7 @@ export default function ReportReadyDialog({ blob, period, onClose }) {
             Close
           </button>
           <button
-            className="report-ready-dialog__save border border-(--accent) bg-(--accent) text-[#fff] [&:hover:not(:disabled)]:border-(--accent-hover) [&:hover:not(:disabled)]:bg-(--accent-hover)"
+            className="report-ready-dialog__save min-h-10 px-3.5 rounded-lg border border-(--accent) bg-(--accent) text-xs font-semibold text-white transition-colors hover:not-disabled:border-(--accent-hover) hover:not-disabled:bg-(--accent-hover) disabled:cursor-wait disabled:opacity-65 focus-visible:outline-2 focus-visible:outline-(--focus-ring)"
             disabled={isSaving}
             onClick={handleSave}
             type="button"
