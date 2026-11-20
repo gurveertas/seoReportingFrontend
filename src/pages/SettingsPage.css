@@ -1,0 +1,80 @@
+.settings-page {
+  min-height: 100vh;
+  background: var(--page-bg);
+  color: var(--text-primary);
+}
+
+.settings-content {
+  width: min(940px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 142px 0 72px;
+}
+
+.settings-content h1 {
+  margin: 0;
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(32px, 4vw, 44px);
+  font-weight: 650;
+  letter-spacing: -0.055em;
+}
+
+.settings-content > .dashboard-eyebrow {
+  margin: 0 0 11px;
+  color: var(--accent-text);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.settings-placeholder {
+  display: grid;
+  min-height: 270px;
+  margin-top: 30px;
+  padding: 32px;
+  place-content: center;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  text-align: center;
+}
+
+.settings-placeholder__icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 17px;
+  place-items: center;
+  border-radius: 15px;
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+.settings-placeholder__icon svg {
+  width: 21px;
+  height: 21px;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.settings-placeholder h2 {
+  margin: 0;
+  font-family: 'Manrope', sans-serif;
+  font-size: 19px;
+  letter-spacing: -0.03em;
+}
+
+.settings-placeholder p {
+  margin: 8px 0 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+@media (max-width: 520px) {
+  .settings-content {
+    width: calc(100% - 36px);
+    padding-top: 128px;
+  }
+}

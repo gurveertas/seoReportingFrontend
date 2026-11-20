@@ -1,0 +1,50 @@
+.dashboard-page {
+  min-height: 100vh;
+  background: var(--page-bg);
+  color: var(--text-primary);
+}
+
+.dashboard-content {
+  width: min(1120px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 126px 0 56px;
+}
+
+.dashboard-welcome {
+  max-width: 660px;
+  margin-bottom: 58px;
+}
+
+.dashboard-eyebrow {
+  margin: 0 0 11px;
+  color: var(--accent-text);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.dashboard-welcome h1 {
+  margin: 0;
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(30px, 4vw, 44px);
+  font-weight: 650;
+  letter-spacing: -0.055em;
+  line-height: 1.16;
+}
+
+.dashboard-welcome > p:last-child {
+  max-width: 560px;
+  margin: 16px 0 0;
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+@media (max-width: 520px) {
+  .dashboard-content {
+    width: min(100% - 36px, 1120px);
+    padding-top: 112px;
+  }
+
+}

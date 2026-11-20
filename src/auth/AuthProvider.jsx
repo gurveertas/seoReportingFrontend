@@ -1,0 +1,65 @@
+import { useCallback, useEffect, useState } from 'react'
+import { AuthContext } from './authContext.js'
+import { getCurrentUser } from '../services/auth.js'
+
+async function readAuthState() {
+  try {
+    const user = await getCurrentUser()
+    return user === null
+      ? { status: 'unauthenticated', user: null, error: null }
+      : { status: 'authenticated', user, error: null }
+  } catch (error) {
+    return {
+      status: 'error',
+      user: null,
+      error: error instanceof Error ? error.message : 'Unable to verify your session.',
+    }
+  }
+}
+
+export default function AuthProvider({ children }) {
+  const [authState, setAuthState] = useState({
+    status: 'checking',
+    user: null,
+    error: null,
+  })
+
+  const refreshAuth = useCallback(async () => {
+    const nextState = await readAuthState()
+    setAuthState(nextState)
+    return {
+      authenticated: nextState.status === 'authenticated',
+      error: nextState.error,
+    }
+  }, [])
+
+  useEffect(() => {
+    let active = true
+    readAuthState().then((nextState) => {
+      if (active) setAuthState(nextState)
+    })
+
+    return () => {
+      active = false
+    }
+  }, [])
+
+  const signOut = useCallback(() => {
+    setAuthState({ status: 'unauthenticated', user: null, error: null })
+  }, [])
+
+  return (
+    <AuthContext.Provider
+      value={{
+        authStatus: authState.status,
+        authError: authState.error,
+        currentUser: authState.user,
+        isAuthenticated: authState.status === 'authenticated',
+        refreshAuth,
+        signOut,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  )
+}
