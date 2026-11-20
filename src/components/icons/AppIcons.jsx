@@ -9,6 +9,14 @@ export function DashboardIcon() {
   )
 }
 
+export function CodeIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+      <path d="m8.5 7-5 5 5 5M15.5 7l5 5-5 5M14 4l-4 16" />
+    </svg>
+  )
+}
+
 export function SettingsIcon() {
   return (
     <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">

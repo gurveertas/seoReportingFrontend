@@ -64,15 +64,15 @@ export default function AnalyticsChartCard({ title, description, chart }) {
   const chartModel = makeChartData(chart)
 
   return (
-    <article className="analytics-chart-card">
-      <header className="analytics-chart-card__header">
+    <article className="analytics-chart-card [min-width:0] [overflow:hidden] [border:1px_solid_var(--border)] [border-radius:11px] [background:var(--surface)]">
+      <header className="analytics-chart-card__header [display:flex] [align-items:flex-start] [justify-content:space-between] [gap:12px] [padding:17px_18px_0] [&_h3]:[margin:0] [&_h3]:[color:var(--text-primary)] [&_h3]:[font-size:12px] [&_h3]:[font-weight:700] [&_p]:[margin:5px_0_0] [&_p]:[color:var(--text-muted)] [&_p]:[font-size:10px]">
         <div>
           <h3>{title}</h3>
           <p>{description}</p>
         </div>
       </header>
       {chartModel ? (
-        <div className="analytics-chart-card__canvas">
+        <div className="analytics-chart-card__canvas [width:100%] [height:282px] [padding:13px_18px_0_12px]">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartModel.data} margin={{ top: 8, right: 12, bottom: 0, left: 0 }}>
               <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="3 5" vertical={false} />
@@ -135,10 +135,11 @@ export default function AnalyticsChartCard({ title, description, chart }) {
           </ResponsiveContainer>
         </div>
       ) : (
-        <div className="analytics-chart-card__empty">
+        <div className="analytics-chart-card__empty [display:grid] [min-height:150px] [padding:20px] [place-items:center] [color:var(--text-muted)] [font-size:12px] [text-align:center]">
           No chart data is available for this period yet.
         </div>
       )}
     </article>
   )
 }
+

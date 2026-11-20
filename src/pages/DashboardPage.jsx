@@ -8,11 +8,10 @@ import RefreshSummary from '../components/dashboard/RefreshSummary.jsx'
 import AppHeader from '../components/AppHeader.jsx'
 import DashboardWelcome from '../components/dashboard/DashboardWelcome.jsx'
 import ReportReadyDialog from '../components/dashboard/ReportReadyDialog.jsx'
+import SourceStatusGrid from '../components/dashboard/SourceStatusGrid.jsx'
 import { useAuth } from '../auth/useAuth.js'
 import { AnalyticsApiError, getAnalytics, refreshAnalytics } from '../services/analytics.js'
 import { getPdfReport, ReportApiError } from '../services/reports.js'
-import './DashboardPage.css'
-import './AnalyticsDashboard.css'
 
 const AnalyticsCharts = lazy(() => import('../components/dashboard/AnalyticsCharts.jsx'))
 
@@ -83,6 +82,8 @@ export default function DashboardPage() {
   async function handleRefresh() {
     setIsRefreshing(true)
     setRefreshError('')
+    setReportError('')
+    setRefreshSummary(null)
 
     try {
       const refreshedDashboard = await refreshAnalytics(period)
@@ -112,6 +113,7 @@ export default function DashboardPage() {
   async function handleGenerateReport() {
     setIsGeneratingReport(true)
     setReportError('')
+    setRefreshError('')
 
     try {
       const blob = await getPdfReport(period)
@@ -134,13 +136,13 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="dashboard-page">
+    <div className="dashboard-page [min-height:100vh] [background:var(--page-bg)] [color:var(--text-primary)] [&.dashboard-welcome]:[margin-bottom:30px]">
       <AppHeader activePage="dashboard" />
-      <main className="dashboard-content">
+      <main className="dashboard-content [width:min(1120px,_calc(100%_-_48px))] [margin:0_auto] [padding:126px_0_56px] max-[520px]:[width:min(100%_-_36px,_1120px)] max-[520px]:[padding-top:112px]">
         <DashboardWelcome />
 
-        <section className="analytics-dashboard" aria-label="Analytics dashboard">
-          <div className="analytics-dashboard__toolbar">
+        <section className="analytics-dashboard [&_button:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&_button:focus-visible]:[outline-offset:3px]" aria-label="Analytics dashboard">
+          <div className="analytics-dashboard__toolbar [display:grid] [gap:16px] [margin-bottom:28px]">
             <PeriodControls
               isLoading={isLoading}
               isRefreshing={isRefreshing}
@@ -154,21 +156,21 @@ export default function DashboardPage() {
           </div>
 
           {refreshError && (
-            <div className="analytics-error" role="alert">
+            <div className="analytics-error [display:flex] [align-items:center] [justify-content:space-between] [gap:18px] [padding:15px_17px] [border:1px_solid_var(--error-border)] [border-radius:9px] [background:var(--error-bg)] [color:var(--error-text)] [font-size:13px] [&_button]:[flex:0_0_auto] [&_button]:[padding:7px_10px] [&_button]:[border:1px_solid_var(--error-border)] [&_button]:[border-radius:6px] [&_button]:[background:var(--surface)] [&_button]:[color:var(--error-strong)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:11px] [&_button]:[font-weight:700]" role="alert">
               <span>{refreshError}</span>
             </div>
           )}
 
           {reportError && (
-            <div className="analytics-error" role="alert">
+            <div className="analytics-error [display:flex] [align-items:center] [justify-content:space-between] [gap:18px] [padding:15px_17px] [border:1px_solid_var(--error-border)] [border-radius:9px] [background:var(--error-bg)] [color:var(--error-text)] [font-size:13px] [&_button]:[flex:0_0_auto] [&_button]:[padding:7px_10px] [&_button]:[border:1px_solid_var(--error-border)] [&_button]:[border-radius:6px] [&_button]:[background:var(--surface)] [&_button]:[color:var(--error-strong)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:11px] [&_button]:[font-weight:700]" role="alert">
               <span>{reportError}</span>
             </div>
           )}
 
           {isLoading ? (
-            <div className="analytics-loading" role="status">Loading {period} analytics…</div>
+            <div className="analytics-loading [padding:30px_20px] [border:1px_dashed_var(--border-strong)] [border-radius:11px] [background:var(--surface)] [color:var(--text-secondary)] [font-size:13px] [text-align:center]" role="status">Loading {period} analytics…</div>
           ) : loadError ? (
-            <div className="analytics-error" role="alert">
+            <div className="analytics-error [display:flex] [align-items:center] [justify-content:space-between] [gap:18px] [padding:15px_17px] [border:1px_solid_var(--error-border)] [border-radius:9px] [background:var(--error-bg)] [color:var(--error-text)] [font-size:13px] [&_button]:[flex:0_0_auto] [&_button]:[padding:7px_10px] [&_button]:[border:1px_solid_var(--error-border)] [&_button]:[border-radius:6px] [&_button]:[background:var(--surface)] [&_button]:[color:var(--error-strong)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:11px] [&_button]:[font-weight:700]" role="alert">
               <span>{loadError}</span>
               <button onClick={retryLoad} type="button">Try again</button>
             </div>
@@ -177,14 +179,15 @@ export default function DashboardPage() {
               {refreshSummary?.period === period && (
                 <RefreshSummary refresh={refreshSummary.result} />
               )}
+              {dashboard.sources && <SourceStatusGrid sources={dashboard.sources} />}
               <KpiGrid kpis={dashboard.kpis} />
-              <Suspense fallback={<div className="analytics-loading">Loading charts…</div>}>
+              <Suspense fallback={<div className="analytics-loading [padding:30px_20px] [border:1px_dashed_var(--border-strong)] [border-radius:11px] [background:var(--surface)] [color:var(--text-secondary)] [font-size:13px] [text-align:center]">Loading charts…</div>}>
                 <AnalyticsCharts charts={dashboard.charts} tables={dashboard.tables} />
               </Suspense>
               <AnalyticsTables tables={dashboard.tables} />
             </>
           ) : (
-            <div className="analytics-error" role="alert">
+            <div className="analytics-error [display:flex] [align-items:center] [justify-content:space-between] [gap:18px] [padding:15px_17px] [border:1px_solid_var(--error-border)] [border-radius:9px] [background:var(--error-bg)] [color:var(--error-text)] [font-size:13px] [&_button]:[flex:0_0_auto] [&_button]:[padding:7px_10px] [&_button]:[border:1px_solid_var(--error-border)] [&_button]:[border-radius:6px] [&_button]:[background:var(--surface)] [&_button]:[color:var(--error-strong)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:11px] [&_button]:[font-weight:700]" role="alert">
               Analytics data is unavailable.
               <button onClick={retryLoad} type="button">Try again</button>
             </div>
@@ -202,3 +205,4 @@ export default function DashboardPage() {
     </div>
   )
 }
+

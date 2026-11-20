@@ -4,7 +4,6 @@ import AppHeader from '../components/AppHeader.jsx'
 import IntegrationSettingsCard from '../components/settings/IntegrationSettingsCard.jsx'
 import { useAuth } from '../auth/useAuth.js'
 import { getUserSettings, SettingsApiError, updateUserSettings } from '../services/settings.js'
-import './SettingsPage.css'
 
 const integrationDefinitions = [
   {
@@ -184,33 +183,34 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="settings-page">
+    <div className="settings-page [min-height:100vh] [background:var(--page-bg)] [color:var(--text-primary)]">
       <AppHeader activePage="settings" />
-      <main className="settings-content">
-        <p className="dashboard-eyebrow">Workspace</p>
+      <main className="settings-content [width:min(940px,_calc(100%_-_48px))] [margin:0_auto] [padding:142px_0_72px] [&>_.dashboard-eyebrow]:[margin:0_0_11px] [&>_.dashboard-eyebrow]:[color:var(--accent-text)] [&>_.dashboard-eyebrow]:[font-size:11px] [&>_.dashboard-eyebrow]:[font-weight:700] [&>_.dashboard-eyebrow]:[letter-spacing:0.13em] [&>_.dashboard-eyebrow]:[text-transform:uppercase] [&_h1]:[margin:0] [&_h1]:[font-family:'Manrope',_sans-serif] [&_h1]:[font-size:clamp(32px,_4vw,_44px)] [&_h1]:[font-weight:650] [&_h1]:[letter-spacing:-0.055em] max-[520px]:[width:calc(100%_-_36px)] max-[520px]:[padding-top:128px]">
+        <p className="dashboard-eyebrow [margin:0_0_11px] [color:var(--accent-text)] [font-size:11px] [font-weight:700] [letter-spacing:0.13em] [text-transform:uppercase]">Workspace</p>
         <h1>Settings</h1>
-        <p className="settings-intro">
+        <p className="settings-intro [margin:10px_0_27px] [color:var(--text-secondary)] [font-size:14px] [line-height:1.6]">
           Update your profile and choose which data sources power your reports.
         </p>
 
         {isLoading ? (
-          <div className="settings-message" role="status">Loading settings…</div>
+          <div className="settings-message [display:flex] [align-items:center] [justify-content:space-between] [gap:16px] [min-height:70px] [padding:16px_18px] [border:1px_solid_var(--border)] [border-radius:11px] [background:var(--surface)] [color:var(--text-secondary)] [font-size:13px] [&_button]:[flex:0_0_auto] [&_button]:[padding:7px_10px] [&_button]:[border:1px_solid_var(--error-border)] [&_button]:[border-radius:7px] [&_button]:[background:var(--surface)] [&_button]:[color:var(--error-strong)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:11px] [&_button]:[font-weight:650] [&_button:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&_button:focus-visible]:[outline-offset:3px]" role="status">Loading settings…</div>
         ) : loadError ? (
-          <div className="settings-message settings-message--error" role="alert">
+          <div className="settings-message settings-message--error [display:flex] [align-items:center] [justify-content:space-between] [gap:16px] [min-height:70px] [padding:16px_18px] [border:1px_solid_var(--border)] [border-radius:11px] [background:var(--surface)] [color:var(--text-secondary)] [font-size:13px] [&_button]:[flex:0_0_auto] [&_button]:[padding:7px_10px] [&_button]:[border:1px_solid_var(--error-border)] [&_button]:[border-radius:7px] [&_button]:[background:var(--surface)] [&_button]:[color:var(--error-strong)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:11px] [&_button]:[font-weight:650] [&_button:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&_button:focus-visible]:[outline-offset:3px] [border-color:var(--error-border)] [background:var(--error-bg)] [color:var(--error-text)]" role="alert">
             <span>{loadError}</span>
             <button onClick={retryLoad} type="button">Try again</button>
           </div>
         ) : settings && (
-          <form className="settings-form" onSubmit={handleSubmit}>
-            <section className="settings-panel" aria-labelledby="settings-profile-heading">
-              <div className="settings-panel__heading">
+          <form aria-busy={isSaving} className="settings-form [display:grid] [gap:20px] [&_button:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&_button:focus-visible]:[outline-offset:3px]" onSubmit={handleSubmit}>
+            <section className="settings-panel [min-width:0] [padding:20px] [border:1px_solid_var(--border)] [border-radius:13px] [background:var(--surface)] max-[520px]:[padding:16px]" aria-labelledby="settings-profile-heading">
+              <div className="settings-panel__heading [margin-bottom:17px] [&_h2]:[margin:0] [&_h2]:[font-family:'Manrope',_sans-serif] [&_h2]:[font-size:16px] [&_h2]:[font-weight:700] [&_h2]:[letter-spacing:-0.035em] [&_p]:[margin:5px_0_0] [&_p]:[color:var(--text-secondary)] [&_p]:[font-size:12px] [&_p]:[line-height:1.5]">
                 <h2 id="settings-profile-heading">Profile</h2>
                 <p>Keep your account details up to date.</p>
               </div>
-              <div className="settings-field">
+              <div className="settings-field [display:grid] [gap:7px] [&_label]:[color:var(--text-body)] [&_label]:[font-size:11px] [&_label]:[font-weight:650] [&_input]:[width:100%] [&_input]:[min-height:42px] [&_input]:[padding:0_12px] [&_input]:[border:1px_solid_var(--border-strong)] [&_input]:[border-radius:8px] [&_input]:[background:var(--surface)] [&_input]:[color:var(--text-primary)] [&_input]:[font:inherit] [&_input]:[font-size:12px] [&_input]:[transition:border-color_150ms_ease,_box-shadow_150ms_ease] [&_input::placeholder]:[color:var(--text-muted)] [&_input:focus]:[border-color:var(--accent)] [&_input:focus]:[outline:0] [&_input:focus]:[box-shadow:0_0_0_3px_color-mix(in_srgb,_var(--accent)_12%,_transparent)]">
                 <label htmlFor="settings-fullname">Full name</label>
                 <input
                   autoComplete="name"
+                  disabled={isSaving}
                   id="settings-fullname"
                   onChange={(event) => {
                     setSettings((current) => ({ ...current, fullname: event.target.value }))
@@ -223,16 +223,17 @@ export default function SettingsPage() {
               </div>
             </section>
 
-            <section className="settings-integrations" aria-labelledby="settings-integrations-heading">
-              <div className="settings-panel__heading">
+            <section className="settings-integrations [display:grid] [gap:0]" aria-labelledby="settings-integrations-heading">
+              <div className="settings-panel__heading [margin-bottom:17px] [&_h2]:[margin:0] [&_h2]:[font-family:'Manrope',_sans-serif] [&_h2]:[font-size:16px] [&_h2]:[font-weight:700] [&_h2]:[letter-spacing:-0.035em] [&_p]:[margin:5px_0_0] [&_p]:[color:var(--text-secondary)] [&_p]:[font-size:12px] [&_p]:[line-height:1.5]">
                 <h2 id="settings-integrations-heading">Integrations</h2>
                 <p>Enable the sources you want included in analytics.</p>
               </div>
-              <div className="settings-integration-grid">
+              <div className="settings-integration-grid [display:grid] [grid-template-columns:repeat(2,_minmax(0,_1fr))] [gap:12px] max-[700px]:[grid-template-columns:1fr]">
                 {integrationDefinitions.map((definition) => (
                   <IntegrationSettingsCard
                     key={definition.id}
                     definition={definition}
+                    disabled={isSaving}
                     onEnabledChange={(id, enabled) => updateIntegration(id, 'enabled', enabled)}
                     onPropertyChange={updateIntegration}
                     value={settings.integrations[definition.id]}
@@ -241,12 +242,12 @@ export default function SettingsPage() {
               </div>
             </section>
 
-            <div className="settings-form__footer">
+            <div className="settings-form__footer [display:flex] [align-items:center] [justify-content:space-between] [gap:16px] max-[520px]:[align-items:stretch] max-[520px]:[flex-direction:column-reverse]">
               <div aria-live="polite">
-                {saveError && <p className="settings-form__error" role="alert">{saveError}</p>}
-                {saveMessage && <p className="settings-form__success" role="status">{saveMessage}</p>}
+                {saveError && <p className="settings-form__error [margin:0] [font-size:12px] [color:var(--error-text)]" role="alert">{saveError}</p>}
+                {saveMessage && <p className="settings-form__success [margin:0] [font-size:12px] [color:var(--positive-text)]" role="status">{saveMessage}</p>}
               </div>
-              <button className="settings-form__submit" disabled={isSaving} type="submit">
+              <button className="settings-form__submit [min-height:42px] [padding:0_16px] [border:1px_solid_var(--accent)] [border-radius:8px] [background:var(--accent)] [color:#fff] [cursor:pointer] [font:inherit] [font-size:12px] [font-weight:650] [transition:background_150ms_ease] [&:hover:not(:disabled)]:[background:var(--accent-hover)] [&:disabled]:[cursor:wait] [&:disabled]:[opacity:0.65] max-[520px]:[width:100%]" disabled={isSaving} type="submit">
                 {isSaving ? 'Saving…' : 'Save changes'}
               </button>
             </div>
@@ -256,3 +257,4 @@ export default function SettingsPage() {
     </div>
   )
 }
+
