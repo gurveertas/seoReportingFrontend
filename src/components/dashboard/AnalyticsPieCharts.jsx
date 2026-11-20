@@ -18,10 +18,10 @@ const pieDefinitions = [
 export default function AnalyticsPieCharts({ tables }) {
   return (
     <section className="analytics-section mt-10" aria-labelledby="analytics-pie-charts-heading">
-      <div className="analytics-section__heading flex items-end justify-between gap-5 mb-3.75 [&_h2]:m-0 [&_h2]:font-manrope [&_h2]:text-[21px] [&_h2]:font-semibold [&_h2]:tracking-[-0.045em] [&.dashboard-eyebrow]:mb-1.75">
+      <div className="analytics-section__heading flex items-end justify-between gap-5 mb-3.75">
         <div>
-          <p className="dashboard-eyebrow pt-0 pb-2.75 px-0 text-(--accent-text) text-[11px] font-bold tracking-[0.13em] uppercase">Click distribution</p>
-          <h2 id="analytics-pie-charts-heading">Where search clicks go</h2>
+          <p className="dashboard-eyebrow mb-1.75 px-0 text-(--accent-text) text-[11px] font-bold tracking-[0.13em] uppercase">Click distribution</p>
+          <h2 className="m-0 font-manrope text-[21px] font-semibold tracking-[-0.045em]" id="analytics-pie-charts-heading">Where search clicks go</h2>
         </div>
       </div>
       <div className="analytics-pie-grid grid grid-cols-2 gap-3.5 max-[820px]:grid-cols-1">

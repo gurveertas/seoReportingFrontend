@@ -64,11 +64,11 @@ export default function AnalyticsChartCard({ title, description, chart }) {
   const chartModel = makeChartData(chart)
 
   return (
-    <article className="analytics-chart-card min-w-0 [overflow:hidden] border border-(--border) rounded-[11px] bg-(--surface)">
-      <header className="analytics-chart-card__header flex items-start justify-between gap-3 pt-4.25 pb-0 px-4.5 [&_h3]:m-0 [&_h3]:text-(--text-primary) [&_h3]:text-xs [&_h3]:font-bold [&_p]:pt-1.25 pb-0 px-0 [&_p]:text-(--text-muted) [&_p]:text-[10px]">
+    <article className="analytics-chart-card min-w-0 overflow-hidden border border-(--border) rounded-[11px] bg-(--surface)">
+      <header className="analytics-chart-card__header flex items-start justify-between gap-3 pt-4.25 px-4.5">
         <div>
-          <h3>{title}</h3>
-          <p>{description}</p>
+          <h3 className="m-0 text-(--text-primary) text-xs font-bold">{title}</h3>
+          <p className="mt-1.25 mb-0 text-(--text-muted) text-[10px]">{description}</p>
         </div>
       </header>
       {chartModel ? (

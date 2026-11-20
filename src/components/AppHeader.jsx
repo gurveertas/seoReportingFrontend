@@ -14,7 +14,7 @@ import {
   SunIcon,
 } from './icons/AppIcons.jsx'
 
-const navActionClasses = 'grid w-10.5 h-10.5 p-0 place-items-center border-0 rounded-[12px] bg-transparent text-(--text-secondary) cursor-pointer no-underline transition-[background_160ms_ease,_color_160ms_ease,_transform_160ms_ease] [&:hover]:-translate-y-px [&:hover]:bg-(--surface-muted) [&:hover]:text-(--text-primary) [&:disabled]:cursor-wait [&:disabled]:opacity-[0.65] [&.is-active]:bg-(--accent-soft) [&.is-active]:text-(--accent-text) [&_svg]:w-5 [&_svg]:h-5 [&_svg]:stroke-current [&_svg]:stroke-cap-round [&_svg]:stroke-join-round [&_svg]:stroke-[1.7] [&:focus-visible]:outline-3 outline-(--focus-ring) [&:focus-visible]:outline-offset-[3px] max-[560px]:w-[39px] max-[560px]:h-[39px] max-[420px]:w-[34px] max-[420px]:h-[34px]'
+const navActionClasses = 'grid size-10.5 place-items-center rounded-xl bg-transparent text-(--text-secondary) no-underline transition hover:-translate-y-px hover:bg-(--surface-muted) hover:text-(--text-primary) disabled:cursor-wait disabled:opacity-65 focus-visible:outline-3 focus-visible:outline-(--focus-ring) focus-visible:outline-offset-[3px] max-[560px]:size-[39px] max-[420px]:size-[34px]'
 
 export default function AppHeader({ activePage }) {
   const navigate = useNavigate()
@@ -67,8 +67,8 @@ export default function AppHeader({ activePage }) {
 
   return (
     <header className="app-header flex fixed top-4.5 left-[50%] z-20 items-center justify-between w-[min(1150px,_calc(100%_-_32px))] min-h-16.5 py-0 pr-4 pl-5.5 -translate-x-1/2 border border-(--border) rounded-[18px] bg-(--surface) shadow-(--shadow-float) max-[560px]:top-3 max-[560px]:min-h-15 max-[560px]:pl-4">
-      <div className="flex min-w-0 items-center gap-2 [overflow:hidden]">
-        <Link aria-label={`${APP_NAME} dashboard`} className="app-header__brand min-w-0 [overflow:hidden] text-(--text-strong) font-manrope text-[19px] font-bold tracking-[-0.05em] no-underline text-ellipsis whitespace-nowrap hover:text-(--accent) focus-visible:outline-2 focus-visible:outline-(--focus-ring) max-[560px]:text-[17px] max-[420px]:text-sm" to="/dashboard">{APP_NAME}</Link>
+      <div className="flex min-w-0 items-center gap-2 overflow-hidden">
+        <Link aria-label={`${APP_NAME} dashboard`} className="app-header__brand min-w-0 overflow-hidden text-(--text-strong) font-manrope text-[19px] font-bold tracking-[-0.05em] no-underline text-ellipsis whitespace-nowrap hover:text-(--accent) focus-visible:outline-2 focus-visible:outline-(--focus-ring) max-[560px]:text-[17px] max-[420px]:text-sm" to="/dashboard">{APP_NAME}</Link>
       </div>
       <nav className="app-header__nav flex shrink-0 grow-0 basis-auto items-center gap-1.75 max-[420px]:gap-1" aria-label="Main navigation">
         {activePage === 'dashboard' && (
@@ -100,22 +100,22 @@ export default function AppHeader({ activePage }) {
         <Link
           aria-current={activePage === 'dashboard' ? 'page' : undefined}
           aria-label="Dashboard"
-          className={`app-header__action${activePage === 'dashboard' ? ' is-active' : ''} ${navActionClasses}`}
+          className={`app-header__action ${navActionClasses} ${activePage === 'dashboard' ? 'bg-(--accent-soft) text-(--accent-text)' : ''}`}
           to="/dashboard"
           title="Dashboard"
         >
-          <DashboardIcon />
-          <span className="app-header__sr-only absolute [overflow:hidden] w-px h-px clip-[rect(0,_0,_0,_0)] whitespace-nowrap clip-path-[inset(50%)]">Dashboard</span>
+          <DashboardIcon className="size-5 stroke-current stroke-[1.7]" />
+          <span className="sr-only">Dashboard</span>
         </Link>
         <Link
           aria-current={activePage === 'settings' ? 'page' : undefined}
           aria-label="Settings"
-          className={`app-header__action${activePage === 'settings' ? ' is-active' : ''} ${navActionClasses}`}
+          className={`app-header__action ${navActionClasses} ${activePage === 'settings' ? 'bg-(--accent-soft) text-(--accent-text)' : ''}`}
           to="/settings"
           title="Settings"
         >
-          <SettingsIcon />
-          <span className="app-header__sr-only absolute [overflow:hidden] w-px h-px clip-[rect(0,_0,_0,_0)] whitespace-nowrap clip-path-[inset(50%)]">Settings</span>
+          <SettingsIcon className="size-5 stroke-current stroke-[1.7]" />
+          <span className="sr-only">Settings</span>
         </Link>
         <button
           aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
@@ -125,8 +125,8 @@ export default function AppHeader({ activePage }) {
           title={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
           type="button"
         >
-          {theme === 'light' ? <MoonIcon /> : <SunIcon />}
-          <span className="app-header__sr-only absolute [overflow:hidden] w-px h-px clip-[rect(0,_0,_0,_0)] whitespace-nowrap clip-path-[inset(50%)]">
+          {theme === 'light' ? <MoonIcon className="size-5 stroke-current stroke-[1.7]" /> : <SunIcon className="size-5 stroke-current stroke-[1.7]" />}
+          <span className="sr-only">
             Switch to {theme === 'light' ? 'dark' : 'light'} theme
           </span>
         </button>
@@ -139,8 +139,8 @@ export default function AppHeader({ activePage }) {
           title={isLoggingOut ? 'Signing out' : 'Sign out'}
           type="button"
         >
-          <LogoutIcon />
-          <span className="app-header__sr-only absolute [overflow:hidden] w-px h-px clip-[rect(0,_0,_0,_0)] whitespace-nowrap clip-path-[inset(50%)]">
+          <LogoutIcon className="size-5 stroke-current stroke-[1.7]" />
+          <span className="sr-only">
             {isLoggingOut ? 'Signing out' : 'Sign out'}
           </span>
         </button>
@@ -150,7 +150,7 @@ export default function AppHeader({ activePage }) {
           <span>{logoutError}</span>
           <button
             aria-label="Dismiss sign out error"
-            className="app-header__feedback-close grid flex-[0_0_24px] w-6 h-6 p-0 place-items-center border-0 rounded-[6px] bg-transparent text-(--error-text) cursor-pointer [font:inherit] text-lg leading-none [&:hover]:bg-[color-mix(in_srgb,_var(--error-text)_10%,_transparent)] [&:focus-visible]:outline-3 outline-(--focus-ring) [&:focus-visible]:outline-offset-[2px]"
+            className="app-header__feedback-close grid size-6 shrink-0 place-items-center rounded-md bg-transparent text-(--error-text) text-lg leading-none hover:bg-(--error-bg) focus-visible:outline-3 focus-visible:outline-(--focus-ring) focus-visible:outline-offset-0"
             onClick={() => setLogoutError('')}
             type="button"
           >

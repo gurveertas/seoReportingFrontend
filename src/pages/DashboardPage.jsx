@@ -192,12 +192,12 @@ function ClientDashboard({ client }) {
   }
 
   return (
-    <div className="dashboard-page min-h-screen bg-(--page-bg) text-(--text-primary) [&.dashboard-welcome]:mb-[30px]">
+    <div className="dashboard-page min-h-screen bg-(--page-bg) text-(--text-primary)">
       <AppHeader activePage="dashboard" />
-      <main className="dashboard-content w-[min(1120px,_calc(100%_-_48px))] py-0 px-auto pt-[126px] pb-22 px-0 max-[520px]:w-[min(100%_-_36px,_1120px)] max-[520px]:pt-[112px]" id="main-content" tabIndex="-1">
+      <main className="dashboard-content mx-auto w-[min(1120px,calc(100%_-_48px))] pt-[126px] pb-22 max-[520px]:w-[min(100%_-_36px,1120px)] max-[520px]:pt-[112px]" id="main-content" tabIndex="-1">
         <DashboardWelcome clientName={client.name} />
 
-        <section aria-busy={isLoading} className="analytics-dashboard [&_button:focus-visible]:outline-3 outline-(--focus-ring) [&_button:focus-visible]:outline-offset-[3px]" aria-label="Analytics dashboard">
+        <section aria-busy={isLoading} className="analytics-dashboard" aria-label="Analytics dashboard">
           <div className="analytics-dashboard__toolbar grid gap-4 mb-7">
             <PeriodControls
               isLoading={isLoading}
@@ -212,13 +212,13 @@ function ClientDashboard({ client }) {
           </div>
 
           {refreshError && (
-            <div className="analytics-error flex items-center justify-between gap-4.5 py-3.75 px-4.25 border border-(--error-border) rounded-[9px] bg-(--error-bg) text-(--error-text) text-[13px] [&_button]:shrink-0 grow-0 basis-auto [&_button]:py-1.75 px-2.5 [&_button]:border border-(--error-border) [&_button]:rounded-[6px] [&_button]:bg-(--surface) [&_button]:text-(--error-strong) [&_button]:cursor-pointer [&_button]:[font:inherit] [&_button]:text-[11px] [&_button]:font-bold" role="alert">
+            <div className="analytics-error flex items-center justify-between gap-4.5 py-3.75 px-4.25 border border-(--error-border) rounded-[9px] bg-(--error-bg) text-(--error-text) text-[13px]" role="alert">
               <span>{refreshError}</span>
             </div>
           )}
 
           {reportError && (
-            <div className="analytics-error flex items-center justify-between gap-4.5 py-3.75 px-4.25 border border-(--error-border) rounded-[9px] bg-(--error-bg) text-(--error-text) text-[13px] [&_button]:shrink-0 grow-0 basis-auto [&_button]:py-1.75 px-2.5 [&_button]:border border-(--error-border) [&_button]:rounded-[6px] [&_button]:bg-(--surface) [&_button]:text-(--error-strong) [&_button]:cursor-pointer [&_button]:[font:inherit] [&_button]:text-[11px] [&_button]:font-bold" role="alert">
+            <div className="analytics-error flex items-center justify-between gap-4.5 py-3.75 px-4.25 border border-(--error-border) rounded-[9px] bg-(--error-bg) text-(--error-text) text-[13px]" role="alert">
               <span>{reportError}</span>
             </div>
           )}
@@ -226,9 +226,9 @@ function ClientDashboard({ client }) {
           {isLoading ? (
             <div className="analytics-loading py-[30px] px-5 border border-dashed border-(--border-strong) rounded-[11px] bg-(--surface) text-(--text-secondary) text-[13px] text-center" role="status">Loading {period} analytics…</div>
           ) : loadError ? (
-            <div className="analytics-error flex items-center justify-between gap-4.5 py-3.75 px-4.25 border border-(--error-border) rounded-[9px] bg-(--error-bg) text-(--error-text) text-[13px] [&_button]:shrink-0 grow-0 basis-auto [&_button]:py-1.75 px-2.5 [&_button]:border border-(--error-border) [&_button]:rounded-[6px] [&_button]:bg-(--surface) [&_button]:text-(--error-strong) [&_button]:cursor-pointer [&_button]:[font:inherit] [&_button]:text-[11px] [&_button]:font-bold" role="alert">
+            <div className="analytics-error flex items-center justify-between gap-4.5 py-3.75 px-4.25 border border-(--error-border) rounded-[9px] bg-(--error-bg) text-(--error-text) text-[13px]" role="alert">
               <span>{loadError}</span>
-              <button onClick={retryLoad} type="button">Try again</button>
+              <button className="shrink-0 rounded-md border border-(--error-border) bg-(--surface) px-2.5 py-1.75 text-[11px] font-bold text-(--error-strong) focus-visible:outline-2 focus-visible:outline-(--focus-ring)" onClick={retryLoad} type="button">Try again</button>
             </div>
           ) : dashboard ? (
             <>
@@ -242,9 +242,9 @@ function ClientDashboard({ client }) {
               <AnalyticsTables tables={dashboard.tables} />
             </>
           ) : (
-            <div className="analytics-error flex items-center justify-between gap-4.5 py-3.75 px-4.25 border border-(--error-border) rounded-[9px] bg-(--error-bg) text-(--error-text) text-[13px] [&_button]:shrink-0 grow-0 basis-auto [&_button]:py-1.75 px-2.5 [&_button]:border border-(--error-border) [&_button]:rounded-[6px] [&_button]:bg-(--surface) [&_button]:text-(--error-strong) [&_button]:cursor-pointer [&_button]:[font:inherit] [&_button]:text-[11px] [&_button]:font-bold" role="alert">
+            <div className="analytics-error flex items-center justify-between gap-4.5 py-3.75 px-4.25 border border-(--error-border) rounded-[9px] bg-(--error-bg) text-(--error-text) text-[13px]" role="alert">
               Analytics data is unavailable.
-              <button onClick={retryLoad} type="button">Try again</button>
+              <button className="shrink-0 rounded-md border border-(--error-border) bg-(--surface) px-2.5 py-1.75 text-[11px] font-bold text-(--error-strong) focus-visible:outline-2 focus-visible:outline-(--focus-ring)" onClick={retryLoad} type="button">Try again</button>
             </div>
           )}
         </section>

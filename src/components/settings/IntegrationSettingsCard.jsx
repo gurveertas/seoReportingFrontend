@@ -8,15 +8,16 @@ export default function IntegrationSettingsCard({
   const fieldId = `settings-${definition.id}-${definition.field.name}`
 
   return (
-    <section className="integration-settings-card min-w-0 p-5 border border-(--border) rounded-[13px] bg-(--surface) [&:last-child:nth-child(odd)]:col-span-full max-[700px]:[&:last-child:nth-child(odd)]:col-auto max-[520px]:p-4">
-      <header className="integration-settings-card__header flex items-start justify-between gap-3.5 mb-4.5 [&_h3]:m-0 [&_h3]:text-[13px] [&_h3]:font-bold [&_p]:pt-1.25 pb-0 px-0 [&_p]:text-(--text-secondary) [&_p]:text-[11px] [&_p]:leading-normal">
+    <section className="integration-settings-card min-w-0 p-5 border border-(--border) rounded-[13px] bg-(--surface) max-[520px]:p-4">
+      <header className="integration-settings-card__header flex items-start justify-between gap-3.5 mb-4.5">
         <div>
-          <h3>{definition.title}</h3>
-          <p>{definition.description}</p>
+          <h3 className="m-0 text-[13px] font-bold">{definition.title}</h3>
+          <p className="mt-1.25 mb-0 text-(--text-secondary) text-[11px] leading-normal">{definition.description}</p>
         </div>
-        <label className="integration-settings-card__toggle inline-flex shrink-0 grow-0 basis-auto items-center gap-1.5 text-(--text-secondary) cursor-pointer text-[10px] font-semibold whitespace-nowrap [&_input]:w-3.75 [&_input]:h-3.75 [&_input]:m-0 [&_input]:accent-(--accent) [&_input]:cursor-pointer [&_input:disabled]:cursor-not-allowed [&_input:disabled]:opacity-[0.65] [&_input:focus-visible]:outline-3 outline-(--focus-ring) [&_input:focus-visible]:outline-offset-[3px]">
+        <label className="integration-settings-card__toggle inline-flex shrink-0 items-center gap-1.5 text-(--text-secondary) cursor-pointer text-[10px] font-semibold whitespace-nowrap">
           <input
             checked={value.enabled}
+            className="size-3.75 m-0 accent-(--accent) cursor-pointer disabled:cursor-not-allowed disabled:opacity-65 focus-visible:outline-2 focus-visible:outline-(--focus-ring)"
             disabled={disabled}
             onChange={(event) => onEnabledChange(definition.id, event.target.checked)}
             type="checkbox"
@@ -24,10 +25,11 @@ export default function IntegrationSettingsCard({
           <span>{value.enabled ? 'Enabled' : 'Disabled'}</span>
         </label>
       </header>
-      <div className="integration-settings-card__field grid gap-1.75 [&_label]:text-(--text-body) [&_label]:text-[11px] [&_label]:font-semibold [&_input]:w-full [&_input]:min-h-10.5 [&_input]:py-0 px-3 [&_input]:border border-(--border-strong) [&_input]:rounded-[8px] [&_input]:bg-(--surface) [&_input]:text-(--text-primary) [&_input]:[font:inherit] [&_input]:text-xs [&_input]:transition-[border-color_150ms_ease,_box-shadow_150ms_ease] [&_input:disabled]:cursor-not-allowed [&_input:disabled]:opacity-[0.65] [&_input::placeholder]:text-(--text-muted) [&_input:focus]:border-(--accent) [&_input:focus]:outline-none [&_input:focus]:shadow-[0_0_0_3px_color-mix(in_srgb,_var(--accent)_12%,_transparent)]">
-        <label htmlFor={fieldId}>{definition.field.label}</label>
+      <div className="integration-settings-card__field grid gap-1.75">
+        <label className="text-(--text-body) text-[11px] font-semibold" htmlFor={fieldId}>{definition.field.label}</label>
         <input
           autoComplete="off"
+          className="w-full min-h-10.5 px-3 border border-(--border-strong) rounded-[8px] bg-(--surface) text-(--text-primary) text-xs transition-[border-color,box-shadow] disabled:cursor-not-allowed disabled:opacity-65 placeholder:text-(--text-muted) focus:border-(--accent) focus:outline-none focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--accent)_12%,transparent)]"
           id={fieldId}
           onChange={(event) => onPropertyChange(
             definition.id,
