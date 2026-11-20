@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import FormField from './FormField.jsx'
 import { submitAuthForm } from '../services/auth.js'
 import { APP_NAME } from '../config/app.js'
@@ -20,11 +20,15 @@ const fieldDefinitions = {
 export default function AuthForm({ mode, onModeChange, transitionDirection }) {
   const isSignup = mode === 'signup'
   const navigate = useNavigate()
-  const { authError, authStatus, refreshAuth } = useAuth()
+  const location = useLocation()
+  const { authError, authStatus, resetAuthError } = useAuth()
+  const sessionError = location.state?.sessionError
   const [values, setValues] = useState({ fullName: '', username: '', password: '' })
-  const [status, setStatus] = useState({ type: '', message: '' })
+  const [status, setStatus] = useState(() => ({
+    type: sessionError ? 'error' : '',
+    message: sessionError || '',
+  }))
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isRetryingSession, setIsRetryingSession] = useState(false)
 
   function handleChange(event) {
     const { name, value } = event.target
@@ -40,15 +44,6 @@ export default function AuthForm({ mode, onModeChange, transitionDirection }) {
     try {
       await submitAuthForm(mode, values)
       if (mode === 'login') {
-        const session = await refreshAuth()
-        if (!session.authenticated) {
-          setStatus({
-            type: 'error',
-            message: session.error || 'No authenticated session cookie was found. Please sign in again.',
-          })
-          return
-        }
-
         navigate('/dashboard', { replace: true })
         return
       }
@@ -67,19 +62,9 @@ export default function AuthForm({ mode, onModeChange, transitionDirection }) {
     }
   }
 
-  async function handleRetrySession() {
-    setIsRetryingSession(true)
-    const session = await refreshAuth()
-    setIsRetryingSession(false)
-
-    if (session.authenticated) {
-      navigate('/dashboard', { replace: true })
-    } else {
-      setStatus({
-        type: 'error',
-        message: session.error || 'No authenticated session cookie was found. Please sign in.',
-      })
-    }
+  function handleRetrySession() {
+    resetAuthError()
+    navigate('/dashboard', { replace: true })
   }
 
   return (
@@ -118,8 +103,8 @@ export default function AuthForm({ mode, onModeChange, transitionDirection }) {
           {authStatus === 'error' && !status.message && (
             <div className="auth-form__session-error" role="alert">
               <span>{authError}</span>
-              <button disabled={isRetryingSession} onClick={handleRetrySession} type="button">
-                {isRetryingSession ? 'Checking…' : 'Retry'}
+              <button onClick={handleRetrySession} type="button">
+                Retry
               </button>
             </div>
           )}

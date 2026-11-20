@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { AuthContext } from './authContext.js'
 import { getCurrentUser } from '../services/auth.js'
 
@@ -19,12 +19,13 @@ async function readAuthState() {
 
 export default function AuthProvider({ children }) {
   const [authState, setAuthState] = useState({
-    status: 'checking',
+    status: 'idle',
     user: null,
     error: null,
   })
 
   const refreshAuth = useCallback(async () => {
+    setAuthState({ status: 'checking', user: null, error: null })
     const nextState = await readAuthState()
     setAuthState(nextState)
     return {
@@ -33,19 +34,12 @@ export default function AuthProvider({ children }) {
     }
   }, [])
 
-  useEffect(() => {
-    let active = true
-    readAuthState().then((nextState) => {
-      if (active) setAuthState(nextState)
-    })
-
-    return () => {
-      active = false
-    }
-  }, [])
-
   const signOut = useCallback(() => {
     setAuthState({ status: 'unauthenticated', user: null, error: null })
+  }, [])
+
+  const resetAuthError = useCallback(() => {
+    setAuthState({ status: 'idle', user: null, error: null })
   }, [])
 
   return (
@@ -56,6 +50,7 @@ export default function AuthProvider({ children }) {
         currentUser: authState.user,
         isAuthenticated: authState.status === 'authenticated',
         refreshAuth,
+        resetAuthError,
         signOut,
       }}
     >

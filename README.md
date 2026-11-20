@@ -41,9 +41,10 @@ unavailable/empty states instead of fabricated zeros.
 ## Dashboard and API route tester
 
 After a successful login, the app opens the dashboard. The dashboard and
-`/test-api` route are guarded by a cookie-verified session. The frontend calls
-`GET /auth/me` with credentials on startup and confirms the login cookie after
-the login request; a `401` or `403` redirects to the login page. The API tester
+`/test-api` route are guarded by a cookie-verified session. Protected-route
+navigation calls `GET /auth/me` with credentials; the login and signup screens
+do not make session-check requests. A `401` or `403` redirects to the login page.
+The API tester
 lets you enter a separate JSON body for each POST request and view its status
 and response. Routes are defined in `src/config/api.js`.
 
