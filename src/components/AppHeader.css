@@ -6,7 +6,7 @@
   z-index: 20;
   align-items: center;
   justify-content: space-between;
-  width: min(1080px, calc(100% - 32px));
+  width: min(1150px, calc(100% - 32px));
   min-height: 66px;
   padding: 0 16px 0 22px;
   transform: translateX(-50%);
