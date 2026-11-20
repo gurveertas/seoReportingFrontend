@@ -19,7 +19,7 @@ footer, page title, and page description.
 For local UI work while the API or database is unavailable, set
 `VITE_USE_MOCK_API=true` in `.env.local` and restart Vite. The mock mode accepts
 any non-empty username and password, keeps its demo session and settings in the
-browser's local storage, and supplies analytics, integration, API tester, and
+browser's local storage, and supplies analytics, integration, and
 PDF report data. It only runs in Vite development mode. Remove the setting (or
 set it to `false`) to use the configured backend again.
 
@@ -53,26 +53,19 @@ included. The report is built from stored backend snapshots; it does not refresh
 integrations. After the PDF is ready, **Save PDF** opens the native save picker
 where supported, with a standard browser download as the fallback.
 
-## Dashboard and API route tester
+## Dashboard
 
-After a successful login, the app opens the dashboard. The dashboard and
-`/test-api` route are guarded by a cookie-verified session. Protected-route
+After a successful login, the app opens the dashboard. Dashboard and settings
+routes are guarded by a cookie-verified session. Protected-route
 navigation and the guest route call `GET /auth/me` with credentials, including
 after successful login or signup. A failed session check leaves the auth form
 available without showing a `/me` error warning, while protected routes remain
-inaccessible until the session is verified. The API tester
-lets you enter a separate JSON body for each POST request and view its status
-and response. Routes are defined in `src/config/api.js`.
+inaccessible until the session is verified. Routes are defined in
+`src/config/api.js`.
 On initial load, the guest route shows a temporary loader during session
 restoration; a valid cookie opens the dashboard without first displaying forms.
 The navbar's logout icon sends `POST /api/v1/auth/logout` with credentials
 before clearing the local session.
-
-The tester includes these POST endpoints:
-
-- Google Search Console: `/api/v1/gsc/search-performance`
-- Google Analytics 4: `/api/v1/ga4/report`
-- Google Sheets: `/api/v1/google-sheets/values`
 
 The client-side route guard controls frontend navigation only. Enforce
 authentication and authorization in the backend for protected data.

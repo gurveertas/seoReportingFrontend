@@ -6,7 +6,6 @@ import { MOCK_API_ENABLED } from '../config/api.js'
 import { LogoutApiError, logout } from '../services/auth.js'
 import { useTheme } from '../theme/useTheme.js'
 import {
-  CodeIcon,
   DashboardIcon,
   LogoutIcon,
   MoonIcon,
@@ -64,16 +63,6 @@ export default function AppHeader({ activePage }) {
         >
           <DashboardIcon />
           <span className="app-header__sr-only [position:absolute] [overflow:hidden] [width:1px] [height:1px] [clip:rect(0,_0,_0,_0)] [white-space:nowrap] [clip-path:inset(50%)]">Dashboard</span>
-        </Link>
-        <Link
-          aria-current={activePage === 'test-api' ? 'page' : undefined}
-          aria-label="API tester"
-          className={`app-header__action${activePage === 'test-api' ? ' is-active' : ''} ${navActionClasses}`}
-          to="/test-api"
-          title="API tester"
-        >
-          <CodeIcon />
-          <span className="app-header__sr-only [position:absolute] [overflow:hidden] [width:1px] [height:1px] [clip:rect(0,_0,_0,_0)] [white-space:nowrap] [clip-path:inset(50%)]">API tester</span>
         </Link>
         <Link
           aria-current={activePage === 'settings' ? 'page' : undefined}
