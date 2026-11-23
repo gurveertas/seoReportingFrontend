@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { getUserSettings } from '../../services/settings.js'
 
 const MAX_PLANS = 10
 const MAX_WORDS = 20
@@ -9,9 +8,7 @@ export default function ReportOptionsDialog({ onClose, onGenerate, isGenerating,
   const dialogRef = useRef(null)
   const planInputRef = useRef(null)
   const nextPlanId = useRef(0)
-  const [comparisonAllowed, setComparisonAllowed] = useState(null)
   const [includeComparison, setIncludeComparison] = useState(true)
-  const [settingsError, setSettingsError] = useState('')
   const [plans, setPlans] = useState([])
   const [draft, setDraft] = useState('')
   const [planError, setPlanError] = useState('')
@@ -20,18 +17,6 @@ export default function ReportOptionsDialog({ onClose, onGenerate, isGenerating,
     const dialog = dialogRef.current
     dialog.showModal()
     return () => dialog.close()
-  }, [])
-
-  useEffect(() => {
-    const controller = new AbortController()
-    getUserSettings(controller.signal)
-      .then((settings) => {
-        if (!controller.signal.aborted) setComparisonAllowed(settings.comparison !== false)
-      })
-      .catch(() => {
-        if (!controller.signal.aborted) setSettingsError('Couldn’t load report settings. Close this form and try again.')
-      })
-    return () => controller.abort()
   }, [])
 
   function validateDraft() {
@@ -57,12 +42,12 @@ export default function ReportOptionsDialog({ onClose, onGenerate, isGenerating,
 
   function handleSubmit(event) {
     event.preventDefault()
-    if (comparisonAllowed === null || isGenerating) return
+    if (isGenerating) return
     const plan = validateDraft()
     if (plan === null) return
     const nextPlans = plans.map(({ text }) => text)
     if (plan) nextPlans.push(plan)
-    onGenerate({ comparison: comparisonAllowed && includeComparison, nextPlans })
+    onGenerate({ comparison: includeComparison, nextPlans })
   }
 
   return (
@@ -79,15 +64,14 @@ export default function ReportOptionsDialog({ onClose, onGenerate, isGenerating,
         <h2 className="m-0 text-xl font-bold" id="report-options-title">Report options</h2>
         <label className="flex items-center gap-3 text-sm font-semibold">
           <input
-            checked={comparisonAllowed === true && includeComparison}
+            checked={includeComparison}
             className="size-4 accent-accent"
-            disabled={comparisonAllowed !== true || isGenerating}
+            disabled={isGenerating}
             onChange={(event) => setIncludeComparison(event.target.checked)}
             type="checkbox"
           />
-          Include comparisons
+          remove comparisons
         </label>
-        {comparisonAllowed === false && <p className="m-0 text-xs text-ink-secondary">Comparisons are turned off in Settings.</p>}
         <div className="grid gap-2">
           <label className="text-sm font-semibold" htmlFor="report-next-plan">Next plans</label>
           <p className="m-0 text-xs text-ink-secondary" id="report-plan-hint">Optional. Up to {MAX_PLANS} plans, {MAX_WORDS} words each ({plans.length}/{MAX_PLANS} added).</p>
@@ -126,11 +110,11 @@ export default function ReportOptionsDialog({ onClose, onGenerate, isGenerating,
           </div>
           {planError && <p className="m-0 text-xs text-error-text" id="report-plan-error" role="alert">{planError}</p>}
         </div>
-        {(settingsError || error) && <p className="m-0 text-sm text-error-text" role="alert">{settingsError || error}</p>}
+        {error && <p className="m-0 text-sm text-error-text" role="alert">{error}</p>}
         <div className="flex justify-end gap-2">
           <button className={secondaryButton} disabled={isGenerating} onClick={onClose} type="button">Cancel</button>
-          <button className="min-h-10 rounded-lg bg-accent px-4 text-sm font-semibold text-white hover:bg-accent-hover disabled:opacity-60" disabled={comparisonAllowed === null || isGenerating} type="submit">
-            {isGenerating ? 'Generating…' : comparisonAllowed === null && !settingsError ? 'Loading settings…' : 'Generate report'}
+          <button className="min-h-10 rounded-lg bg-accent px-4 text-sm font-semibold text-white hover:bg-accent-hover disabled:opacity-60" disabled={isGenerating} type="submit">
+            {isGenerating ? 'Generating…' : 'Generate report'}
           </button>
         </div>
       </form>

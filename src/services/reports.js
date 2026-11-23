@@ -9,6 +9,8 @@ export class ReportApiError extends Error {
   }
 }
 
+const clientReportBase = (clientId) => `/clients/${encodeURIComponent(clientId)}`
+
 function getErrorMessage(responseText) {
   if (!responseText) return 'Unable to generate the report.'
 
@@ -27,7 +29,7 @@ export async function getPdfReport(period, clientId, options, dates) {
   }
   if (!clientId) throw new Error('A client must be selected to generate a report.')
 
-  const url = new URL(`${API_V1_BASE_URL}/clients/${encodeURIComponent(clientId)}${route}`, window.location.origin)
+  const url = new URL(`${API_V1_BASE_URL}${clientReportBase(clientId)}${route}`, window.location.origin)
   for (const [key, value] of Object.entries(dates ?? {})) url.searchParams.set(key, value)
   if (options) {
     url.searchParams.set('comparison', String(options.comparison))
@@ -93,7 +95,7 @@ export async function savePdfBlob(blob, filename) {
   return true
 }
 
-const clientReportsPath = (clientId) => `/clients/${encodeURIComponent(clientId)}/reports`
+const clientReportsPath = (clientId) => `${clientReportBase(clientId)}/reports`
 
 export function listReports(clientId, signal) {
   return apiJson(clientReportsPath(clientId), { signal, fallback: 'Unable to load reports.' })
