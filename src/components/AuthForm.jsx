@@ -82,7 +82,7 @@ export default function AuthForm({ mode, onModeChange, transitionDirection }) {
         <form className="grid gap-4.5 mt-6.5" onSubmit={handleSubmit}>
           {fieldDefinitions[mode].map((field) => (
             <FormField
-              key={field.name}
+              key={field.type === 'password' ? `${mode}-${field.name}` : field.name}
               {...field}
               disabled={isSubmitting}
               id={`auth-${field.name}`}
