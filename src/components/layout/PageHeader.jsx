@@ -16,7 +16,7 @@ export default function PageHeader({ eyebrow, title, description, actions, leadi
 
 export function StatCard({ label, value, hint, accent = false, children }) {
   return (
-    <div className={`relative overflow-hidden rounded-2xl border p-5 ${accent ? 'border-transparent bg-gradient-to-br from-accent to-accent-hover text-white' : 'border-line bg-surface'}`}>
+    <div className={`relative overflow-hidden rounded-2xl border p-5 ${accent ? 'border-transparent bg-linear-to-br from-accent to-accent-hover text-white max-sm:col-span-2' : 'border-line bg-surface'}`}>
       <p className={`m-0 text-xs font-semibold ${accent ? 'text-white/75' : 'text-ink-secondary'}`}>{label}</p>
       <p className="mb-0 mt-2 font-heading text-display-sm font-extrabold leading-none tracking-tight">{value}</p>
       {hint && <p className={`mb-0 mt-2 text-xs ${accent ? 'text-white/75' : 'text-ink-muted'}`}>{hint}</p>}

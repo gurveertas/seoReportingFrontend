@@ -6,6 +6,8 @@ import { getUserSettings, SettingsApiError, updateUserSettings } from '../servic
 import ManageClientsPanel from '../components/workspace/ManageClientsPanel.jsx'
 import GoogleAccountsPanel from '../components/google/GoogleAccountsPanel.jsx'
 
+const settingsMessage = 'flex min-h-17.5 items-center justify-between gap-4 rounded-xl border px-4.5 py-4 text-body-sm'
+
 function normalizeSettings(data) {
   if (!data || typeof data.fullname !== 'string') {
     throw new Error('The settings response is missing profile data.')
@@ -104,9 +106,9 @@ export default function SettingsPage() {
         <PageHeader description="Update your profile, connect Google accounts and manage your websites." eyebrow="Workspace" title="Settings" />
 
         {isLoading ? (
-          <div className="flex items-center justify-between gap-4 min-h-17.5 py-4 px-4.5 border border-line rounded-xl bg-surface text-ink-secondary text-body-sm" role="status">Loading settings…</div>
+          <div className={`${settingsMessage} border-line bg-surface text-ink-secondary`} role="status">Loading settings…</div>
         ) : loadError ? (
-          <div className="flex items-center justify-between gap-4 min-h-17.5 py-4 px-4.5 border border-line rounded-xl bg-surface text-ink-secondary text-body-sm border-error-border bg-error-bg text-error-text" role="alert">
+          <div className={`${settingsMessage} border-error-border bg-error-bg text-error-text`} role="alert">
             <span>{loadError}</span>
             <button className="flex-none py-2 px-2.5 border border-error-border rounded-lg bg-surface text-error-strong cursor-pointer text-label font-medium-bold focus-visible:outline-3 focus-visible:outline-focus-ring focus-visible:outline-offset-3" onClick={retryLoad} type="button">Try again</button>
           </div>
@@ -119,8 +121,9 @@ export default function SettingsPage() {
               </div>
               <div className="grid gap-2">
                 <label className="text-ink-body text-label font-medium-bold" htmlFor="settings-fullname">Full name</label>
-                <input className="w-full min-h-10.5 py-0 px-3 border border-line-strong rounded-lg bg-surface text-ink text-xs transition duration-150 placeholder:text-ink-muted focus:border-accent focus:outline-none focus:ring-3 focus:ring-accent/12"
+                <input
                   autoComplete="name"
+                  className="min-h-10.5 w-full rounded-lg border border-line-strong bg-surface px-3 text-xs text-ink transition placeholder:text-ink-muted focus:border-accent focus:ring-3 focus:ring-accent/12 focus:outline-none"
                   disabled={isSaving}
                   id="settings-fullname"
                   onChange={(event) => {
@@ -155,7 +158,7 @@ export default function SettingsPage() {
                   {saveError && <p className="m-0 text-xs text-error-text" role="alert">{saveError}</p>}
                   {saveMessage && <p className="m-0 text-xs text-positive-text" role="status">{saveMessage}</p>}
                 </div>
-                <button className="min-h-10 rounded-lg border border-accent bg-accent px-4 text-xs font-semibold text-white transition hover:bg-accent-hover disabled:cursor-wait disabled:opacity-65 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring max-settings:w-full focus-visible:outline-3 focus-visible:outline-focus-ring focus-visible:outline-offset-3" disabled={isSaving} type="submit">
+                <button className="min-h-10 rounded-lg border border-accent bg-accent px-4 text-xs font-semibold text-white transition hover:bg-accent-hover disabled:cursor-wait disabled:opacity-65 focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-focus-ring max-settings:w-full" disabled={isSaving} type="submit">
                   {isSaving ? 'Saving…' : 'Save changes'}
                 </button>
               </div>

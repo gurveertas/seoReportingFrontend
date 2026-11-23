@@ -9,8 +9,10 @@ function formatStatus(status) {
   return status.replaceAll('_', ' ')
 }
 
-function statusClass(status) {
-  return (status || 'unknown').replaceAll('_', '-')
+function statusColor(status) {
+  if (status === 'error') return 'text-negative-text'
+  if (status === 'not_configured' || status === 'unknown') return 'text-warning-text'
+  return 'text-positive-text'
 }
 
 export default function RefreshSummary({ refresh }) {
@@ -26,7 +28,7 @@ export default function RefreshSummary({ refresh }) {
         {Object.entries(refresh).map(([source, result]) => (
           <li className="flex items-center gap-2 text-ink-body text-caption" key={source}>
             <span>{sourceNames[source] || source}</span>
-            <strong className={`${statusClass(result?.status)} text-positive-text text-caption font-bold capitalize ${['error'].includes(result?.status) ? 'text-negative-text' : ['not_configured', 'unknown'].includes(result?.status) ? 'text-warning-text' : ''}`}>
+            <strong className={`font-bold capitalize ${statusColor(result?.status)}`}>
               {formatStatus(result?.status)}
             </strong>
           </li>

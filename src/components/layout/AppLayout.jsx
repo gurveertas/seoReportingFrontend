@@ -39,7 +39,6 @@ function readCollapsed() {
   }
 }
 
-const iconClasses = '[&_svg]:size-[18px] [&_svg]:shrink-0 [&_svg]:stroke-current [&_svg]:[stroke-width:1.75] [&_svg]:[stroke-linecap:round] [&_svg]:[stroke-linejoin:round]'
 
 export default function AppLayout() {
   const location = useLocation()
@@ -68,7 +67,7 @@ export default function AppLayout() {
     <div className="min-h-screen bg-page-bg text-ink">
       <a className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-60 focus:rounded-lg focus:bg-surface focus:px-3 focus:py-2 focus:text-sm focus:shadow" href="#main-content">Skip to content</a>
 
-      {mobileOpen && <div aria-hidden="true" className="fixed inset-0 z-40 bg-black/40 backdrop-blur-xs lg:hidden" onClick={() => setMobileOpen(false)} />}
+      {mobileOpen && <div aria-hidden="true" className="fixed inset-0 z-40 bg-black/40 backdrop-blur-hairline lg:hidden" onClick={() => setMobileOpen(false)} />}
 
       <Sidebar collapsed={collapsed} mobileOpen={mobileOpen} onCloseMobile={() => setMobileOpen(false)} />
 
@@ -107,7 +106,7 @@ function Sidebar({ collapsed, mobileOpen, onCloseMobile }) {
             <span className="block text-label font-medium text-ink-muted">SEO reporting</span>
           </span>
         </Link>
-        <button aria-label="Close menu" className={`ml-auto grid size-8 place-items-center rounded-lg text-ink-secondary hover:bg-surface-muted lg:hidden ${iconClasses}`} onClick={onCloseMobile} type="button"><CloseIcon /></button>
+        <button aria-label="Close menu" className="ml-auto grid size-8 place-items-center rounded-lg text-ink-secondary hover:bg-surface-muted lg:hidden" onClick={onCloseMobile} type="button"><CloseIcon /></button>
       </div>
 
       <nav aria-label="Main navigation" className="shrink-0 px-3 pt-4">
@@ -116,7 +115,7 @@ function Sidebar({ collapsed, mobileOpen, onCloseMobile }) {
           {NAV.map(({ to, label, icon: Icon, end }) => (
             <li className="list-none" key={to}>
               <NavLink
-                className={({ isActive }) => `group relative flex h-10 items-center gap-3 rounded-xl px-3 text-nav font-semibold transition ${iconClasses}  ${collapsed ? 'lg:justify-center lg:px-0' : ''}  ${isActive ? 'bg-accent-soft text-accent-text' : 'text-ink-secondary hover:bg-surface-muted hover:text-ink'}`}
+                className={({ isActive }) => `group relative flex h-10 items-center gap-3 rounded-xl px-3 text-nav font-semibold transition  ${collapsed ? 'lg:justify-center lg:px-0' : ''}  ${isActive ? 'bg-accent-soft text-accent-text' : 'text-ink-secondary hover:bg-surface-muted hover:text-ink'}`}
                 end={end}
                 title={collapsed ? label : undefined}
                 to={to}
@@ -143,7 +142,7 @@ function Sidebar({ collapsed, mobileOpen, onCloseMobile }) {
         </div>
         {clients.length > 5 && (
           <label className={`relative mb-2 block ${hide}`}>
-            <span className={`pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-faint`}><SearchIcon className="size-4 stroke-current stroke-ui" /></span>
+            <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-faint"><SearchIcon className="size-4" /></span>
             <span className="sr-only">Search websites</span>
             <input className="h-9 w-full rounded-lg border border-line bg-surface-subtle pl-9 pr-3 text-xs outline-none placeholder:text-ink-faint focus:border-accent" onChange={(event) => setQuery(event.target.value)} placeholder="Find a website" type="search" value={query} />
           </label>
@@ -168,7 +167,7 @@ function Sidebar({ collapsed, mobileOpen, onCloseMobile }) {
           })}
           {clients.length > 0 && visibleClients.length === 0 && <li className={`list-none px-3 py-2 text-xs text-ink-muted ${hide}`}>No matches</li>}
         </ul>
-        <Link className={`mb-3 mt-2 flex h-10 shrink-0 items-center gap-2.5 rounded-xl border border-dashed border-line-strong px-3 text-body-sm font-semibold text-ink-secondary transition hover:border-accent hover:text-accent-text ${iconClasses}  ${collapsed ? 'lg:justify-center lg:px-0' : ''}`} title={collapsed ? 'Add websites' : undefined} to="/sites">
+        <Link className={`mb-3 mt-2 flex h-10 shrink-0 items-center gap-2.5 rounded-xl border border-dashed border-line-strong px-3 text-body-sm font-semibold text-ink-secondary transition hover:border-accent hover:text-accent-text  ${collapsed ? 'lg:justify-center lg:px-0' : ''}`} title={collapsed ? 'Add websites' : undefined} to="/sites">
           <PlusIcon />
           <span className={hide}>Add websites</span>
         </Link>
@@ -212,7 +211,7 @@ function UserCard({ collapsed }) {
           <span className="block truncate text-body-sm font-semibold">{name}</span>
           {currentUser?.username && <span className="block truncate text-label text-ink-muted">@{currentUser.username}</span>}
         </span>
-        <button aria-label={isLoggingOut ? 'Signing out' : 'Sign out'} className={`grid size-8 shrink-0 place-items-center rounded-lg text-ink-muted transition hover:bg-error-bg hover:text-error-text disabled:cursor-wait disabled:opacity-60 ${iconClasses}`} disabled={isLoggingOut} onClick={handleLogout} title="Sign out" type="button">
+        <button aria-label={isLoggingOut ? 'Signing out' : 'Sign out'} className="grid size-8 shrink-0 place-items-center rounded-lg text-ink-muted transition hover:bg-error-bg hover:text-error-text disabled:cursor-wait disabled:opacity-60" disabled={isLoggingOut} onClick={handleLogout} title="Sign out" type="button">
           <LogoutIcon />
         </button>
       </div>
@@ -239,14 +238,14 @@ function Topbar({ collapsed, onMenu, onToggleCollapsed }) {
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-line bg-page-bg/85 px-8 backdrop-blur-md max-md:px-5 max-sm:px-4">
-      <button aria-label="Open menu" className={`grid size-9 place-items-center rounded-lg border border-line bg-surface text-ink-secondary lg:hidden ${iconClasses}`} onClick={onMenu} type="button"><MenuIcon /></button>
-      <button aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'} aria-pressed={collapsed} className={`hidden size-9 place-items-center rounded-lg text-ink-secondary transition hover:bg-surface-muted hover:text-ink lg:grid ${iconClasses}`} onClick={onToggleCollapsed} title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'} type="button"><SidebarIcon /></button>
+      <button aria-label="Open menu" className="grid size-9 place-items-center rounded-lg border border-line bg-surface text-ink-secondary lg:hidden" onClick={onMenu} type="button"><MenuIcon /></button>
+      <button aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'} aria-pressed={collapsed} className="hidden size-9 place-items-center rounded-lg text-ink-secondary transition hover:bg-surface-muted hover:text-ink lg:grid" onClick={onToggleCollapsed} title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'} type="button"><SidebarIcon /></button>
       <span aria-hidden="true" className="hidden h-5 w-px bg-line lg:block" />
       <nav aria-label="Breadcrumb" className="min-w-0 flex-1">
         <ol className="m-0 flex min-w-0 items-center gap-1.5 p-0 text-body-sm">
           {crumbs.map((crumb, index) => (
             <li className="flex min-w-0 list-none items-center gap-1.5" key={crumb.label}>
-              {index > 0 && <span aria-hidden="true" className="text-ink-faint"><ChevronRightIcon className="size-3.5 stroke-current stroke-2" /></span>}
+              {index > 0 && <span aria-hidden="true" className="text-ink-faint"><ChevronRightIcon className="size-3.5 stroke-2" /></span>}
               {crumb.to
                 ? <Link className="truncate text-ink-muted hover:text-ink" to={crumb.to}>{crumb.label}</Link>
                 : <span aria-current="page" className="truncate font-semibold text-ink">{crumb.label}</span>}
@@ -254,8 +253,8 @@ function Topbar({ collapsed, onMenu, onToggleCollapsed }) {
           ))}
         </ol>
       </nav>
-      <Link className={`inline-flex h-9 items-center gap-2 rounded-lg bg-accent px-3.5 text-body-sm font-semibold text-white transition hover:bg-accent-hover max-sm:hidden ${iconClasses} `} to="/sites"><PlusIcon className="size-4" />Add websites</Link>
-      <button aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`} aria-pressed={theme === 'dark'} className={`grid size-9 place-items-center rounded-lg text-ink-secondary transition hover:text-ink ${iconClasses}`} onClick={toggleTheme} title="Toggle theme" type="button">
+      <Link className="inline-flex h-9 items-center gap-2 rounded-lg bg-accent px-3.5 text-body-sm font-semibold text-white transition hover:bg-accent-hover max-sm:hidden" to="/sites"><PlusIcon className="size-4" />Add websites</Link>
+      <button aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`} aria-pressed={theme === 'dark'} className="grid size-9 place-items-center rounded-lg text-ink-secondary transition hover:text-ink" onClick={toggleTheme} title="Toggle theme" type="button">
         {theme === 'light' ? <MoonIcon /> : <SunIcon />}
       </button>
     </header>

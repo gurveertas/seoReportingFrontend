@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react'
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 
 const COLORS = [
-  'var(--chart-series-1)',
-  'var(--chart-series-2)',
-  'var(--chart-series-3)',
-  'var(--chart-series-4)',
-  'var(--chart-series-5)',
+  { fill: 'var(--chart-series-1)', swatch: 'bg-chart-series-1' },
+  { fill: 'var(--chart-series-2)', swatch: 'bg-chart-series-2' },
+  { fill: 'var(--chart-series-3)', swatch: 'bg-chart-series-3' },
+  { fill: 'var(--chart-series-4)', swatch: 'bg-chart-series-4' },
+  { fill: 'var(--chart-series-5)', swatch: 'bg-chart-series-5' },
 ]
 const MAX_VISIBLE_ITEMS = 4
 const numberFormatter = new Intl.NumberFormat()
@@ -80,7 +80,7 @@ export default function AnalyticsPieCard({ title, description, table, labelKey }
     : 'No click data is available'
 
   return (
-    <article className="min-w-0 overflow-hidden border border-line rounded-xl bg-surface animate-pie-enter [&:nth-child(2)]:animate-pie-enter-delayed motion-reduce:animate-none">
+    <article className="min-w-0 overflow-hidden border border-line rounded-xl bg-surface animate-pie-enter nth-2:animate-pie-enter-delayed motion-reduce:animate-none">
       <header className="flex items-start justify-between gap-3 pt-4.5 pb-0 px-4.5">
         <div>
           <h3 className="m-0 text-ink text-xs font-bold">{title}</h3>
@@ -113,7 +113,7 @@ export default function AnalyticsPieCard({ title, description, table, labelKey }
                   outerRadius="88%"
                 >
                   {share.data.map((item, index) => (
-                    <Cell key={item.name} fill={COLORS[index % COLORS.length]} />
+                    <Cell key={item.name} fill={COLORS[index % COLORS.length].fill} />
                   ))}
                 </Pie>
                 <Tooltip
@@ -136,11 +136,10 @@ export default function AnalyticsPieCard({ title, description, table, labelKey }
           </div>
           <ul className="grid min-w-0 gap-3 m-0 p-0 list-none max-analytics:gap-2.5">
             {share.data.map((item, index) => (
-              <li className="grid grid-cols-legend items-center gap-2 min-w-0 max-analytics:grid-cols-legend max-analytics:gap-1.5" key={item.name}>
+              <li className="grid min-w-0 grid-cols-legend items-center gap-2 max-analytics:gap-1.5" key={item.name}>
                 <span
                   aria-hidden="true"
-                  className="w-2 h-2 rounded-full"
-                  style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                  className={`size-2 rounded-full ${COLORS[index % COLORS.length].swatch}`}
                 />
                 <span className="overflow-hidden text-ink-body text-caption text-ellipsis whitespace-nowrap max-analytics:text-micro" title={item.name}>
                   {item.name}

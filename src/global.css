@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
-@import "tailwindcss";
+@import "tailwindcss" source(none);
+@source "./";
+@source "../index.html";
 
 @theme inline {
   --color-page-bg: var(--page-bg);
@@ -31,6 +33,11 @@
   --color-error-text: var(--error-text);
   --color-error-strong: var(--error-strong);
   --color-table-head-bg: var(--table-head-bg);
+  --color-chart-series-1: var(--chart-series-1);
+  --color-chart-series-2: var(--chart-series-2);
+  --color-chart-series-3: var(--chart-series-3);
+  --color-chart-series-4: var(--chart-series-4);
+  --color-chart-series-5: var(--chart-series-5);
   --shadow-panel: var(--shadow-float);
 }
 
@@ -50,6 +57,7 @@
   --text-display-sm: 1.75rem;
   --text-metric: clamp(25px, 3vw, 32px);
   --text-auth-title: clamp(30px, 3vw, 38px);
+  --text-auth-title--line-height: 1.2;
   --text-error-title: clamp(34px, 6vw, 54px);
   --text-page-title: clamp(24px, 3vw, 30px);
   --tracking-eyebrow: 0.13em;
@@ -99,6 +107,18 @@
   --color-mist-label: #d3e2d6;
   --color-mist-focus: #a6c794;
   --color-forest: #21372d;
+  --color-avatar-green-bg: #e8f2eb;
+  --color-avatar-green: #2f6b48;
+  --color-avatar-blue-bg: #e9eef6;
+  --color-avatar-blue: #3d5f86;
+  --color-avatar-ochre-bg: #f5eee3;
+  --color-avatar-ochre: #8a6431;
+  --color-avatar-purple-bg: #f1e9f3;
+  --color-avatar-purple: #76508a;
+  --color-avatar-teal-bg: #e6f1f1;
+  --color-avatar-teal: #2f6e6e;
+  --color-avatar-red-bg: #f6e9e7;
+  --color-avatar-red: #9a4a3e;
   --background-image-auth-photo: url('./assets/CountrySideJapanseseStreet.jpg');
   --background-image-not-found-photo: linear-gradient(135deg, #101914c7, #10191469), url('./assets/cat.jpg');
   --shadow-not-found: 0 24px 70px #0005;
@@ -241,6 +261,10 @@ input {
 
 #root {
   min-height: 100vh;
+}
+
+summary.list-none::-webkit-details-marker {
+  display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

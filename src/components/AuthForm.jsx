@@ -64,34 +64,19 @@ export default function AuthForm({ mode, onModeChange, transitionDirection }) {
   }
 
   return (
-    <main className="flex relative flex-col justify-center min-h-screen px-auth-gutter py-12 max-auth-compact:pr-9.5 max-auth-compact:pl-9.5 max-auth-stack:min-h-screen max-auth-stack:pt-7 max-auth-stack:pb-17.5 max-auth-stack:px-6 max-compact-phone:pr-4.5 max-compact-phone:pl-4.5">
-      <div className={`${transitionDirection} w-full max-w-auth-form my-0 mx-auto max-auth-stack:my-0 max-auth-stack:mx-auto ${transitionDirection === 'forward' ? 'animate-auth-from-right' : 'animate-auth-from-left'}`}>
-        <p className="mt-0 mb-3 mx-0 text-accent text-body-sm font-bold tracking-widest uppercase">{isSignup ? 'Get started' : 'Welcome back'}</p>
-        <h1 className="m-0 font-heading text-auth-title font-medium-bold tracking-tighter leading-tight">{isSignup ? 'Create your account' : `Sign in to ${APP_NAME}`}</h1>
-        <p className="mt-3 mb-7.5 mx-0 text-ink-secondary text-body-lg leading-relaxed">
+    <main className="relative flex min-h-screen flex-col justify-center px-auth-gutter py-12 max-auth-compact:px-9.5 max-auth-stack:px-6 max-auth-stack:pt-7 max-auth-stack:pb-17.5 max-compact-phone:px-4.5">
+      <div className={`mx-auto w-full max-w-auth-form ${transitionDirection === 'forward' ? 'animate-auth-from-right' : 'animate-auth-from-left'}`}>
+        <p className="mb-3 text-body-sm font-bold tracking-widest text-accent uppercase">{isSignup ? 'Get started' : 'Welcome back'}</p>
+        <h1 className="font-heading text-auth-title font-medium-bold tracking-tighter">{isSignup ? 'Create your account' : `Sign in to ${APP_NAME}`}</h1>
+        <p className="mt-3 mb-7.5 text-body-lg leading-relaxed text-ink-secondary">
           {isSignup
             ? 'A better view of your search performance starts here.'
             : 'Your insights are right where you left them.'}
         </p>
-        <div className={` grid relative grid-cols-2 p-1 border border-line rounded-xl bg-surface-muted [&::before]:absolute [&::before]:top-1 [&::before]:bottom-1 [&::before]:left-1 [&::before]:w-tab-slider [&::before]:rounded-lg [&::before]:bg-surface [&::before]:shadow-tab [&::before]:pointer-events-none [&::before]:transition-transform [&::before]:duration-220 ${isSignup ? '[&::before]:translate-x-full' : '[&::before]:translate-x-0'}`} role="tablist" aria-label="Account access">
-          <button
-            aria-selected={!isSignup}
-            className={` relative z-10 min-h-10 border-0 rounded-lg bg-transparent text-ink-secondary cursor-pointer text-body-sm font-semibold transition-colors duration-160 [&.is-active]:text-ink [&:focus-visible]:outline-3 [&:focus-visible]:outline-focus-ring [&:focus-visible]:outline-offset-3`}
-            onClick={() => onModeChange('login')}
-            role="tab"
-            type="button"
-          >
-            Sign in
-          </button>
-          <button
-            aria-selected={isSignup}
-            className={` relative z-10 min-h-10 border-0 rounded-lg bg-transparent text-ink-secondary cursor-pointer text-body-sm font-semibold transition-colors duration-160 [&.is-active]:text-ink [&:focus-visible]:outline-3 [&:focus-visible]:outline-focus-ring [&:focus-visible]:outline-offset-3`}
-            onClick={() => onModeChange('signup')}
-            role="tab"
-            type="button"
-          >
-            Create account
-          </button>
+        <div className="relative grid grid-cols-2 rounded-xl border border-line bg-surface-muted p-1" role="tablist" aria-label="Account access">
+          <span aria-hidden="true" className={`pointer-events-none absolute inset-y-1 left-1 w-tab-slider rounded-lg bg-surface shadow-tab transition-transform duration-220 ${isSignup ? 'translate-x-full' : 'translate-x-0'}`} />
+          <AuthTab selected={!isSignup} onClick={() => onModeChange('login')}>Sign in</AuthTab>
+          <AuthTab selected={isSignup} onClick={() => onModeChange('signup')}>Create account</AuthTab>
         </div>
 
         <form className="grid gap-4.5 mt-6.5" onSubmit={handleSubmit}>
@@ -106,11 +91,15 @@ export default function AuthForm({ mode, onModeChange, transitionDirection }) {
             />
           ))}
           {status.message && (
-            <p className={`${status.type} -mt-0.5 mb-0 mx-0 text-body-sm leading-normal ${status.type === 'error' ? 'text-error-text' : 'text-positive-text'}`} role={status.type === 'error' ? 'alert' : 'status'}>
+            <p className={`-mt-0.5 text-body-sm leading-normal ${status.type === 'error' ? 'text-error-text' : 'text-positive-text'}`} role={status.type === 'error' ? 'alert' : 'status'}>
               {status.message}
             </p>
           )}
-          <button className="[&:focus-visible]:outline-3 [&:focus-visible]:outline-focus-ring [&:focus-visible]:outline-offset-3 flex items-center justify-between min-h-12.5 mt-0.5 py-0 px-4.5 border-0 rounded-lg bg-accent text-white cursor-pointer text-sm font-medium-bold transition duration-160 [&:hover:not(:disabled)]:-translate-y-px [&:hover:not(:disabled)]:bg-accent-hover [&:disabled]:cursor-wait [&:disabled]:opacity-75" disabled={isSubmitting} type="submit">
+          <button
+            className="mt-0.5 flex min-h-12.5 cursor-pointer items-center justify-between rounded-lg bg-accent px-4.5 text-sm font-medium-bold text-white transition duration-160 enabled:hover:-translate-y-px enabled:hover:bg-accent-hover focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-focus-ring disabled:cursor-wait disabled:opacity-75"
+            disabled={isSubmitting}
+            type="submit"
+          >
             {isSubmitting ? 'Please wait…' : isSignup ? 'Create account' : 'Sign in'}
             {!isSubmitting && <span className="text-lg font-normal" aria-hidden="true">→</span>}
           </button>
@@ -123,6 +112,20 @@ export default function AuthForm({ mode, onModeChange, transitionDirection }) {
       </div>
       <p className="absolute bottom-6 left-0 w-full m-0 text-ink-faint text-label text-center max-auth-stack:bottom-5">© 2026 {APP_NAME}</p>
     </main>
+  )
+}
+
+function AuthTab({ selected, onClick, children }) {
+  return (
+    <button
+      aria-selected={selected}
+      className="relative min-h-10 cursor-pointer rounded-lg text-body-sm font-semibold text-ink-secondary transition-colors duration-160 aria-selected:text-ink focus-visible:z-10 focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-focus-ring"
+      onClick={onClick}
+      role="tab"
+      type="button"
+    >
+      {children}
+    </button>
   )
 }
 

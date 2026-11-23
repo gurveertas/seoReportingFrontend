@@ -18,8 +18,8 @@ export default function ConnectGoogleButton({ label = 'Connect Google account', 
   }
 
   const classes = variant === 'primary'
-    ? 'bg-(--accent) text-white hover:bg-(--accent-hover) border-transparent'
-    : 'bg-(--surface) text-(--text-primary) hover:bg-(--surface-muted) border-(--border-strong)'
+    ? 'bg-accent text-white hover:bg-accent-hover border-transparent'
+    : 'bg-surface text-ink hover:bg-surface-muted border-line-strong'
 
   return (
     <div className="inline-flex flex-col items-center gap-2">

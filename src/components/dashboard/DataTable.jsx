@@ -30,22 +30,18 @@ function getColumns(table) {
 export default function DataTable({ table, title, description }) {
   const columns = getColumns(table)
   const rows = Array.isArray(table?.rows) ? table.rows : []
-  const numericColumns = new Set(columns.filter((column) =>
-    rows.some((row) => typeof row?.[column] === 'number'),
-  ))
-
   return (
-    <details className="min-w-0 overflow-hidden border border-line rounded-xl bg-surface self-start max-charts:[&:last-child]:col-auto group/table">
-      <summary className="flex items-start justify-between gap-3 pt-4.5 pb-0 px-4.5 items-center py-4 cursor-pointer list-none select-none [&::-webkit-details-marker]:none [&:focus-visible]:outline-3 [&:focus-visible]:outline-focus-ring [&:focus-visible]:-outline-offset-3 group-open/table:rotate-225 group-open/table:-translate-x-0.5 group-open/table:-translate-y-px group-hover/summary:border-ink group-hover/summary:border-line-strong group/summary">
+    <details className="group/table min-w-0 self-start overflow-hidden rounded-xl border border-line bg-surface">
+      <summary className="group/summary flex cursor-pointer list-none items-start justify-between gap-3 px-4.5 pt-4.5 select-none focus-visible:outline-3 focus-visible:-outline-offset-3 focus-visible:outline-focus-ring">
         <div>
           <h3 className="m-0 text-ink text-xs font-bold">{title}</h3>
           {description && <p className="mt-1.5 mb-0 mx-0 text-ink-muted text-caption">{description}</p>}
         </div>
         <span className="inline-flex flex-none items-center gap-2.5">
-          <span className="py-1 px-2 border border-line-subtle rounded-2xl bg-surface-subtle text-ink-muted text-caption tabular-nums font-semibold">
+          <span className="rounded-full border border-line-subtle bg-surface-subtle px-2 py-1 text-caption font-semibold text-ink-muted tabular-nums group-hover/summary:border-line-strong">
             {rows.length} {rows.length === 1 ? 'row' : 'rows'}
           </span>
-          <span className="w-2 h-2 border-r-2 border-ink-muted border-b-2 rotate-45 -translate-y-0.5 transition-transform duration-160 motion-reduce:transition-none" aria-hidden="true" />
+          <span className="size-2 -translate-y-0.5 rotate-45 border-r-2 border-b-2 border-ink-muted transition-transform duration-160 group-open/table:-translate-x-0.5 group-open/table:-translate-y-px group-open/table:rotate-225 group-hover/summary:border-ink motion-reduce:transition-none" aria-hidden="true" />
         </span>
       </summary>
       {rows.length > 0 && columns.length > 0 ? (
@@ -55,7 +51,7 @@ export default function DataTable({ table, title, description }) {
               <tr>
                 {columns.map((column) => (
                   <th
-                    className={`py-3 px-3.5 bg-table-head-bg text-ink-secondary text-micro font-bold-heavy tracking-wide uppercase align-middle ${numericColumns.has(column) ? '' : undefined ?? ''}`}
+                    className="bg-table-head-bg px-3.5 py-2.5 align-middle text-micro font-bold-heavy tracking-wide text-ink-secondary uppercase"
                     key={column}
                     scope="col"
                   >
@@ -69,7 +65,7 @@ export default function DataTable({ table, title, description }) {
                 <tr className="hover:bg-table-head-bg even:bg-surface-subtle even:hover:bg-table-head-bg" key={row.id || row.date || row.query || row.page || rowIndex}>
                   {columns.map((column) => (
                     <td
-                      className={`py-3 px-3.5 border-t border-line-subtle text-ink-body tabular-nums transition-colors duration-120 ${numericColumns.has(column) ? '' : undefined ?? ''}`}
+                      className="border-t border-line-subtle px-3.5 py-2.5 text-ink-body tabular-nums"
                       key={column}
                     >
                       {formatCell(row?.[column], column)}

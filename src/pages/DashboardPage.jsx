@@ -204,41 +204,26 @@ function ClientDashboard({ client }) {
             {isReady && <PeriodSummary period={dashboard.period} />}
           </div>
 
-          {refreshError && (
-            <div className="flex items-center justify-between gap-4.5 py-4 px-4.5 border border-error-border rounded-lg bg-error-bg text-error-text text-body-sm" role="alert">
-              <span>{refreshError}</span>
-            </div>
-          )}
-
-          {reportError && !showReportOptions && (
-            <div className="flex items-center justify-between gap-4.5 py-4 px-4.5 border border-error-border rounded-lg bg-error-bg text-error-text text-body-sm" role="alert">
-              <span>{reportError}</span>
-            </div>
-          )}
+          {refreshError && <AnalyticsError message={refreshError} />}
+          {reportError && !showReportOptions && <AnalyticsError message={reportError} />}
 
           {isLoading ? (
-            <div className="py-7.5 px-5 border border-dashed border-line-strong rounded-xl bg-surface text-ink-secondary text-body-sm text-center" role="status">Loading {period} analytics…</div>
+            <AnalyticsLoading>Loading {period} analytics…</AnalyticsLoading>
           ) : loadError ? (
-            <div className="flex items-center justify-between gap-4.5 py-4 px-4.5 border border-error-border rounded-lg bg-error-bg text-error-text text-body-sm" role="alert">
-              <span>{loadError}</span>
-              <button className="focus-visible:outline-3 focus-visible:outline-focus-ring focus-visible:outline-offset-3 flex-none py-2 px-2.5 border border-error-border rounded-md bg-surface text-error-strong cursor-pointer text-label font-bold" onClick={retryLoad} type="button">Try again</button>
-            </div>
+            <AnalyticsError message={loadError} onRetry={retryLoad} />
           ) : dashboard ? (
             <>
               {refreshSummary?.period === period && (
                 <RefreshSummary refresh={refreshSummary.result} />
               )}
               <KpiGrid kpis={dashboard.kpis} />
-              <Suspense fallback={<div className="py-7.5 px-5 border border-dashed border-line-strong rounded-xl bg-surface text-ink-secondary text-body-sm text-center">Loading charts…</div>}>
+              <Suspense fallback={<AnalyticsLoading>Loading charts…</AnalyticsLoading>}>
                 <AnalyticsCharts charts={dashboard.charts} tables={dashboard.tables} />
               </Suspense>
               <AnalyticsTables tables={dashboard.tables} />
             </>
           ) : (
-            <div className="flex items-center justify-between gap-4.5 py-4 px-4.5 border border-error-border rounded-lg bg-error-bg text-error-text text-body-sm" role="alert">
-              Analytics data is unavailable.
-              <button className="focus-visible:outline-3 focus-visible:outline-focus-ring focus-visible:outline-offset-3 flex-none py-2 px-2.5 border border-error-border rounded-md bg-surface text-error-strong cursor-pointer text-label font-bold" onClick={retryLoad} type="button">Try again</button>
-            </div>
+            <AnalyticsError message="Analytics data is unavailable." onRetry={retryLoad} />
           )}
         </section>
 
@@ -258,6 +243,23 @@ function ClientDashboard({ client }) {
           onClose={() => setIsEditing(false)}
           onSave={async (values) => { await updateClient(client.id, values); setIsEditing(false) }}
         />
+      )}
+    </div>
+  )
+}
+
+function AnalyticsLoading({ children }) {
+  return <div className="rounded-xl border border-dashed border-line-strong bg-surface px-5 py-7.5 text-center text-body-sm text-ink-secondary" role="status">{children}</div>
+}
+
+function AnalyticsError({ message, onRetry }) {
+  return (
+    <div className="flex items-center justify-between gap-4 rounded-lg border border-error-border bg-error-bg p-4 text-body-sm text-error-text" role="alert">
+      <span>{message}</span>
+      {onRetry && (
+        <button className="flex-none cursor-pointer rounded-md border border-error-border bg-surface px-2.5 py-2 text-label font-bold text-error-strong focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-focus-ring" onClick={onRetry} type="button">
+          Try again
+        </button>
       )}
     </div>
   )

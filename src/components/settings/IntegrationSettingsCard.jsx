@@ -8,14 +8,14 @@ export default function IntegrationSettingsCard({
   const fieldId = `settings-${definition.id}-${definition.field.name}`
 
   return (
-    <section className="min-w-0 p-5 border border-line rounded-xl bg-surface [&:last-child:nth-child(odd)]:col-span-full max-auth-stack:[&:last-child:nth-child(odd)]:col-auto max-settings:p-4">
+    <section className="min-w-0 p-5 border border-line rounded-xl bg-surface last:odd:col-span-full max-auth-stack:last:odd:col-auto max-settings:p-4">
       <header className="flex items-start justify-between gap-3.5 mb-4.5">
         <div>
           <h3 className="m-0 text-body-sm font-bold">{definition.title}</h3>
           <p className="mt-1.5 mb-0 mx-0 text-ink-secondary text-label leading-normal">{definition.description}</p>
         </div>
         <label className="inline-flex flex-none items-center gap-1.5 text-ink-secondary cursor-pointer text-caption font-medium-bold whitespace-nowrap">
-          <input className="w-4 h-4 m-0 accent-accent cursor-pointer disabled:cursor-not-allowed disabled:opacity-65 focus-visible:outline-3 focus-visible:outline-focus-ring focus-visible:outline-offset-3"
+          <input className="size-4 m-0 accent-accent cursor-pointer disabled:cursor-not-allowed disabled:opacity-65 focus-visible:outline-3 focus-visible:outline-focus-ring focus-visible:outline-offset-3"
             checked={value.enabled}
             disabled={disabled}
             onChange={(event) => onEnabledChange(definition.id, event.target.checked)}

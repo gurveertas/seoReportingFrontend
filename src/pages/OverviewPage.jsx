@@ -102,7 +102,7 @@ export default function OverviewPage() {
       />
 
       <section aria-label="Workspace summary" className="mb-6 grid grid-cols-4 gap-4 max-xl:grid-cols-2 max-sm:gap-3">
-        <StatCard className="max-sm:col-span-2" accent hint={reports.latest ? `${readyForLatest} of ${clients.length} websites` : ' '} label={reports.latest ? `${monthLabel(reports.latest)} reports` : 'Latest reports'} value={`${coverage}%`}>
+        <StatCard accent hint={reports.latest ? `${readyForLatest} of ${clients.length} websites` : ' '} label={reports.latest ? `${monthLabel(reports.latest)} reports` : 'Latest reports'} value={`${coverage}%`}>
           <div aria-hidden="true" className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/20"><div className="h-full rounded-full bg-white" style={{ width: `${coverage}%` }} /></div>
         </StatCard>
         <StatCard hint="Added to this workspace" label="Websites" value={clients.length} />
@@ -118,7 +118,7 @@ export default function OverviewPage() {
           </div>
           <Link className="rounded-lg border border-line-strong px-3 py-1.5 text-xs font-semibold hover:bg-surface-muted" to="/reports">All reports</Link>
         </header>
-        <div className="overflow-x-auto">
+        <div className="relative overflow-x-auto">
           <table className="w-full min-w-reports-table border-collapse text-left text-body-sm">
             <thead>
               <tr className="bg-table-head-bg text-label uppercase tracking-wider text-ink-muted">

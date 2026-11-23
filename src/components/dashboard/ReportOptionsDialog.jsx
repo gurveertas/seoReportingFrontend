@@ -3,7 +3,7 @@ import { getUserSettings } from '../../services/settings.js'
 
 const MAX_PLANS = 10
 const MAX_WORDS = 20
-const secondaryButton = 'min-h-10 rounded-lg border border-(--border-strong) px-3 text-sm font-semibold disabled:opacity-60'
+const secondaryButton = 'min-h-10 rounded-lg border border-line-strong px-3 text-sm font-semibold disabled:opacity-60'
 
 export default function ReportOptionsDialog({ onClose, onGenerate, isGenerating, error }) {
   const dialogRef = useRef(null)

@@ -1,3 +1,4 @@
+import SectionHeading from './SectionHeading.jsx'
 import DataTable from './DataTable.jsx'
 
 const tableDefinitions = [
@@ -29,12 +30,7 @@ const tableDefinitions = [
 export default function AnalyticsTables({ tables }) {
   return (
     <section className="mt-10" aria-labelledby="analytics-tables-heading">
-      <div className="flex items-end justify-between gap-5 mb-4">
-        <div>
-          <p className="mt-0 mb-3 mx-0 text-accent-text text-label font-bold tracking-eyebrow uppercase">Detailed data</p>
-          <h2 className="m-0 font-heading text-section font-medium-bold tracking-tight" id="analytics-tables-heading">Reports and tables</h2>
-        </div>
-      </div>
+      <SectionHeading eyebrow="Detailed data" id="analytics-tables-heading" title="Reports and tables" />
       <div className="grid grid-cols-1 items-start gap-3.5">
         {tableDefinitions.map((definition) => (
           <DataTable

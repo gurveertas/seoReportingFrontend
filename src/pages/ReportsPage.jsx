@@ -47,7 +47,7 @@ export default function ReportsPage() {
     }
   }
 
-  const selectClasses = 'h-9 rounded-lg border border-(--border-strong) bg-(--surface) px-3 text-xs font-medium text-(--text-primary) outline-none focus:border-(--accent)'
+  const selectClasses = 'h-9 rounded-lg border border-line-strong bg-surface px-3 text-xs font-medium text-ink outline-none focus:border-accent'
 
   return (
     <>

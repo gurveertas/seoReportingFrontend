@@ -151,7 +151,7 @@ export default function MonthlyReportsPanel({ client, onAuthError, onReportGener
           setActionError('')
           setShowReportOptions(true)
         }} type="button">
-          <DocumentIcon className="size-4 stroke-current stroke-ui" />
+          <DocumentIcon className="size-4" strokeWidth={1.7} />
           {isGenerating ? 'Pulling data and building PDF…' : existing ? 'Regenerate report' : 'Generate report'}
         </button>
       </div>

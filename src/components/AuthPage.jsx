@@ -14,7 +14,7 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="grid grid-cols-auth min-h-screen bg-surface text-ink font-sans max-auth-compact:grid-cols-auth-compact max-auth-stack:block max-auth-stack:min-h-screen">
+    <div className="grid min-h-screen grid-cols-auth bg-surface font-sans text-ink max-auth-compact:grid-cols-auth-compact max-auth-stack:block">
       <AuthForm
         mode={mode}
         onModeChange={handleModeChange}

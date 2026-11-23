@@ -1,3 +1,4 @@
+import SectionHeading from './SectionHeading.jsx'
 import AnalyticsChartCard from './AnalyticsChartCard.jsx'
 import AnalyticsPieCharts from './AnalyticsPieCharts.jsx'
 
@@ -18,12 +19,7 @@ export default function AnalyticsCharts({ charts, tables }) {
   return (
     <>
       <section className="mt-10" aria-labelledby="analytics-charts-heading">
-        <div className="flex items-end justify-between gap-5 mb-4">
-          <div>
-            <p className="mt-0 mb-3 mx-0 text-accent-text text-label font-bold tracking-eyebrow uppercase">Daily trends</p>
-            <h2 className="m-0 font-heading text-section font-medium-bold tracking-tight" id="analytics-charts-heading">Performance over time</h2>
-          </div>
-        </div>
+        <SectionHeading eyebrow="Daily trends" id="analytics-charts-heading" title="Performance over time" />
         <div className="grid grid-cols-2 gap-3.5 max-charts:grid-cols-1">
           {chartDefinitions.map((definition) => (
             <AnalyticsChartCard

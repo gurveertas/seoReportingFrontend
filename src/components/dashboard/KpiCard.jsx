@@ -36,10 +36,9 @@ function trendLabel(kpi) {
 }
 
 function trendClass(trend) {
-  if (trend === 'up') return 'is-positive'
-  if (trend === 'down') return 'is-negative'
-  if (trend === 'steady') return 'is-neutral'
-  return 'is-unavailable'
+  if (trend === 'up') return 'text-positive-text'
+  if (trend === 'down') return 'text-negative-text'
+  return 'text-ink-secondary'
 }
 
 export default function KpiCard({ kpi }) {
@@ -48,7 +47,7 @@ export default function KpiCard({ kpi }) {
   const directionIcon = kpi.trend === 'up' ? '↗' : kpi.trend === 'down' ? '↘' : '·'
 
   return (
-    <article className="grid content-start min-w-0 min-h-38.5 p-4.5 border border-line rounded-xl bg-surface transition-colors duration-160 [&:hover]:border-line-strong motion-reduce:animate-none motion-reduce:transition-none">
+    <article className="grid min-h-38.5 min-w-0 content-start rounded-xl border border-line bg-surface p-4.5 transition-colors duration-160 hover:border-line-strong motion-reduce:transition-none">
       <header className="m-0">
         <h3 className="overflow-hidden m-0 text-ink-secondary text-xs font-medium-bold text-ellipsis whitespace-nowrap">{kpi.label}</h3>
       </header>
@@ -56,7 +55,7 @@ export default function KpiCard({ kpi }) {
         <strong className="block overflow-hidden min-w-0 m-0 text-ink-strong font-heading text-metric tabular-nums font-bold tracking-tighter leading-tight-display text-ellipsis">{formatValue(kpi)}</strong>
         <span
           aria-label={`${trendLabel(kpi)}: ${formatChange(kpi)}`}
-          className={` ${statusClass} inline-flex flex-none items-center gap-1 max-w-1/2 text-ink-secondary text-caption tabular-nums font-medium-bold whitespace-nowrap`}
+          className={`inline-flex max-w-1/2 flex-none items-center gap-1 text-caption font-medium-bold whitespace-nowrap tabular-nums ${statusClass}`}
           title={trendLabel(kpi)}
         >
           <span className="text-label font-bold" aria-hidden="true">{directionIcon}</span>
