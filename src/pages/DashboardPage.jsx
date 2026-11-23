@@ -8,6 +8,7 @@ import PeriodControls from '../components/dashboard/PeriodControls.jsx'
 import PeriodSummary from '../components/dashboard/PeriodSummary.jsx'
 import RefreshSummary from '../components/dashboard/RefreshSummary.jsx'
 import ReportReadyDialog from '../components/dashboard/ReportReadyDialog.jsx'
+import ReportOptionsDialog from '../components/dashboard/ReportOptionsDialog.jsx'
 import { useAuth } from '../auth/useAuth.js'
 import { AnalyticsApiError, getAnalytics, refreshAnalytics } from '../services/analytics.js'
 import { getPdfReport, ReportApiError } from '../services/reports.js'
@@ -57,6 +58,7 @@ function ClientDashboard({ client }) {
   const [refreshError, setRefreshError] = useState('')
   const [refreshSummary, setRefreshSummary] = useState(null)
   const [isGeneratingReport, setIsGeneratingReport] = useState(false)
+  const [showReportOptions, setShowReportOptions] = useState(false)
   const [reportError, setReportError] = useState('')
   const [readyReport, setReadyReport] = useState(null)
   const [isEditing, setIsEditing] = useState(false)
@@ -146,13 +148,14 @@ function ClientDashboard({ client }) {
     }
   }
 
-  async function handleGenerateReport() {
+  async function handleGenerateReport(options) {
     setIsGeneratingReport(true)
     setReportError('')
     setRefreshError('')
 
     try {
-      const blob = await getPdfReport(period, client.id)
+      const blob = await getPdfReport(period, client.id, options)
+      setShowReportOptions(false)
       setReadyReport({ blob, period })
     } catch (error) {
       if (error instanceof ReportApiError && (error.status === 401 || error.status === 403)) {
@@ -191,7 +194,10 @@ function ClientDashboard({ client }) {
               isRefreshing={isRefreshing}
               isGeneratingReport={isGeneratingReport}
               onChange={handlePeriodChange}
-              onGenerateReport={handleGenerateReport}
+              onGenerateReport={() => {
+                setReportError('')
+                setShowReportOptions(true)
+              }}
               onRefresh={handleRefresh}
               period={period}
             />
@@ -204,7 +210,7 @@ function ClientDashboard({ client }) {
             </div>
           )}
 
-          {reportError && (
+          {reportError && !showReportOptions && (
             <div className="analytics-error [display:flex] [align-items:center] [justify-content:space-between] [gap:18px] [padding:15px_17px] [border:1px_solid_var(--error-border)] [border-radius:9px] [background:var(--error-bg)] [color:var(--error-text)] [font-size:13px] [&_button]:[flex:0_0_auto] [&_button]:[padding:7px_10px] [&_button]:[border:1px_solid_var(--error-border)] [&_button]:[border-radius:6px] [&_button]:[background:var(--surface)] [&_button]:[color:var(--error-strong)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:11px] [&_button]:[font-weight:700]" role="alert">
               <span>{reportError}</span>
             </div>
@@ -236,6 +242,9 @@ function ClientDashboard({ client }) {
           )}
         </section>
 
+      {showReportOptions && (
+        <ReportOptionsDialog error={reportError} isGenerating={isGeneratingReport} onClose={() => setShowReportOptions(false)} onGenerate={handleGenerateReport} />
+      )}
       {readyReport && (
         <ReportReadyDialog
           blob={readyReport.blob}

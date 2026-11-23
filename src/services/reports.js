@@ -20,14 +20,20 @@ function getErrorMessage(responseText) {
   }
 }
 
-export async function getPdfReport(period, clientId) {
+export async function getPdfReport(period, clientId, options) {
   const route = API_ROUTES.reports[period]
   if (!route) {
     throw new Error('Unsupported report period.')
   }
   if (!clientId) throw new Error('A client must be selected to generate a report.')
 
-  const response = await fetch(`${API_V1_BASE_URL}/clients/${encodeURIComponent(clientId)}${route}`, {
+  const url = new URL(`${API_V1_BASE_URL}/clients/${encodeURIComponent(clientId)}${route}`, window.location.origin)
+  if (options) {
+    url.searchParams.set('comparison', String(options.comparison))
+    for (const plan of options.nextPlans) url.searchParams.append('next_plans', plan)
+  }
+
+  const response = await fetch(url, {
     method: 'GET',
     credentials: 'include',
     headers: {
@@ -92,10 +98,10 @@ export function listReports(clientId, signal) {
   return apiJson(clientReportsPath(clientId), { signal, fallback: 'Unable to load reports.' })
 }
 
-export function generateMonthlyReport(clientId, month) {
+export function generateMonthlyReport(clientId, month, { comparison = true, nextPlans = [] } = {}) {
   return apiJson(`${clientReportsPath(clientId)}/monthly/generate`, {
     method: 'POST',
-    body: { month, refresh: true },
+    body: { month, refresh: true, comparison, next_plans: nextPlans },
     fallback: 'Unable to generate the report.',
   }).then((result) => result.report)
 }

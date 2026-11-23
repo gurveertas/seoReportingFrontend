@@ -9,6 +9,7 @@ import {
 } from '../../services/reports.js'
 import { useWorkspace } from '../../workspace/useWorkspace.js'
 import { DocumentIcon } from '../icons/AppIcons.jsx'
+import ReportOptionsDialog from './ReportOptionsDialog.jsx'
 
 function monthOptions(latest, count = 18) {
   if (!latest) return []
@@ -38,6 +39,7 @@ export default function MonthlyReportsPanel({ client, onAuthError, onReportGener
   const [state, setState] = useState({ status: 'loading', reports: [], runs: [], latest: null, error: '' })
   const [month, setMonth] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
+  const [showReportOptions, setShowReportOptions] = useState(false)
   const [busyReportId, setBusyReportId] = useState(null)
   const [actionError, setActionError] = useState('')
   const [autoMonthly, setAutoMonthly] = useState(client.autoMonthly)
@@ -60,11 +62,12 @@ export default function MonthlyReportsPanel({ client, onAuthError, onReportGener
     return () => controller.abort()
   }, [load])
 
-  async function handleGenerate() {
+  async function handleGenerate(options) {
     setIsGenerating(true)
     setActionError('')
     try {
-      await generateMonthlyReport(client.id, month)
+      await generateMonthlyReport(client.id, month, options)
+      setShowReportOptions(false)
       await load()
       onReportGenerated?.(month)
     } catch (error) {
@@ -144,13 +147,20 @@ export default function MonthlyReportsPanel({ client, onAuthError, onReportGener
         <select aria-label="Report month" className="min-h-10 rounded-lg border border-(--border-strong) bg-(--surface) px-3 text-sm" disabled={!options.length || isGenerating} onChange={(event) => setMonth(event.target.value)} value={month}>
           {options.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
         </select>
-        <button className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-(--accent) px-4 text-sm font-semibold text-white hover:bg-(--accent-hover) disabled:cursor-wait disabled:opacity-60 [&_svg]:size-4 [&_svg]:stroke-current [&_svg]:[stroke-width:1.7]" disabled={!month || isGenerating} onClick={handleGenerate} type="button">
+        <button className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-(--accent) px-4 text-sm font-semibold text-white hover:bg-(--accent-hover) disabled:cursor-wait disabled:opacity-60 [&_svg]:size-4 [&_svg]:stroke-current [&_svg]:[stroke-width:1.7]" disabled={!month || isGenerating} onClick={() => {
+          setActionError('')
+          setShowReportOptions(true)
+        }} type="button">
           <DocumentIcon />
           {isGenerating ? 'Pulling data and building PDF…' : existing ? 'Regenerate report' : 'Generate report'}
         </button>
       </div>
 
-      {actionError && <p className="mb-0 mt-3 text-sm text-(--error-text)" role="alert">{actionError}</p>}
+      {showReportOptions && (
+        <ReportOptionsDialog error={actionError} isGenerating={isGenerating} onClose={() => setShowReportOptions(false)} onGenerate={handleGenerate} />
+      )}
+
+      {actionError && !showReportOptions && <p className="mb-0 mt-3 text-sm text-(--error-text)" role="alert">{actionError}</p>}
       {!actionError && lastRun?.status === 'failed' && (
         <p className="mb-0 mt-3 text-xs text-(--error-text)">Last attempt ({monthLabel(lastRun.month)}, {lastRun.trigger}) failed: {lastRun.error}</p>
       )}

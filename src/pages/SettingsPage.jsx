@@ -13,6 +13,7 @@ function normalizeSettings(data) {
 
   return {
     fullname: data.fullname,
+    comparison: data.comparison !== false,
   }
 }
 
@@ -77,6 +78,7 @@ export default function SettingsPage() {
 
     const payload = {
       fullname,
+      comparison: settings.comparison,
     }
 
     setIsSaving(true)
@@ -130,6 +132,24 @@ export default function SettingsPage() {
                   value={settings.fullname}
                 />
               </div>
+              <label className="mt-5 flex cursor-pointer items-center justify-between gap-4 rounded-lg border border-(--border) p-3">
+                <span className="grid gap-1">
+                  <span className="text-sm font-semibold">Report comparisons</span>
+                  <span className="text-xs text-(--text-secondary)">When turned off, generated reports won’t include comparisons for any metric.</span>
+                </span>
+                <input
+                  checked={settings.comparison}
+                  className="size-4 shrink-0 accent-(--accent)"
+                  disabled={isSaving}
+                  onChange={(event) => {
+                    setSettings({ ...settings, comparison: event.target.checked })
+                    setSaveError('')
+                    setSaveMessage('')
+                  }}
+                  role="switch"
+                  type="checkbox"
+                />
+              </label>
               <div className="mt-5 flex items-center justify-between gap-4 border-t border-(--border-subtle) pt-4 max-[520px]:items-stretch max-[520px]:flex-col-reverse">
                 <div aria-live="polite">
                   {saveError && <p className="m-0 text-xs text-(--error-text)" role="alert">{saveError}</p>}
