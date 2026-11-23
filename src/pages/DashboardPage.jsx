@@ -27,9 +27,9 @@ export default function DashboardPage() {
   if (isLoading) return <SessionLoading message="Loading website…" />
   if (error) {
     return (
-      <div className="rounded-xl border border-(--error-border) bg-(--error-bg) p-5 text-sm text-(--error-text)" role="alert">
+      <div className="rounded-xl border border-error-border bg-error-bg p-5 text-sm text-error-text" role="alert">
         <p className="m-0">{error}</p>
-        <button className="mt-3 rounded-lg border border-(--error-border) bg-(--surface) px-3 py-1.5 text-xs font-semibold" onClick={() => reloadClients().catch(() => {})} type="button">Retry</button>
+        <button className="mt-3 rounded-lg border border-error-border bg-surface px-3 py-1.5 text-xs font-semibold" onClick={() => reloadClients().catch(() => {})} type="button">Retry</button>
       </div>
     )
   }
@@ -175,10 +175,10 @@ function ClientDashboard({ client }) {
   }
 
   return (
-    <div className="dashboard-page">
+    <div>
         <PageHeader
           actions={(
-            <button className="h-9 rounded-lg border border-(--border-strong) bg-(--surface) px-3.5 text-[13px] font-semibold transition hover:bg-(--surface-muted)" onClick={() => setIsEditing(true)} type="button">Edit website</button>
+            <button className="h-9 rounded-lg border border-line-strong bg-surface px-3.5 text-body-sm font-semibold transition hover:bg-surface-muted" onClick={() => setIsEditing(true)} type="button">Edit website</button>
           )}
           description={siteLabel(client)}
           eyebrow={client.autoMonthly ? 'Website · auto-monthly on' : 'Website'}
@@ -187,8 +187,8 @@ function ClientDashboard({ client }) {
         />
         <MonthlyReportsPanel client={client} onAuthError={handleAuthError} onReportGenerated={() => setLoadAttempt((attempt) => attempt + 1)} />
 
-        <section aria-busy={isLoading} className="analytics-dashboard [&_button:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&_button:focus-visible]:[outline-offset:3px]" aria-label="Analytics dashboard">
-          <div className="analytics-dashboard__toolbar [display:grid] [gap:16px] [margin-bottom:28px]">
+        <section aria-busy={isLoading} aria-label="Analytics dashboard">
+          <div className="grid gap-4 mb-7">
             <PeriodControls
               isLoading={isLoading}
               isRefreshing={isRefreshing}
@@ -205,23 +205,23 @@ function ClientDashboard({ client }) {
           </div>
 
           {refreshError && (
-            <div className="analytics-error [display:flex] [align-items:center] [justify-content:space-between] [gap:18px] [padding:15px_17px] [border:1px_solid_var(--error-border)] [border-radius:9px] [background:var(--error-bg)] [color:var(--error-text)] [font-size:13px] [&_button]:[flex:0_0_auto] [&_button]:[padding:7px_10px] [&_button]:[border:1px_solid_var(--error-border)] [&_button]:[border-radius:6px] [&_button]:[background:var(--surface)] [&_button]:[color:var(--error-strong)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:11px] [&_button]:[font-weight:700]" role="alert">
+            <div className="flex items-center justify-between gap-4.5 py-4 px-4.5 border border-error-border rounded-lg bg-error-bg text-error-text text-body-sm" role="alert">
               <span>{refreshError}</span>
             </div>
           )}
 
           {reportError && !showReportOptions && (
-            <div className="analytics-error [display:flex] [align-items:center] [justify-content:space-between] [gap:18px] [padding:15px_17px] [border:1px_solid_var(--error-border)] [border-radius:9px] [background:var(--error-bg)] [color:var(--error-text)] [font-size:13px] [&_button]:[flex:0_0_auto] [&_button]:[padding:7px_10px] [&_button]:[border:1px_solid_var(--error-border)] [&_button]:[border-radius:6px] [&_button]:[background:var(--surface)] [&_button]:[color:var(--error-strong)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:11px] [&_button]:[font-weight:700]" role="alert">
+            <div className="flex items-center justify-between gap-4.5 py-4 px-4.5 border border-error-border rounded-lg bg-error-bg text-error-text text-body-sm" role="alert">
               <span>{reportError}</span>
             </div>
           )}
 
           {isLoading ? (
-            <div className="analytics-loading [padding:30px_20px] [border:1px_dashed_var(--border-strong)] [border-radius:11px] [background:var(--surface)] [color:var(--text-secondary)] [font-size:13px] [text-align:center]" role="status">Loading {period} analytics…</div>
+            <div className="py-7.5 px-5 border border-dashed border-line-strong rounded-xl bg-surface text-ink-secondary text-body-sm text-center" role="status">Loading {period} analytics…</div>
           ) : loadError ? (
-            <div className="analytics-error [display:flex] [align-items:center] [justify-content:space-between] [gap:18px] [padding:15px_17px] [border:1px_solid_var(--error-border)] [border-radius:9px] [background:var(--error-bg)] [color:var(--error-text)] [font-size:13px] [&_button]:[flex:0_0_auto] [&_button]:[padding:7px_10px] [&_button]:[border:1px_solid_var(--error-border)] [&_button]:[border-radius:6px] [&_button]:[background:var(--surface)] [&_button]:[color:var(--error-strong)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:11px] [&_button]:[font-weight:700]" role="alert">
+            <div className="flex items-center justify-between gap-4.5 py-4 px-4.5 border border-error-border rounded-lg bg-error-bg text-error-text text-body-sm" role="alert">
               <span>{loadError}</span>
-              <button onClick={retryLoad} type="button">Try again</button>
+              <button className="focus-visible:outline-3 focus-visible:outline-focus-ring focus-visible:outline-offset-3 flex-none py-2 px-2.5 border border-error-border rounded-md bg-surface text-error-strong cursor-pointer text-label font-bold" onClick={retryLoad} type="button">Try again</button>
             </div>
           ) : dashboard ? (
             <>
@@ -229,15 +229,15 @@ function ClientDashboard({ client }) {
                 <RefreshSummary refresh={refreshSummary.result} />
               )}
               <KpiGrid kpis={dashboard.kpis} />
-              <Suspense fallback={<div className="analytics-loading [padding:30px_20px] [border:1px_dashed_var(--border-strong)] [border-radius:11px] [background:var(--surface)] [color:var(--text-secondary)] [font-size:13px] [text-align:center]">Loading charts…</div>}>
+              <Suspense fallback={<div className="py-7.5 px-5 border border-dashed border-line-strong rounded-xl bg-surface text-ink-secondary text-body-sm text-center">Loading charts…</div>}>
                 <AnalyticsCharts charts={dashboard.charts} tables={dashboard.tables} />
               </Suspense>
               <AnalyticsTables tables={dashboard.tables} />
             </>
           ) : (
-            <div className="analytics-error [display:flex] [align-items:center] [justify-content:space-between] [gap:18px] [padding:15px_17px] [border:1px_solid_var(--error-border)] [border-radius:9px] [background:var(--error-bg)] [color:var(--error-text)] [font-size:13px] [&_button]:[flex:0_0_auto] [&_button]:[padding:7px_10px] [&_button]:[border:1px_solid_var(--error-border)] [&_button]:[border-radius:6px] [&_button]:[background:var(--surface)] [&_button]:[color:var(--error-strong)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:11px] [&_button]:[font-weight:700]" role="alert">
+            <div className="flex items-center justify-between gap-4.5 py-4 px-4.5 border border-error-border rounded-lg bg-error-bg text-error-text text-body-sm" role="alert">
               Analytics data is unavailable.
-              <button onClick={retryLoad} type="button">Try again</button>
+              <button className="focus-visible:outline-3 focus-visible:outline-focus-ring focus-visible:outline-offset-3 flex-none py-2 px-2.5 border border-error-border rounded-md bg-surface text-error-strong cursor-pointer text-label font-bold" onClick={retryLoad} type="button">Try again</button>
             </div>
           )}
         </section>

@@ -64,15 +64,15 @@ export default function AnalyticsChartCard({ title, description, chart }) {
   const chartModel = makeChartData(chart)
 
   return (
-    <article className="analytics-chart-card [min-width:0] [overflow:hidden] [border:1px_solid_var(--border)] [border-radius:11px] [background:var(--surface)]">
-      <header className="analytics-chart-card__header [display:flex] [align-items:flex-start] [justify-content:space-between] [gap:12px] [padding:17px_18px_0] [&_h3]:[margin:0] [&_h3]:[color:var(--text-primary)] [&_h3]:[font-size:12px] [&_h3]:[font-weight:700] [&_p]:[margin:5px_0_0] [&_p]:[color:var(--text-muted)] [&_p]:[font-size:10px]">
+    <article className="min-w-0 overflow-hidden border border-line rounded-xl bg-surface">
+      <header className="flex items-start justify-between gap-3 pt-4.5 pb-0 px-4.5">
         <div>
-          <h3>{title}</h3>
-          <p>{description}</p>
+          <h3 className="m-0 text-ink text-xs font-bold">{title}</h3>
+          <p className="mt-1.5 mb-0 mx-0 text-ink-muted text-caption">{description}</p>
         </div>
       </header>
       {chartModel ? (
-        <div aria-label={`${title}: ${description}`} className="analytics-chart-card__canvas [width:100%] [height:282px] [padding:13px_18px_0_12px]" role="img">
+        <div aria-label={`${title}: ${description}`} className="w-full h-chart pt-3.5 pb-0 pl-3 pr-4.5" role="img">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartModel.data} margin={{ top: 8, right: 12, bottom: 0, left: 0 }}>
               <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="3 5" vertical={false} />
@@ -135,7 +135,7 @@ export default function AnalyticsChartCard({ title, description, chart }) {
           </ResponsiveContainer>
         </div>
       ) : (
-        <div className="analytics-chart-card__empty [display:grid] [min-height:150px] [padding:20px] [place-items:center] [color:var(--text-muted)] [font-size:12px] [text-align:center]">
+        <div className="grid min-h-37.5 p-5 place-items-center text-ink-muted text-xs text-center">
           No chart data is available for this period yet.
         </div>
       )}

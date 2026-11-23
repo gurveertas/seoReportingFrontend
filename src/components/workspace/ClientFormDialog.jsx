@@ -50,24 +50,24 @@ export default function ClientFormDialog({ onClose, onSave, client = null }) {
 
   return createPortal((
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-4" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose() }}>
-      <section aria-labelledby={titleId} aria-modal="true" className="max-h-[min(90vh,900px)] w-full max-w-3xl overflow-y-auto rounded-2xl border border-(--border) bg-(--surface) p-6 text-(--text-primary) shadow-2xl max-sm:p-4" role="dialog">
+      <section aria-labelledby={titleId} aria-modal="true" className="max-h-client-dialog w-full max-w-3xl overflow-y-auto rounded-2xl border border-line bg-surface p-6 text-ink shadow-2xl max-sm:p-4" role="dialog">
         <header className="mb-6 flex items-start justify-between gap-4">
           <div>
-            <p className="mb-2 text-[11px] font-bold uppercase tracking-[.13em] text-(--accent-text)">Workspace client</p>
-            <h2 className="m-0 font-[Manrope,sans-serif] text-2xl font-bold tracking-[-.04em]" id={titleId}>{client ? 'Edit client' : 'Add a client'}</h2>
-            <p className="mb-0 mt-2 text-sm leading-6 text-(--text-secondary)">Set up a client and choose which data sources power its reports.</p>
+            <p className="mb-2 text-label font-bold uppercase tracking-eyebrow text-accent-text">Workspace client</p>
+            <h2 className="m-0 font-heading text-2xl font-bold tracking-tight" id={titleId}>{client ? 'Edit client' : 'Add a client'}</h2>
+            <p className="mb-0 mt-2 text-sm leading-6 text-ink-secondary">Set up a client and choose which data sources power its reports.</p>
           </div>
-          <button aria-label="Close dialog" className="grid size-9 shrink-0 place-items-center rounded-lg border border-(--border) bg-(--surface) text-xl text-(--text-secondary) hover:bg-(--surface-muted) focus-visible:outline-2 focus-visible:outline-(--focus-ring)" disabled={isSaving} onClick={onClose} type="button">×</button>
+          <button aria-label="Close dialog" className="grid size-9 shrink-0 place-items-center rounded-lg border border-line bg-surface text-xl text-ink-secondary hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-focus-ring" disabled={isSaving} onClick={onClose} type="button">×</button>
         </header>
         <form className="grid gap-5" onSubmit={handleSubmit}>
-          <label className="grid gap-2 text-xs font-semibold text-(--text-body)" htmlFor="client-name">
+          <label className="grid gap-2 text-xs font-semibold text-ink-body" htmlFor="client-name">
             Client name
-            <input autoFocus className="min-h-11 w-full rounded-lg border border-(--border-strong) bg-(--surface) px-3 text-sm text-(--text-primary) outline-none transition focus:border-(--accent) focus:ring-4 focus:ring-(--accent)/15" id="client-name" maxLength={80} onChange={(event) => setName(event.target.value)} placeholder="e.g. Acme Studio" required value={name} />
+            <input autoFocus className="min-h-11 w-full rounded-lg border border-line-strong bg-surface px-3 text-sm text-ink outline-none transition focus:border-accent focus:ring-4 focus:ring-accent/15" id="client-name" maxLength={80} onChange={(event) => setName(event.target.value)} placeholder="e.g. Acme Studio" required value={name} />
           </label>
           <div>
             <h3 className="mb-1 text-sm font-bold">Integrations</h3>
-            <p className="mb-3 mt-0 text-xs leading-5 text-(--text-secondary)">Enable each source and fill in its property details. You can update these later.</p>
-            <div className="grid grid-cols-2 gap-3 max-[700px]:grid-cols-1">
+            <p className="mb-3 mt-0 text-xs leading-5 text-ink-secondary">Enable each source and fill in its property details. You can update these later.</p>
+            <div className="grid grid-cols-2 gap-3 max-auth-stack:grid-cols-1">
               {integrationDefinitions.map((definition) => (
                 <IntegrationSettingsCard
                   key={definition.id}
@@ -79,10 +79,10 @@ export default function ClientFormDialog({ onClose, onSave, client = null }) {
               ))}
             </div>
           </div>
-          {error && <p className="m-0 text-sm text-(--error-text)" role="alert">{error}</p>}
-          <footer className="flex justify-end gap-2 border-t border-(--border-subtle) pt-4 max-sm:flex-col-reverse">
-            <button className="min-h-10 rounded-lg border border-(--border-strong) bg-(--surface) px-4 text-sm font-semibold text-(--text-primary) hover:bg-(--surface-muted) disabled:cursor-wait disabled:opacity-60" disabled={isSaving} onClick={onClose} type="button">Cancel</button>
-            <button className="min-h-10 rounded-lg bg-(--accent) px-4 text-sm font-semibold text-white hover:bg-(--accent-hover) disabled:cursor-wait disabled:opacity-60" disabled={isSaving} type="submit">{isSaving ? 'Saving…' : client ? 'Save client' : 'Add client'}</button>
+          {error && <p className="m-0 text-sm text-error-text" role="alert">{error}</p>}
+          <footer className="flex justify-end gap-2 border-t border-line-subtle pt-4 max-sm:flex-col-reverse">
+            <button className="min-h-10 rounded-lg border border-line-strong bg-surface px-4 text-sm font-semibold text-ink hover:bg-surface-muted disabled:cursor-wait disabled:opacity-60" disabled={isSaving} onClick={onClose} type="button">Cancel</button>
+            <button className="min-h-10 rounded-lg bg-accent px-4 text-sm font-semibold text-white hover:bg-accent-hover disabled:cursor-wait disabled:opacity-60" disabled={isSaving} type="submit">{isSaving ? 'Saving…' : client ? 'Save client' : 'Add client'}</button>
           </footer>
         </form>
       </section>

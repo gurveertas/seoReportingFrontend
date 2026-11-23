@@ -64,19 +64,19 @@ export default function AuthForm({ mode, onModeChange, transitionDirection }) {
   }
 
   return (
-    <main className="auth-panel [display:flex] [position:relative] [flex-direction:column] [justify-content:center] [min-height:100vh] [padding:48px_clamp(48px,_8.2vw,_128px)] [&_h1]:[margin:0] [&_h1]:[font-family:'Manrope',_sans-serif] [&_h1]:[font-size:clamp(30px,_3vw,_38px)] [&_h1]:[font-weight:650] [&_h1]:[letter-spacing:-0.055em] [&_h1]:[line-height:1.2] [&_a:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&_a:focus-visible]:[outline-offset:3px] max-[900px]:[padding-right:38px] max-[900px]:[padding-left:38px] max-[700px]:[min-height:100vh] max-[700px]:[padding:28px_24px_70px] max-[380px]:[padding-right:18px] max-[380px]:[padding-left:18px]">
-      <div className={`auth-panel__inner auth-panel__inner--${transitionDirection} [width:100%] [max-width:360px] [margin:0_auto] max-[700px]:[margin:0_auto] ${transitionDirection === 'forward' ? '[animation:auth-slide-from-right_280ms_ease-out_both]' : '[animation:auth-slide-from-left_280ms_ease-out_both]'}`}>
-        <p className="auth-panel__welcome [margin:0_0_12px] [color:var(--green)] [font-size:13px] [font-weight:700] [letter-spacing:0.11em] [text-transform:uppercase]">{isSignup ? 'Get started' : 'Welcome back'}</p>
-        <h1>{isSignup ? 'Create your account' : `Sign in to ${APP_NAME}`}</h1>
-        <p className="auth-panel__subtitle [margin:12px_0_30px] [color:var(--muted)] [font-size:15px] [line-height:1.6]">
+    <main className="flex relative flex-col justify-center min-h-screen px-auth-gutter py-12 max-auth-compact:pr-9.5 max-auth-compact:pl-9.5 max-auth-stack:min-h-screen max-auth-stack:pt-7 max-auth-stack:pb-17.5 max-auth-stack:px-6 max-compact-phone:pr-4.5 max-compact-phone:pl-4.5">
+      <div className={`${transitionDirection} w-full max-w-auth-form my-0 mx-auto max-auth-stack:my-0 max-auth-stack:mx-auto ${transitionDirection === 'forward' ? 'animate-auth-from-right' : 'animate-auth-from-left'}`}>
+        <p className="mt-0 mb-3 mx-0 text-accent text-body-sm font-bold tracking-widest uppercase">{isSignup ? 'Get started' : 'Welcome back'}</p>
+        <h1 className="m-0 font-heading text-auth-title font-medium-bold tracking-tighter leading-tight">{isSignup ? 'Create your account' : `Sign in to ${APP_NAME}`}</h1>
+        <p className="mt-3 mb-7.5 mx-0 text-ink-secondary text-body-lg leading-relaxed">
           {isSignup
             ? 'A better view of your search performance starts here.'
             : 'Your insights are right where you left them.'}
         </p>
-        <div className={`auth-tabs${isSignup ? ' auth-tabs--signup' : ''} [display:grid] [position:relative] [grid-template-columns:1fr_1fr] [padding:4px] [border:1px_solid_var(--line)] [border-radius:10px] [background:var(--surface-muted)] [&::before]:[position:absolute] [&::before]:[top:4px] [&::before]:[bottom:4px] [&::before]:[left:4px] [&::before]:[width:calc(50%_-_4px)] [&::before]:[border-radius:7px] [&::before]:[background:var(--surface)] [&::before]:[box-shadow:0_1px_3px_#1d29251a] [&::before]:[content:''] [&::before]:[pointer-events:none] [&::before]:[transition:transform_220ms_ease] ${isSignup ? '[&::before]:[transform:translateX(100%)]' : '[&::before]:[transform:translateX(0)]'}`} role="tablist" aria-label="Account access">
+        <div className={` grid relative grid-cols-2 p-1 border border-line rounded-xl bg-surface-muted [&::before]:absolute [&::before]:top-1 [&::before]:bottom-1 [&::before]:left-1 [&::before]:w-tab-slider [&::before]:rounded-lg [&::before]:bg-surface [&::before]:shadow-tab [&::before]:pointer-events-none [&::before]:transition-transform [&::before]:duration-220 ${isSignup ? '[&::before]:translate-x-full' : '[&::before]:translate-x-0'}`} role="tablist" aria-label="Account access">
           <button
             aria-selected={!isSignup}
-            className={`auth-tabs__tab${!isSignup ? ' is-active' : ''} [position:relative] [z-index:1] [min-height:40px] [border:0] [border-radius:7px] [background:transparent] [color:var(--text-secondary)] [cursor:pointer] [font:inherit] [font-size:13px] [font-weight:600] [transition:color_160ms_ease] [&.is-active]:[color:var(--ink)] [&:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&:focus-visible]:[outline-offset:3px]`}
+            className={` relative z-10 min-h-10 border-0 rounded-lg bg-transparent text-ink-secondary cursor-pointer text-body-sm font-semibold transition-colors duration-160 [&.is-active]:text-ink [&:focus-visible]:outline-3 [&:focus-visible]:outline-focus-ring [&:focus-visible]:outline-offset-3`}
             onClick={() => onModeChange('login')}
             role="tab"
             type="button"
@@ -85,7 +85,7 @@ export default function AuthForm({ mode, onModeChange, transitionDirection }) {
           </button>
           <button
             aria-selected={isSignup}
-            className={`auth-tabs__tab${isSignup ? ' is-active' : ''} [position:relative] [z-index:1] [min-height:40px] [border:0] [border-radius:7px] [background:transparent] [color:var(--text-secondary)] [cursor:pointer] [font:inherit] [font-size:13px] [font-weight:600] [transition:color_160ms_ease] [&.is-active]:[color:var(--ink)] [&:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&:focus-visible]:[outline-offset:3px]`}
+            className={` relative z-10 min-h-10 border-0 rounded-lg bg-transparent text-ink-secondary cursor-pointer text-body-sm font-semibold transition-colors duration-160 [&.is-active]:text-ink [&:focus-visible]:outline-3 [&:focus-visible]:outline-focus-ring [&:focus-visible]:outline-offset-3`}
             onClick={() => onModeChange('signup')}
             role="tab"
             type="button"
@@ -94,7 +94,7 @@ export default function AuthForm({ mode, onModeChange, transitionDirection }) {
           </button>
         </div>
 
-        <form className="auth-form [display:grid] [gap:18px] [margin-top:26px]" onSubmit={handleSubmit}>
+        <form className="grid gap-4.5 mt-6.5" onSubmit={handleSubmit}>
           {fieldDefinitions[mode].map((field) => (
             <FormField
               key={field.name}
@@ -106,22 +106,22 @@ export default function AuthForm({ mode, onModeChange, transitionDirection }) {
             />
           ))}
           {status.message && (
-            <p className={`auth-form__status auth-form__status--${status.type} [margin:-2px_0_0] [font-size:13px] [line-height:1.5] ${status.type === 'error' ? '[color:var(--error-text)]' : '[color:var(--positive-text)]'}`} role={status.type === 'error' ? 'alert' : 'status'}>
+            <p className={`${status.type} -mt-0.5 mb-0 mx-0 text-body-sm leading-normal ${status.type === 'error' ? 'text-error-text' : 'text-positive-text'}`} role={status.type === 'error' ? 'alert' : 'status'}>
               {status.message}
             </p>
           )}
-          <button className="auth-form__submit [&:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&:focus-visible]:[outline-offset:3px] [display:flex] [align-items:center] [justify-content:space-between] [min-height:50px] [margin-top:2px] [padding:0_17px] [border:0] [border-radius:8px] [background:var(--green)] [color:#fff] [cursor:pointer] [font:inherit] [font-size:14px] [font-weight:650] [transition:background_160ms_ease,_transform_160ms_ease] [&:hover:not(:disabled)]:[transform:translateY(-1px)] [&:hover:not(:disabled)]:[background:var(--green-dark)] [&:disabled]:[cursor:wait] [&:disabled]:[opacity:0.75] [&_span]:[font-size:19px] [&_span]:[font-weight:400]" disabled={isSubmitting} type="submit">
+          <button className="[&:focus-visible]:outline-3 [&:focus-visible]:outline-focus-ring [&:focus-visible]:outline-offset-3 flex items-center justify-between min-h-12.5 mt-0.5 py-0 px-4.5 border-0 rounded-lg bg-accent text-white cursor-pointer text-sm font-medium-bold transition duration-160 [&:hover:not(:disabled)]:-translate-y-px [&:hover:not(:disabled)]:bg-accent-hover [&:disabled]:cursor-wait [&:disabled]:opacity-75" disabled={isSubmitting} type="submit">
             {isSubmitting ? 'Please wait…' : isSignup ? 'Create account' : 'Sign in'}
-            {!isSubmitting && <span aria-hidden="true">→</span>}
+            {!isSubmitting && <span className="text-lg font-normal" aria-hidden="true">→</span>}
           </button>
         </form>
 
-        <p className="auth-panel__terms [margin:22px_0_0] [color:var(--text-muted)] [font-size:11px] [line-height:1.7] [text-align:center] [&_a]:[color:var(--accent-text)] [&_a]:[text-decoration:underline] [&_a]:[text-underline-offset:2px]">
-          By continuing, you agree to our <a href="#terms">Terms of Service</a> and{' '}
-          <a href="#privacy">Privacy Policy</a>.
+        <p className="mt-5.5 mb-0 mx-0 text-ink-muted text-label leading-relaxed text-center">
+          By continuing, you agree to our <a className="focus-visible:outline-3 focus-visible:outline-focus-ring focus-visible:outline-offset-3 text-accent-text underline underline-offset-2" href="#terms">Terms of Service</a> and{' '}
+          <a className="focus-visible:outline-3 focus-visible:outline-focus-ring focus-visible:outline-offset-3 text-accent-text underline underline-offset-2" href="#privacy">Privacy Policy</a>.
         </p>
       </div>
-      <p className="auth-panel__copyright [position:absolute] [bottom:24px] [left:0] [width:100%] [margin:0] [color:var(--text-faint)] [font-size:11px] [text-align:center] max-[700px]:[bottom:20px]">© 2026 {APP_NAME}</p>
+      <p className="absolute bottom-6 left-0 w-full m-0 text-ink-faint text-label text-center max-auth-stack:bottom-5">© 2026 {APP_NAME}</p>
     </main>
   )
 }

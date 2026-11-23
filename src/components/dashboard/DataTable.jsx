@@ -35,27 +35,27 @@ export default function DataTable({ table, title, description }) {
   ))
 
   return (
-    <details className="analytics-table-card [min-width:0] [overflow:hidden] [border:1px_solid_var(--border)] [border-radius:11px] [background:var(--surface)] [align-self:start] [&[open]_.analytics-table-card__chevron]:[transform:rotate(225deg)_translate(-2px,_-1px)] max-[820px]:[&:last-child]:[grid-column:auto]">
-      <summary className="analytics-table-card__header [display:flex] [align-items:flex-start] [justify-content:space-between] [gap:12px] [padding:17px_18px_0] [&_h3]:[margin:0] [&_h3]:[color:var(--text-primary)] [&_h3]:[font-size:12px] [&_h3]:[font-weight:700] [&_p]:[margin:5px_0_0] [&_p]:[color:var(--text-muted)] [&_p]:[font-size:10px] [align-items:center] [padding:16px_18px] [cursor:pointer] [list-style:none] [user-select:none] [&::-webkit-details-marker]:[display:none] [&:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&:focus-visible]:[outline-offset:-3px] [&:hover_.analytics-table-card__chevron]:[border-color:var(--text-primary)] [&:hover_.analytics-table-card__row-count]:[border-color:var(--border-strong)]">
+    <details className="min-w-0 overflow-hidden border border-line rounded-xl bg-surface self-start max-charts:[&:last-child]:col-auto group/table">
+      <summary className="flex items-start justify-between gap-3 pt-4.5 pb-0 px-4.5 items-center py-4 cursor-pointer list-none select-none [&::-webkit-details-marker]:none [&:focus-visible]:outline-3 [&:focus-visible]:outline-focus-ring [&:focus-visible]:-outline-offset-3 group-open/table:rotate-225 group-open/table:-translate-x-0.5 group-open/table:-translate-y-px group-hover/summary:border-ink group-hover/summary:border-line-strong group/summary">
         <div>
-          <h3>{title}</h3>
-          {description && <p>{description}</p>}
+          <h3 className="m-0 text-ink text-xs font-bold">{title}</h3>
+          {description && <p className="mt-1.5 mb-0 mx-0 text-ink-muted text-caption">{description}</p>}
         </div>
-        <span className="analytics-table-card__meta [display:inline-flex] [flex:0_0_auto] [align-items:center] [gap:10px]">
-          <span className="analytics-table-card__row-count [padding:4px_8px] [border:1px_solid_var(--border-subtle)] [border-radius:20px] [background:var(--surface-subtle)] [color:var(--text-muted)] [font-size:10px] [font-variant-numeric:tabular-nums] [font-weight:600]">
+        <span className="inline-flex flex-none items-center gap-2.5">
+          <span className="py-1 px-2 border border-line-subtle rounded-2xl bg-surface-subtle text-ink-muted text-caption tabular-nums font-semibold">
             {rows.length} {rows.length === 1 ? 'row' : 'rows'}
           </span>
-          <span className="analytics-table-card__chevron [width:8px] [height:8px] [border-right:1.5px_solid_var(--text-muted)] [border-bottom:1.5px_solid_var(--text-muted)] [transform:rotate(45deg)_translateY(-2px)] [transition:transform_160ms_ease] motion-reduce:[transition:none]" aria-hidden="true" />
+          <span className="w-2 h-2 border-r-2 border-ink-muted border-b-2 rotate-45 -translate-y-0.5 transition-transform duration-160 motion-reduce:transition-none" aria-hidden="true" />
         </span>
       </summary>
       {rows.length > 0 && columns.length > 0 ? (
-        <div className="analytics-table-scroll [overflow-x:auto] [border-top:1px_solid_var(--border-subtle)] [scrollbar-color:var(--border-strong)_transparent] [scrollbar-width:thin] [&_table]:[width:100%] [&_table]:[border-collapse:collapse] [&_table]:[font-size:11px] [&_table]:[text-align:left] [&_table]:[white-space:nowrap] [&_th]:[padding:11px_14px] [&_th]:[background:var(--table-head-bg)] [&_th]:[color:var(--text-secondary)] [&_th]:[font-size:9px] [&_th]:[font-weight:750] [&_th]:[letter-spacing:0.04em] [&_th]:[text-transform:uppercase] [&_th]:[vertical-align:middle] [&_td]:[padding:11px_14px] [&_td]:[border-top:1px_solid_var(--border-subtle)] [&_td]:[color:var(--text-body)] [&_td]:[font-variant-numeric:tabular-nums] [&_td]:[transition:background-color_120ms_ease] [&.is-numeric]:[text-align:right] [&_tbody_tr:hover]:[background:var(--table-head-bg)] [&_tbody_tr:nth-child(even)]:[background:var(--surface-subtle)] [&_tbody_tr:nth-child(even):hover]:[background:var(--table-head-bg)]">
-          <table aria-label={`${title} report`}>
+        <div className="overflow-x-auto border-t border-line-subtle scrollbar-thumb-line-strong scrollbar-track-transparent scrollbar-thin">
+          <table className="w-full border-collapse text-label text-left whitespace-nowrap" aria-label={`${title} report`}>
             <thead>
               <tr>
                 {columns.map((column) => (
                   <th
-                    className={numericColumns.has(column) ? 'is-numeric' : undefined}
+                    className={`py-3 px-3.5 bg-table-head-bg text-ink-secondary text-micro font-bold-heavy tracking-wide uppercase align-middle ${numericColumns.has(column) ? '' : undefined ?? ''}`}
                     key={column}
                     scope="col"
                   >
@@ -66,10 +66,10 @@ export default function DataTable({ table, title, description }) {
             </thead>
             <tbody>
               {rows.map((row, rowIndex) => (
-                <tr key={row.id || row.date || row.query || row.page || rowIndex}>
+                <tr className="hover:bg-table-head-bg even:bg-surface-subtle even:hover:bg-table-head-bg" key={row.id || row.date || row.query || row.page || rowIndex}>
                   {columns.map((column) => (
                     <td
-                      className={numericColumns.has(column) ? 'is-numeric' : undefined}
+                      className={`py-3 px-3.5 border-t border-line-subtle text-ink-body tabular-nums transition-colors duration-120 ${numericColumns.has(column) ? '' : undefined ?? ''}`}
                       key={column}
                     >
                       {formatCell(row?.[column], column)}
@@ -81,7 +81,7 @@ export default function DataTable({ table, title, description }) {
           </table>
         </div>
       ) : (
-        <div className="analytics-table-card__empty [display:grid] [min-height:150px] [padding:20px] [place-items:center] [color:var(--text-muted)] [font-size:12px] [text-align:center]">
+        <div className="grid min-h-37.5 p-5 place-items-center text-ink-muted text-xs text-center">
           No rows are available for this period yet.
         </div>
       )}

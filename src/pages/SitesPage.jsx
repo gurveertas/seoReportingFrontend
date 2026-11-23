@@ -133,50 +133,50 @@ export default function SitesPage() {
         />
 
         {banner && (
-          <div className={`mb-6 flex items-start justify-between gap-3 rounded-xl border px-4 py-3 text-sm ${banner.type === 'error' ? 'border-(--error-border) bg-(--error-bg) text-(--error-text)' : 'border-(--border) bg-(--accent-soft) text-(--accent-text)'}`} role={banner.type === 'error' ? 'alert' : 'status'}>
+          <div className={`mb-6 flex items-start justify-between gap-3 rounded-xl border px-4 py-3 text-sm ${banner.type === 'error' ? 'border-error-border bg-error-bg text-error-text' : 'border-line bg-accent-soft text-accent-text'}`} role={banner.type === 'error' ? 'alert' : 'status'}>
             <span>{banner.text}</span>
             <button aria-label="Dismiss" className="text-lg leading-none opacity-70 hover:opacity-100" onClick={() => setBanner(null)} type="button">×</button>
           </div>
         )}
 
         {loadError ? (
-          <div className="mt-8 flex items-center justify-between gap-3 rounded-xl border border-(--error-border) bg-(--error-bg) p-4 text-sm text-(--error-text)" role="alert">
+          <div className="mt-8 flex items-center justify-between gap-3 rounded-xl border border-error-border bg-error-bg p-4 text-sm text-error-text" role="alert">
             <span>{loadError}</span>
-            <button className="rounded-lg border border-(--error-border) bg-(--surface) px-3 py-1.5 text-xs font-semibold" onClick={() => setReloadKey((key) => key + 1)} type="button">Try again</button>
+            <button className="rounded-lg border border-error-border bg-surface px-3 py-1.5 text-xs font-semibold" onClick={() => setReloadKey((key) => key + 1)} type="button">Try again</button>
           </div>
         ) : !data ? (
-          <p className="mt-8 rounded-xl border border-dashed border-(--border-strong) bg-(--surface) p-8 text-center text-sm text-(--text-secondary)" role="status">Loading websites…</p>
+          <p className="mt-8 rounded-xl border border-dashed border-line-strong bg-surface p-8 text-center text-sm text-ink-secondary" role="status">Loading websites…</p>
         ) : connections.length === 0 ? (
           <EmptyConnectState />
         ) : (
           <>
             <section aria-label="Connected Google accounts" className="flex flex-wrap gap-2">
               {connections.map((connection) => (
-                <div className="flex items-center gap-3 rounded-xl border border-(--border) bg-(--surface) py-2 pl-3 pr-2 text-xs" key={connection.connection_id}>
-                  <span className={`size-2 rounded-full ${connection.status === 'error' ? 'bg-(--negative-text)' : 'bg-(--positive-text)'}`} aria-hidden="true" />
+                <div className="flex items-center gap-3 rounded-xl border border-line bg-surface py-2 pl-3 pr-2 text-xs" key={connection.connection_id}>
+                  <span className={`size-2 rounded-full ${connection.status === 'error' ? 'bg-negative-text' : 'bg-positive-text'}`} aria-hidden="true" />
                   <span className="font-semibold">{connection.email}</span>
-                  {connection.status === 'error' && <span className="text-(--error-text)">{connection.last_error || 'Needs reconnecting'}</span>}
-                  <button className="rounded-lg border border-(--border-strong) px-2.5 py-1.5 font-semibold hover:bg-(--surface-muted) disabled:cursor-wait disabled:opacity-60" disabled={syncingId === connection.connection_id} onClick={() => handleSync(connection.connection_id)} type="button">
+                  {connection.status === 'error' && <span className="text-error-text">{connection.last_error || 'Needs reconnecting'}</span>}
+                  <button className="rounded-lg border border-line-strong px-2.5 py-1.5 font-semibold hover:bg-surface-muted disabled:cursor-wait disabled:opacity-60" disabled={syncingId === connection.connection_id} onClick={() => handleSync(connection.connection_id)} type="button">
                     {syncingId === connection.connection_id ? 'Refreshing…' : 'Refresh list'}
                   </button>
                 </div>
               ))}
             </section>
 
-            <section className="mt-5 overflow-hidden rounded-2xl border border-(--border) bg-(--surface)" aria-label="Websites">
-              <header className="flex flex-wrap items-center justify-between gap-3 border-b border-(--border-subtle) px-4 py-3">
-                <label className="flex items-center gap-2 text-xs font-semibold text-(--text-secondary)">
-                  <input checked={allVisibleSelected} className="size-4 accent-(--accent)" disabled={selectable.length === 0} onChange={toggleAll} type="checkbox" />
+            <section className="mt-5 overflow-hidden rounded-2xl border border-line bg-surface" aria-label="Websites">
+              <header className="flex flex-wrap items-center justify-between gap-3 border-b border-line-subtle px-4 py-3">
+                <label className="flex items-center gap-2 text-xs font-semibold text-ink-secondary">
+                  <input checked={allVisibleSelected} className="size-4 accent-accent" disabled={selectable.length === 0} onChange={toggleAll} type="checkbox" />
                   Select all not yet added ({selectable.length})
                 </label>
-                <input aria-label="Search websites" className="min-h-9 w-64 max-w-full rounded-lg border border-(--border-strong) bg-(--surface) px-3 text-xs outline-none focus:border-(--accent)" onChange={(event) => setQuery(event.target.value)} placeholder="Search websites" type="search" value={query} />
+                <input aria-label="Search websites" className="min-h-9 w-64 max-w-full rounded-lg border border-line-strong bg-surface px-3 text-xs outline-none focus:border-accent" onChange={(event) => setQuery(event.target.value)} placeholder="Search websites" type="search" value={query} />
               </header>
               {visibleSites.length === 0 ? (
-                <p className="m-0 px-4 py-10 text-center text-sm text-(--text-secondary)">
+                <p className="m-0 px-4 py-10 text-center text-sm text-ink-secondary">
                   {sites.length === 0 ? 'No Search Console websites found for these accounts. Make sure the account has at least Restricted access to a property, then refresh the list.' : 'No websites match your search.'}
                 </p>
               ) : (
-                <ul className="m-0 divide-y divide-(--border-subtle) p-0">
+                <ul className="m-0 divide-y divide-line-subtle p-0">
                   {visibleSites.map((site) => (
                     <SiteRow
                       ga4Properties={data.ga4_properties?.[site.connection_id] ?? []}
@@ -196,12 +196,12 @@ export default function SitesPage() {
         )}
 
       {selectedIds.length > 0 && (
-        <div className="sticky bottom-5 z-20 mx-auto mt-6 flex w-[min(760px,100%)] flex-wrap items-center justify-between gap-3 rounded-2xl border border-(--border) bg-(--surface) px-5 py-3 shadow-(--shadow-float)">
-          <label className="flex items-center gap-2 text-xs text-(--text-secondary)">
-            <input checked={autoMonthly} className="size-4 accent-(--accent)" onChange={(event) => setAutoMonthly(event.target.checked)} type="checkbox" />
+        <div className="sticky bottom-5 z-20 mx-auto mt-6 flex w-full max-w-charts flex-wrap items-center justify-between gap-3 rounded-2xl border border-line bg-surface px-5 py-3 shadow-panel">
+          <label className="flex items-center gap-2 text-xs text-ink-secondary">
+            <input checked={autoMonthly} className="size-4 accent-accent" onChange={(event) => setAutoMonthly(event.target.checked)} type="checkbox" />
             Generate a report automatically every month
           </label>
-          <button className="min-h-10 rounded-lg bg-(--accent) px-4 text-sm font-semibold text-white hover:bg-(--accent-hover) disabled:cursor-wait disabled:opacity-60" disabled={isImporting} onClick={handleImport} type="button">
+          <button className="min-h-10 rounded-lg bg-accent px-4 text-sm font-semibold text-white hover:bg-accent-hover disabled:cursor-wait disabled:opacity-60" disabled={isImporting} onClick={handleImport} type="button">
             {isImporting ? 'Adding…' : `Add ${selectedIds.length} website${selectedIds.length === 1 ? '' : 's'}`}
           </button>
         </div>
@@ -217,21 +217,21 @@ function SiteRow({ site, isSelected, onToggle, ga4Value, onGa4Change, ga4Propert
   const checkboxId = `site-${site.site_id}`
 
   return (
-    <li className={`grid list-none grid-cols-[auto_minmax(0,1fr)_minmax(200px,260px)_auto] items-center gap-4 px-4 py-3 max-[760px]:grid-cols-[auto_minmax(0,1fr)] ${isSelected ? 'bg-(--accent-soft)/40' : ''}`}>
-      <input aria-label={`Select ${site.display_name}`} checked={added || isSelected} className="size-4 accent-(--accent)" disabled={added} id={checkboxId} onChange={onToggle} type="checkbox" />
+    <li className={`grid list-none grid-cols-site-row items-center gap-4 px-4 py-3 max-site-row:grid-cols-site-row-compact ${isSelected ? 'bg-accent-soft/40' : ''}`}>
+      <input aria-label={`Select ${site.display_name}`} checked={added || isSelected} className="size-4 accent-accent" disabled={added} id={checkboxId} onChange={onToggle} type="checkbox" />
       <label className="min-w-0 cursor-pointer" htmlFor={checkboxId}>
         <span className="block truncate text-sm font-semibold">{site.display_name}</span>
-        <span className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-(--text-muted)">
+        <span className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-label text-ink-muted">
           <span className="truncate">{site.site_url}</span>
-          <span className="rounded bg-(--surface-muted) px-1.5 py-0.5 font-semibold">{site.property_type === 'domain' ? 'Domain property' : 'URL prefix'}</span>
+          <span className="rounded bg-surface-muted px-1.5 py-0.5 font-semibold">{site.property_type === 'domain' ? 'Domain property' : 'URL prefix'}</span>
           {showAccount && <span>· {site.connection_email}</span>}
         </span>
       </label>
-      <div className="max-[760px]:col-start-2">
+      <div className="max-site-row:col-start-2">
         {added ? (
-          <span className="text-xs text-(--text-muted)">Added as <strong className="text-(--text-primary)">{site.client_name}</strong></span>
+          <span className="text-xs text-ink-muted">Added as <strong className="text-ink">{site.client_name}</strong></span>
         ) : (
-          <select aria-label={`Google Analytics property for ${site.display_name}`} className="min-h-9 w-full rounded-lg border border-(--border-strong) bg-(--surface) px-2 text-xs" onChange={(event) => onGa4Change(event.target.value)} value={ga4Value}>
+          <select aria-label={`Google Analytics property for ${site.display_name}`} className="min-h-9 w-full rounded-lg border border-line-strong bg-surface px-2 text-xs" onChange={(event) => onGa4Change(event.target.value)} value={ga4Value}>
             <option value="">No Google Analytics</option>
             {site.ga4_suggestions?.length > 0 && (
               <optgroup label="Matches this website">
@@ -246,8 +246,8 @@ function SiteRow({ site, isSelected, onToggle, ga4Value, onGa4Change, ga4Propert
           </select>
         )}
       </div>
-      <div className="max-[760px]:col-start-2">
-        {added && <Link className="text-xs font-semibold text-(--accent-text) hover:underline" to={`/dashboard/${site.client_id}`}>Open dashboard →</Link>}
+      <div className="max-site-row:col-start-2">
+        {added && <Link className="text-xs font-semibold text-accent-text hover:underline" to={`/dashboard/${site.client_id}`}>Open dashboard →</Link>}
       </div>
     </li>
   )
@@ -255,14 +255,14 @@ function SiteRow({ site, isSelected, onToggle, ga4Value, onGa4Change, ga4Propert
 
 function EmptyConnectState() {
   return (
-    <section className="mt-8 rounded-2xl border border-(--border) bg-(--surface) px-8 py-12 text-center max-sm:px-5">
+    <section className="mt-8 rounded-2xl border border-line bg-surface px-8 py-12 text-center max-sm:px-5">
       <GoogleMark className="mx-auto mb-5 size-12" />
-      <h2 className="m-0 font-[Manrope,sans-serif] text-2xl font-bold tracking-[-.04em]">Connect your Google account</h2>
-      <p className="mx-auto mb-6 mt-3 max-w-md text-sm leading-6 text-(--text-secondary)">
+      <h2 className="m-0 font-heading text-2xl font-bold tracking-tight">Connect your Google account</h2>
+      <p className="mx-auto mb-6 mt-3 max-w-md text-sm leading-6 text-ink-secondary">
         Sign in with the Google account you use for Search Console and Analytics. We list every website it can access, and you choose which ones get reports.
       </p>
       <ConnectGoogleButton />
-      <p className="mx-auto mb-0 mt-5 max-w-sm text-[11px] leading-5 text-(--text-muted)">Read-only access. We can’t change anything in your Google accounts, and you can disconnect at any time from Settings.</p>
+      <p className="mx-auto mb-0 mt-5 max-w-sm text-label leading-5 text-ink-muted">Read-only access. We can’t change anything in your Google accounts, and you can disconnect at any time from Settings.</p>
     </section>
   )
 }

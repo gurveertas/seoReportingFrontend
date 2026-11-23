@@ -1,7 +1,138 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
-/* Global theme tokens and animation definitions */
+@theme inline {
+  --color-page-bg: var(--page-bg);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-ink: var(--text-primary);
+  --color-ink-strong: var(--text-strong);
+  --color-ink-body: var(--text-body);
+  --color-ink-secondary: var(--text-secondary);
+  --color-ink-muted: var(--text-muted);
+  --color-ink-faint: var(--text-faint);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-line-subtle: var(--border-subtle);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-text: var(--accent-text);
+  --color-focus-ring: var(--focus-ring);
+  --color-positive-bg: var(--positive-bg);
+  --color-positive-text: var(--positive-text);
+  --color-negative-bg: var(--negative-bg);
+  --color-negative-text: var(--negative-text);
+  --color-warning-bg: var(--warning-bg);
+  --color-warning-text: var(--warning-text);
+  --color-error-bg: var(--error-bg);
+  --color-error-border: var(--error-border);
+  --color-error-text: var(--error-text);
+  --color-error-strong: var(--error-strong);
+  --color-table-head-bg: var(--table-head-bg);
+  --shadow-panel: var(--shadow-float);
+}
+
+@theme {
+  --font-sans: 'DM Sans', sans-serif;
+  --font-heading: 'Manrope', sans-serif;
+  --font-weight-medium-bold: 650;
+  --font-weight-bold-heavy: 750;
+  --text-micro: 0.5625rem;
+  --text-caption: 0.625rem;
+  --text-label: 0.6875rem;
+  --text-body-sm: 0.8125rem;
+  --text-nav: 0.84375rem;
+  --text-body-lg: 0.9375rem;
+  --text-brand: 1.0625rem;
+  --text-section: 1.3125rem;
+  --text-display-sm: 1.75rem;
+  --text-metric: clamp(25px, 3vw, 32px);
+  --text-auth-title: clamp(30px, 3vw, 38px);
+  --text-error-title: clamp(34px, 6vw, 54px);
+  --text-page-title: clamp(24px, 3vw, 30px);
+  --tracking-eyebrow: 0.13em;
+  --leading-tight-display: 1.08;
+
+  --breakpoint-compact-phone: 23.75rem;
+  --breakpoint-phone: 26.25rem;
+  --breakpoint-dialog: 30rem;
+  --breakpoint-settings: 32.5rem;
+  --breakpoint-analytics: 35rem;
+  --breakpoint-auth-stack: 43.75rem;
+  --breakpoint-site-row: 47.5rem;
+  --breakpoint-charts: 51.25rem;
+  --breakpoint-auth-compact: 56.25rem;
+
+  --grid-template-columns-auth: minmax(420px, 0.8fr) minmax(460px, 1.2fr);
+  --grid-template-columns-auth-compact: minmax(370px, 1fr) minmax(330px, 0.9fr);
+  --grid-template-columns-pie: minmax(155px, 0.9fr) minmax(0, 1.1fr);
+  --grid-template-columns-pie-compact: minmax(115px, 0.85fr) minmax(0, 1.15fr);
+  --grid-template-columns-legend: 8px minmax(0, 1fr) auto;
+  --grid-template-columns-refresh-summary: minmax(170px, 0.7fr) minmax(0, 2fr);
+  --grid-template-columns-site-row: auto minmax(0, 1fr) minmax(200px, 260px) auto;
+  --grid-template-columns-site-row-compact: auto minmax(0, 1fr);
+  --grid-template-columns-link-site: 1.1fr 1fr;
+
+  --spacing-auth-form: 22.5rem;
+  --spacing-auth-gutter: clamp(48px, 8.2vw, 128px);
+  --spacing-tab-slider: calc(50% - 4px);
+  --spacing-error-gutter: clamp(30px, 6vw, 54px);
+  --spacing-error-copy: 24.375rem;
+  --spacing-error-card: 36.875rem;
+  --spacing-inset-dialog: calc(100% - 2rem);
+  --spacing-report-dialog: min(440px, 100% - 2rem);
+  --spacing-client-dialog: min(90vh, 900px);
+  --spacing-chart: 17.625rem;
+  --spacing-pie-compact: 10.875rem;
+  --spacing-charts: 47.5rem;
+  --spacing-settings: 58.75rem;
+  --spacing-workspace: 77.5rem;
+  --spacing-sites-table: 42.5rem;
+  --spacing-reports-table: 45rem;
+
+  --color-night: #111713;
+  --color-overlay: #101914;
+  --color-mist: #f3f6f3;
+  --color-mist-muted: #d2dbd4;
+  --color-mist-label: #d3e2d6;
+  --color-mist-focus: #a6c794;
+  --color-forest: #21372d;
+  --background-image-auth-photo: url('./assets/CountrySideJapanseseStreet.jpg');
+  --background-image-not-found-photo: linear-gradient(135deg, #101914c7, #10191469), url('./assets/cat.jpg');
+  --shadow-not-found: 0 24px 70px #0005;
+  --shadow-tab: 0 1px 3px #1d29251a;
+  --blur-hairline: 2px;
+  --blur-dialog: 3px;
+
+  --animate-auth-from-right: auth-slide-from-right 280ms ease-out both;
+  --animate-auth-from-left: auth-slide-from-left 280ms ease-out both;
+  --animate-session-spin: spin 800ms linear infinite;
+  --animate-refresh-spin: spin 850ms linear infinite;
+  --animate-pie-enter: pie-card-enter 440ms ease-out both;
+  --animate-pie-enter-delayed: pie-card-enter 440ms ease-out 90ms both;
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes auth-slide-from-right {
+    from { opacity: 0; transform: translateX(18px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes auth-slide-from-left {
+    from { opacity: 0; transform: translateX(-18px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes pie-card-enter {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
 :root {
   color-scheme: light;
   --page-bg: #f7f8f6;
@@ -95,10 +226,6 @@
   --shadow-float: 0 14px 40px #0006;
 }
 
-* {
-  box-sizing: border-box;
-}
-
 body {
   min-width: 320px;
   min-height: 100vh;
@@ -112,38 +239,8 @@ input {
   font: inherit;
 }
 
-@keyframes session-check-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 #root {
   min-height: 100vh;
-}
-
-@keyframes auth-slide-from-right {
-  from {
-    opacity: 0;
-    transform: translateX(18px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes auth-slide-from-left {
-  from {
-    opacity: 0;
-    transform: translateX(-18px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -157,21 +254,4 @@ input {
   }
 }
 
-@keyframes refresh-icon-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes pie-card-enter {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 

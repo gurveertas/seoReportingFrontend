@@ -3,27 +3,27 @@ import KpiCard from './KpiCard.jsx'
 export default function KpiGrid({ kpis }) {
   if (!Array.isArray(kpis) || kpis.length === 0) {
     return (
-      <section className="analytics-section [margin-top:40px]" aria-labelledby="kpi-heading">
-        <div className="analytics-section__heading [display:flex] [align-items:end] [justify-content:space-between] [gap:20px] [margin-bottom:15px] [&_h2]:[margin:0] [&_h2]:[font-family:'Manrope',_sans-serif] [&_h2]:[font-size:21px] [&_h2]:[font-weight:650] [&_h2]:[letter-spacing:-0.045em] [&.dashboard-eyebrow]:[margin-bottom:7px]">
+      <section className="mt-10" aria-labelledby="kpi-heading">
+        <div className="flex items-end justify-between gap-5 mb-4">
           <div>
-            <p className="dashboard-eyebrow [margin:0_0_11px] [color:var(--accent-text)] [font-size:11px] [font-weight:700] [letter-spacing:0.13em] [text-transform:uppercase]">At a glance</p>
-            <h2 id="kpi-heading">Key performance indicators</h2>
+            <p className="mt-0 mb-3 mx-0 text-accent-text text-label font-bold tracking-eyebrow uppercase">At a glance</p>
+            <h2 className="m-0 font-heading text-section font-medium-bold tracking-tight" id="kpi-heading">Key performance indicators</h2>
           </div>
         </div>
-        <div className="analytics-empty [padding:30px_20px] [border:1px_dashed_var(--border-strong)] [border-radius:11px] [background:var(--surface)] [color:var(--text-secondary)] [font-size:13px] [text-align:center]">No KPI data is available for this period yet.</div>
+        <div className="py-7.5 px-5 border border-dashed border-line-strong rounded-xl bg-surface text-ink-secondary text-body-sm text-center">No KPI data is available for this period yet.</div>
       </section>
     )
   }
 
   return (
-    <section className="analytics-section [margin-top:40px]" aria-labelledby="kpi-heading">
-      <div className="analytics-section__heading [display:flex] [align-items:end] [justify-content:space-between] [gap:20px] [margin-bottom:15px] [&_h2]:[margin:0] [&_h2]:[font-family:'Manrope',_sans-serif] [&_h2]:[font-size:21px] [&_h2]:[font-weight:650] [&_h2]:[letter-spacing:-0.045em] [&.dashboard-eyebrow]:[margin-bottom:7px]">
+    <section className="mt-10" aria-labelledby="kpi-heading">
+      <div className="flex items-end justify-between gap-5 mb-4">
         <div>
-          <p className="dashboard-eyebrow [margin:0_0_11px] [color:var(--accent-text)] [font-size:11px] [font-weight:700] [letter-spacing:0.13em] [text-transform:uppercase]">At a glance</p>
-          <h2 id="kpi-heading">Key performance indicators</h2>
+          <p className="mt-0 mb-3 mx-0 text-accent-text text-label font-bold tracking-eyebrow uppercase">At a glance</p>
+          <h2 className="m-0 font-heading text-section font-medium-bold tracking-tight" id="kpi-heading">Key performance indicators</h2>
         </div>
       </div>
-      <div className="kpi-grid [display:grid] [grid-template-columns:repeat(3,_minmax(0,_1fr))] [gap:13px] max-[700px]:[grid-template-columns:repeat(2,_minmax(0,_1fr))] max-[420px]:[grid-template-columns:1fr]">
+      <div className="grid grid-cols-3 gap-3.5 max-auth-stack:grid-cols-2 max-phone:grid-cols-1">
         {kpis.map((kpi) => <KpiCard key={kpi.key} kpi={kpi} />)}
       </div>
     </section>

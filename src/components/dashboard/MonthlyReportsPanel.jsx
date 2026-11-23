@@ -124,34 +124,34 @@ export default function MonthlyReportsPanel({ client, onAuthError, onReportGener
   const lastRun = state.runs[0]
 
   return (
-    <section aria-labelledby="monthly-reports-title" className="mb-7 rounded-2xl border border-(--border) bg-(--surface) p-5 max-sm:p-4">
+    <section aria-labelledby="monthly-reports-title" className="mb-7 rounded-2xl border border-line bg-surface p-5 max-sm:p-4">
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h2 className="m-0 font-[Manrope,sans-serif] text-lg font-bold tracking-[-.03em]" id="monthly-reports-title">Monthly reports</h2>
-          <p className="mb-0 mt-1 text-xs text-(--text-secondary)">Pick a month to pull fresh Search Console and Analytics data and save a PDF.</p>
+          <h2 className="m-0 font-heading text-lg font-bold tracking-tight" id="monthly-reports-title">Monthly reports</h2>
+          <p className="mb-0 mt-1 text-xs text-ink-secondary">Pick a month to pull fresh Search Console and Analytics data and save a PDF.</p>
         </div>
-        <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-(--border) px-3 py-2 text-xs">
+        <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-line px-3 py-2 text-xs">
           <span className="grid">
-            <span className="font-semibold text-(--text-primary)">Auto-generate every month</span>
-            <span className="text-(--text-muted)">Last month’s report is created on the 4th</span>
+            <span className="font-semibold text-ink">Auto-generate every month</span>
+            <span className="text-ink-muted">Last month’s report is created on the 4th</span>
           </span>
           <span className="relative inline-flex">
             <input checked={autoMonthly} className="peer sr-only" disabled={isSavingSchedule} onChange={(event) => handleScheduleChange(event.target.checked)} role="switch" type="checkbox" />
-            <span aria-hidden="true" className="h-6 w-11 rounded-full bg-(--border-strong) transition peer-checked:bg-(--accent) peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-(--focus-ring)" />
+            <span aria-hidden="true" className="h-6 w-11 rounded-full bg-line-strong transition peer-checked:bg-accent peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus-ring" />
             <span aria-hidden="true" className="absolute left-0.5 top-0.5 size-5 rounded-full bg-white shadow transition peer-checked:translate-x-5" />
           </span>
         </label>
       </header>
 
       <div className="mt-4 flex flex-wrap items-center gap-2">
-        <select aria-label="Report month" className="min-h-10 rounded-lg border border-(--border-strong) bg-(--surface) px-3 text-sm" disabled={!options.length || isGenerating} onChange={(event) => setMonth(event.target.value)} value={month}>
+        <select aria-label="Report month" className="min-h-10 rounded-lg border border-line-strong bg-surface px-3 text-sm" disabled={!options.length || isGenerating} onChange={(event) => setMonth(event.target.value)} value={month}>
           {options.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
         </select>
-        <button className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-(--accent) px-4 text-sm font-semibold text-white hover:bg-(--accent-hover) disabled:cursor-wait disabled:opacity-60 [&_svg]:size-4 [&_svg]:stroke-current [&_svg]:[stroke-width:1.7]" disabled={!month || isGenerating} onClick={() => {
+        <button className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-accent px-4 text-sm font-semibold text-white hover:bg-accent-hover disabled:cursor-wait disabled:opacity-60" disabled={!month || isGenerating} onClick={() => {
           setActionError('')
           setShowReportOptions(true)
         }} type="button">
-          <DocumentIcon />
+          <DocumentIcon className="size-4 stroke-current stroke-ui" />
           {isGenerating ? 'Pulling data and building PDF…' : existing ? 'Regenerate report' : 'Generate report'}
         </button>
       </div>
@@ -160,32 +160,32 @@ export default function MonthlyReportsPanel({ client, onAuthError, onReportGener
         <ReportOptionsDialog error={actionError} isGenerating={isGenerating} onClose={() => setShowReportOptions(false)} onGenerate={handleGenerate} />
       )}
 
-      {actionError && !showReportOptions && <p className="mb-0 mt-3 text-sm text-(--error-text)" role="alert">{actionError}</p>}
+      {actionError && !showReportOptions && <p className="mb-0 mt-3 text-sm text-error-text" role="alert">{actionError}</p>}
       {!actionError && lastRun?.status === 'failed' && (
-        <p className="mb-0 mt-3 text-xs text-(--error-text)">Last attempt ({monthLabel(lastRun.month)}, {lastRun.trigger}) failed: {lastRun.error}</p>
+        <p className="mb-0 mt-3 text-xs text-error-text">Last attempt ({monthLabel(lastRun.month)}, {lastRun.trigger}) failed: {lastRun.error}</p>
       )}
 
-      <div className="mt-5 border-t border-(--border-subtle) pt-4">
+      <div className="mt-5 border-t border-line-subtle pt-4">
         {state.status === 'loading' ? (
-          <p className="m-0 text-sm text-(--text-secondary)" role="status">Loading reports…</p>
+          <p className="m-0 text-sm text-ink-secondary" role="status">Loading reports…</p>
         ) : state.status === 'error' ? (
-          <p className="m-0 text-sm text-(--error-text)" role="alert">{state.error}</p>
+          <p className="m-0 text-sm text-error-text" role="alert">{state.error}</p>
         ) : state.reports.length === 0 ? (
-          <p className="m-0 text-sm text-(--text-secondary)">No reports saved yet.</p>
+          <p className="m-0 text-sm text-ink-secondary">No reports saved yet.</p>
         ) : (
           <ul className="m-0 grid gap-2 p-0">
             {state.reports.map((report) => (
-              <li className="flex list-none flex-wrap items-center justify-between gap-3 rounded-xl bg-(--surface-muted) px-3 py-2.5" key={report.report_id}>
+              <li className="flex list-none flex-wrap items-center justify-between gap-3 rounded-xl bg-surface-muted px-3 py-2.5" key={report.report_id}>
                 <div className="min-w-0">
                   <p className="m-0 text-sm font-semibold">{monthLabel(report.month)}</p>
-                  <p className="mb-0 mt-0.5 text-[11px] text-(--text-muted)">
+                  <p className="mb-0 mt-0.5 text-label text-ink-muted">
                     {report.trigger === 'scheduled' ? 'Auto-generated' : 'Generated'} {formatDate(report.created_at)}
                     {report.warnings?.length ? ` · ${report.warnings.join(' ')}` : ''}
                   </p>
                 </div>
                 <div className="flex gap-2">
-                  <button className="min-h-9 rounded-lg border border-(--border-strong) bg-(--surface) px-3 text-xs font-semibold hover:border-(--accent) disabled:cursor-wait disabled:opacity-60" disabled={busyReportId === report.report_id} onClick={() => handleDownload(report)} type="button">Download PDF</button>
-                  <button aria-label={`Delete ${monthLabel(report.month)} report`} className="min-h-9 rounded-lg px-2 text-xs text-(--text-muted) hover:bg-(--surface) hover:text-(--error-text) disabled:opacity-60" disabled={busyReportId === report.report_id} onClick={() => handleDelete(report)} type="button">Delete</button>
+                  <button className="min-h-9 rounded-lg border border-line-strong bg-surface px-3 text-xs font-semibold hover:border-accent disabled:cursor-wait disabled:opacity-60" disabled={busyReportId === report.report_id} onClick={() => handleDownload(report)} type="button">Download PDF</button>
+                  <button aria-label={`Delete ${monthLabel(report.month)} report`} className="min-h-9 rounded-lg px-2 text-xs text-ink-muted hover:bg-surface hover:text-error-text disabled:opacity-60" disabled={busyReportId === report.report_id} onClick={() => handleDelete(report)} type="button">Delete</button>
                 </div>
               </li>
             ))}

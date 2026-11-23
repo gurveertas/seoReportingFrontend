@@ -100,26 +100,26 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="settings-page max-w-[940px]">
+    <div className="max-w-settings">
         <PageHeader description="Update your profile, connect Google accounts and manage your websites." eyebrow="Workspace" title="Settings" />
 
         {isLoading ? (
-          <div className="settings-message [display:flex] [align-items:center] [justify-content:space-between] [gap:16px] [min-height:70px] [padding:16px_18px] [border:1px_solid_var(--border)] [border-radius:11px] [background:var(--surface)] [color:var(--text-secondary)] [font-size:13px] [&_button]:[flex:0_0_auto] [&_button]:[padding:7px_10px] [&_button]:[border:1px_solid_var(--error-border)] [&_button]:[border-radius:7px] [&_button]:[background:var(--surface)] [&_button]:[color:var(--error-strong)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:11px] [&_button]:[font-weight:650] [&_button:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&_button:focus-visible]:[outline-offset:3px]" role="status">Loading settings…</div>
+          <div className="flex items-center justify-between gap-4 min-h-17.5 py-4 px-4.5 border border-line rounded-xl bg-surface text-ink-secondary text-body-sm" role="status">Loading settings…</div>
         ) : loadError ? (
-          <div className="settings-message settings-message--error [display:flex] [align-items:center] [justify-content:space-between] [gap:16px] [min-height:70px] [padding:16px_18px] [border:1px_solid_var(--border)] [border-radius:11px] [background:var(--surface)] [color:var(--text-secondary)] [font-size:13px] [&_button]:[flex:0_0_auto] [&_button]:[padding:7px_10px] [&_button]:[border:1px_solid_var(--error-border)] [&_button]:[border-radius:7px] [&_button]:[background:var(--surface)] [&_button]:[color:var(--error-strong)] [&_button]:[cursor:pointer] [&_button]:[font:inherit] [&_button]:[font-size:11px] [&_button]:[font-weight:650] [&_button:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&_button:focus-visible]:[outline-offset:3px] [border-color:var(--error-border)] [background:var(--error-bg)] [color:var(--error-text)]" role="alert">
+          <div className="flex items-center justify-between gap-4 min-h-17.5 py-4 px-4.5 border border-line rounded-xl bg-surface text-ink-secondary text-body-sm border-error-border bg-error-bg text-error-text" role="alert">
             <span>{loadError}</span>
-            <button onClick={retryLoad} type="button">Try again</button>
+            <button className="flex-none py-2 px-2.5 border border-error-border rounded-lg bg-surface text-error-strong cursor-pointer text-label font-medium-bold focus-visible:outline-3 focus-visible:outline-focus-ring focus-visible:outline-offset-3" onClick={retryLoad} type="button">Try again</button>
           </div>
         ) : settings && (
-          <form aria-busy={isSaving} className="settings-form [display:grid] [gap:20px] [&_button:focus-visible]:[outline:3px_solid_var(--focus-ring)] [&_button:focus-visible]:[outline-offset:3px]" onSubmit={handleSubmit}>
-            <section className="settings-panel [min-width:0] [padding:20px] [border:1px_solid_var(--border)] [border-radius:13px] [background:var(--surface)] max-[520px]:[padding:16px]" aria-labelledby="settings-profile-heading">
-              <div className="settings-panel__heading [margin-bottom:17px] [&_h2]:[margin:0] [&_h2]:[font-family:'Manrope',_sans-serif] [&_h2]:[font-size:16px] [&_h2]:[font-weight:700] [&_h2]:[letter-spacing:-0.035em] [&_p]:[margin:5px_0_0] [&_p]:[color:var(--text-secondary)] [&_p]:[font-size:12px] [&_p]:[line-height:1.5]">
-                <h2 id="settings-profile-heading">Profile</h2>
-                <p>Keep your account details up to date.</p>
+          <form aria-busy={isSaving} className="grid gap-5" onSubmit={handleSubmit}>
+            <section className="min-w-0 p-5 border border-line rounded-xl bg-surface max-settings:p-4" aria-labelledby="settings-profile-heading">
+              <div className="mb-4.5">
+                <h2 className="m-0 font-heading text-base font-bold tracking-tight" id="settings-profile-heading">Profile</h2>
+                <p className="mt-1.5 mb-0 mx-0 text-ink-secondary text-xs leading-normal">Keep your account details up to date.</p>
               </div>
-              <div className="settings-field [display:grid] [gap:7px] [&_label]:[color:var(--text-body)] [&_label]:[font-size:11px] [&_label]:[font-weight:650] [&_input]:[width:100%] [&_input]:[min-height:42px] [&_input]:[padding:0_12px] [&_input]:[border:1px_solid_var(--border-strong)] [&_input]:[border-radius:8px] [&_input]:[background:var(--surface)] [&_input]:[color:var(--text-primary)] [&_input]:[font:inherit] [&_input]:[font-size:12px] [&_input]:[transition:border-color_150ms_ease,_box-shadow_150ms_ease] [&_input::placeholder]:[color:var(--text-muted)] [&_input:focus]:[border-color:var(--accent)] [&_input:focus]:[outline:0] [&_input:focus]:[box-shadow:0_0_0_3px_color-mix(in_srgb,_var(--accent)_12%,_transparent)]">
-                <label htmlFor="settings-fullname">Full name</label>
-                <input
+              <div className="grid gap-2">
+                <label className="text-ink-body text-label font-medium-bold" htmlFor="settings-fullname">Full name</label>
+                <input className="w-full min-h-10.5 py-0 px-3 border border-line-strong rounded-lg bg-surface text-ink text-xs transition duration-150 placeholder:text-ink-muted focus:border-accent focus:outline-none focus:ring-3 focus:ring-accent/12"
                   autoComplete="name"
                   disabled={isSaving}
                   id="settings-fullname"
@@ -132,14 +132,14 @@ export default function SettingsPage() {
                   value={settings.fullname}
                 />
               </div>
-              <label className="mt-5 flex cursor-pointer items-center justify-between gap-4 rounded-lg border border-(--border) p-3">
+              <label className="mt-5 flex cursor-pointer items-center justify-between gap-4 rounded-lg border border-line p-3">
                 <span className="grid gap-1">
                   <span className="text-sm font-semibold">Report comparisons</span>
-                  <span className="text-xs text-(--text-secondary)">When turned off, generated reports won’t include comparisons for any metric.</span>
+                  <span className="text-xs text-ink-secondary">When turned off, generated reports won’t include comparisons for any metric.</span>
                 </span>
                 <input
                   checked={settings.comparison}
-                  className="size-4 shrink-0 accent-(--accent)"
+                  className="size-4 shrink-0 accent-accent"
                   disabled={isSaving}
                   onChange={(event) => {
                     setSettings({ ...settings, comparison: event.target.checked })
@@ -150,12 +150,12 @@ export default function SettingsPage() {
                   type="checkbox"
                 />
               </label>
-              <div className="mt-5 flex items-center justify-between gap-4 border-t border-(--border-subtle) pt-4 max-[520px]:items-stretch max-[520px]:flex-col-reverse">
+              <div className="mt-5 flex items-center justify-between gap-4 border-t border-line-subtle pt-4 max-settings:items-stretch max-settings:flex-col-reverse">
                 <div aria-live="polite">
-                  {saveError && <p className="m-0 text-xs text-(--error-text)" role="alert">{saveError}</p>}
-                  {saveMessage && <p className="m-0 text-xs text-(--positive-text)" role="status">{saveMessage}</p>}
+                  {saveError && <p className="m-0 text-xs text-error-text" role="alert">{saveError}</p>}
+                  {saveMessage && <p className="m-0 text-xs text-positive-text" role="status">{saveMessage}</p>}
                 </div>
-                <button className="min-h-10 rounded-lg border border-(--accent) bg-(--accent) px-4 text-xs font-semibold text-white transition hover:bg-(--accent-hover) disabled:cursor-wait disabled:opacity-65 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--focus-ring) max-[520px]:w-full" disabled={isSaving} type="submit">
+                <button className="min-h-10 rounded-lg border border-accent bg-accent px-4 text-xs font-semibold text-white transition hover:bg-accent-hover disabled:cursor-wait disabled:opacity-65 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring max-settings:w-full focus-visible:outline-3 focus-visible:outline-focus-ring focus-visible:outline-offset-3" disabled={isSaving} type="submit">
                   {isSaving ? 'Saving…' : 'Save changes'}
                 </button>
               </div>

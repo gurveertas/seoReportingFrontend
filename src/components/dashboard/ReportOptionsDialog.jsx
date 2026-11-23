@@ -68,7 +68,7 @@ export default function ReportOptionsDialog({ onClose, onGenerate, isGenerating,
   return (
     <dialog
       aria-labelledby="report-options-title"
-      className="m-auto max-h-[calc(100%-2rem)] w-[calc(100%-2rem)] max-w-lg rounded-2xl border border-(--border) bg-(--surface) p-0 text-(--text-primary) shadow-(--shadow-float) backdrop:bg-black/55"
+      className="m-auto max-h-inset-dialog w-inset-dialog max-w-lg rounded-2xl border border-line bg-surface p-0 text-ink shadow-panel backdrop:bg-black/55"
       onCancel={(event) => {
         event.preventDefault()
         if (!isGenerating) onClose()
@@ -80,23 +80,23 @@ export default function ReportOptionsDialog({ onClose, onGenerate, isGenerating,
         <label className="flex items-center gap-3 text-sm font-semibold">
           <input
             checked={comparisonAllowed === true && includeComparison}
-            className="size-4 accent-(--accent)"
+            className="size-4 accent-accent"
             disabled={comparisonAllowed !== true || isGenerating}
             onChange={(event) => setIncludeComparison(event.target.checked)}
             type="checkbox"
           />
           Include comparisons
         </label>
-        {comparisonAllowed === false && <p className="m-0 text-xs text-(--text-secondary)">Comparisons are turned off in Settings.</p>}
+        {comparisonAllowed === false && <p className="m-0 text-xs text-ink-secondary">Comparisons are turned off in Settings.</p>}
         <div className="grid gap-2">
           <label className="text-sm font-semibold" htmlFor="report-next-plan">Next plans</label>
-          <p className="m-0 text-xs text-(--text-secondary)" id="report-plan-hint">Optional. Up to {MAX_PLANS} plans, {MAX_WORDS} words each ({plans.length}/{MAX_PLANS} added).</p>
+          <p className="m-0 text-xs text-ink-secondary" id="report-plan-hint">Optional. Up to {MAX_PLANS} plans, {MAX_WORDS} words each ({plans.length}/{MAX_PLANS} added).</p>
           {plans.length > 0 && (
             <ul className="m-0 flex list-none flex-wrap gap-2 p-0">
               {plans.map(({ id, text }) => (
-                <li className="flex max-w-full items-center gap-2 rounded-2xl bg-(--surface-muted) py-1 pr-1 pl-3 text-xs" key={id}>
+                <li className="flex max-w-full items-center gap-2 rounded-2xl bg-surface-muted py-1 pr-1 pl-3 text-xs" key={id}>
                   <span className="min-w-0 wrap-anywhere">{text}</span>
-                  <button aria-label={`Remove plan: ${text}`} className="size-7 shrink-0 rounded-full hover:bg-(--surface)" disabled={isGenerating} onClick={() => setPlans(plans.filter((plan) => plan.id !== id))} type="button">×</button>
+                  <button aria-label={`Remove plan: ${text}`} className="size-7 shrink-0 rounded-full hover:bg-surface" disabled={isGenerating} onClick={() => setPlans(plans.filter((plan) => plan.id !== id))} type="button">×</button>
                 </li>
               ))}
             </ul>
@@ -105,7 +105,7 @@ export default function ReportOptionsDialog({ onClose, onGenerate, isGenerating,
             <input
               aria-describedby={planError ? 'report-plan-hint report-plan-error' : 'report-plan-hint'}
               aria-invalid={Boolean(planError)}
-              className="min-h-10 min-w-0 flex-1 rounded-lg border border-(--border-strong) bg-(--surface) px-3 text-sm disabled:opacity-60"
+              className="min-h-10 min-w-0 flex-1 rounded-lg border border-line-strong bg-surface px-3 text-sm disabled:opacity-60"
               disabled={isGenerating || plans.length >= MAX_PLANS}
               id="report-next-plan"
               onChange={(event) => {
@@ -124,12 +124,12 @@ export default function ReportOptionsDialog({ onClose, onGenerate, isGenerating,
             />
             <button className={secondaryButton} disabled={isGenerating || !draft.trim() || plans.length >= MAX_PLANS} onClick={addPlan} type="button">Add</button>
           </div>
-          {planError && <p className="m-0 text-xs text-(--error-text)" id="report-plan-error" role="alert">{planError}</p>}
+          {planError && <p className="m-0 text-xs text-error-text" id="report-plan-error" role="alert">{planError}</p>}
         </div>
-        {(settingsError || error) && <p className="m-0 text-sm text-(--error-text)" role="alert">{settingsError || error}</p>}
+        {(settingsError || error) && <p className="m-0 text-sm text-error-text" role="alert">{settingsError || error}</p>}
         <div className="flex justify-end gap-2">
           <button className={secondaryButton} disabled={isGenerating} onClick={onClose} type="button">Cancel</button>
-          <button className="min-h-10 rounded-lg bg-(--accent) px-4 text-sm font-semibold text-white hover:bg-(--accent-hover) disabled:opacity-60" disabled={comparisonAllowed === null || isGenerating} type="submit">
+          <button className="min-h-10 rounded-lg bg-accent px-4 text-sm font-semibold text-white hover:bg-accent-hover disabled:opacity-60" disabled={comparisonAllowed === null || isGenerating} type="submit">
             {isGenerating ? 'Generating…' : comparisonAllowed === null && !settingsError ? 'Loading settings…' : 'Generate report'}
           </button>
         </div>

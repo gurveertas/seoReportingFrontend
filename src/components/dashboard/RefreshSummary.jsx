@@ -17,16 +17,16 @@ export default function RefreshSummary({ refresh }) {
   if (!refresh || typeof refresh !== 'object') return null
 
   return (
-    <section className="refresh-summary [display:grid] [grid-template-columns:minmax(170px,_0.7fr)_minmax(0,_2fr)] [align-items:center] [gap:20px] [margin-bottom:22px] [padding:16px_18px] [border:1px_solid_var(--border-strong)] [border-radius:10px] [background:var(--accent-soft)] [&>_div]:[display:grid] [&>_div]:[gap:4px] [&>_div_strong]:[color:var(--accent-text)] [&>_div_strong]:[font-size:12px] [&>_div_span]:[color:var(--text-muted)] [&>_div_span]:[font-size:10px] [&_ul]:[display:flex] [&_ul]:[flex-wrap:wrap] [&_ul]:[gap:10px_20px] [&_ul]:[margin:0] [&_ul]:[padding:0] [&_ul]:[list-style:none] [&_li]:[display:flex] [&_li]:[align-items:center] [&_li]:[gap:7px] [&_li]:[color:var(--text-body)] [&_li]:[font-size:10px] max-[560px]:[grid-template-columns:1fr]" aria-label="Integration refresh results">
-      <div>
-        <strong>Refresh complete</strong>
-        <span>Each integration reports its own result.</span>
+    <section className="grid grid-cols-refresh-summary items-center gap-5 mb-5.5 py-4 px-4.5 border border-line-strong rounded-xl bg-accent-soft max-analytics:grid-cols-1" aria-label="Integration refresh results">
+      <div className="grid gap-1">
+        <strong className="text-accent-text text-xs">Refresh complete</strong>
+        <span className="text-ink-muted text-caption">Each integration reports its own result.</span>
       </div>
-      <ul>
+      <ul className="flex flex-wrap gap-x-5 gap-y-2.5 m-0 p-0 list-none">
         {Object.entries(refresh).map(([source, result]) => (
-          <li key={source}>
+          <li className="flex items-center gap-2 text-ink-body text-caption" key={source}>
             <span>{sourceNames[source] || source}</span>
-            <strong className={`refresh-summary__status refresh-summary__status--${statusClass(result?.status)} [color:var(--positive-text)] [font-size:10px] [font-weight:700] [text-transform:capitalize] ${['error'].includes(result?.status) ? '[color:var(--negative-text)]' : ['not_configured', 'unknown'].includes(result?.status) ? '[color:var(--warning-text)]' : ''}`}>
+            <strong className={`${statusClass(result?.status)} text-positive-text text-caption font-bold capitalize ${['error'].includes(result?.status) ? 'text-negative-text' : ['not_configured', 'unknown'].includes(result?.status) ? 'text-warning-text' : ''}`}>
               {formatStatus(result?.status)}
             </strong>
           </li>

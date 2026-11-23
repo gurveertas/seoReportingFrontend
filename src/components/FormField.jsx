@@ -10,13 +10,13 @@ export default function FormField({
   value,
 }) {
   return (
-    <div className="form-field [display:grid] [gap:8px]">
-      <label className="form-field__label [color:var(--text-body)] [font-size:13px] [font-weight:600]" htmlFor={id}>
+    <div className="grid gap-2">
+      <label className="text-ink-body text-body-sm font-semibold" htmlFor={id}>
         {label}
       </label>
       <input
         autoComplete={autoComplete}
-        className="form-field__input [width:100%] [height:48px] [padding:0_14px] [border:1px_solid_var(--border-strong)] [border-radius:8px] [background:var(--surface)] [color:var(--ink)] [font:inherit] [font-size:14px] [transition:border-color_160ms_ease,_box-shadow_160ms_ease] [&:disabled]:[cursor:not-allowed] [&:disabled]:[opacity:0.65] [&::placeholder]:[color:var(--text-faint)] [&:focus]:[border-color:var(--accent)] [&:focus]:[outline:0] [&:focus]:[box-shadow:0_0_0_3px_color-mix(in_srgb,_var(--accent)_12%,_transparent)]"
+        className="w-full h-12 py-0 px-3.5 border border-line-strong rounded-lg bg-surface text-ink text-sm transition duration-160 [&:disabled]:cursor-not-allowed [&:disabled]:opacity-65 [&::placeholder]:text-ink-faint [&:focus]:border-accent [&:focus]:outline-none [&:focus]:ring-3 [&:focus]:ring-accent/12"
         disabled={disabled}
         id={id}
         name={name}

@@ -24,7 +24,7 @@ export default function ConnectGoogleButton({ label = 'Connect Google account', 
   return (
     <div className="inline-flex flex-col items-center gap-2">
       <button
-        className={`inline-flex min-h-11 items-center gap-2.5 rounded-lg border px-4 text-sm font-semibold transition disabled:cursor-wait disabled:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--focus-ring) ${classes}`}
+        className={`inline-flex min-h-11 items-center gap-2.5 rounded-lg border px-4 text-sm font-semibold transition disabled:cursor-wait disabled:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring ${classes}`}
         disabled={isStarting}
         onClick={handleClick}
         type="button"
@@ -32,7 +32,7 @@ export default function ConnectGoogleButton({ label = 'Connect Google account', 
         <span className="grid size-6 place-items-center rounded-full bg-white"><GoogleMark className="size-4" /></span>
         {isStarting ? 'Opening Google…' : label}
       </button>
-      {error && <p className="m-0 max-w-xs text-center text-xs text-(--error-text)" role="alert">{error}</p>}
+      {error && <p className="m-0 max-w-xs text-center text-xs text-error-text" role="alert">{error}</p>}
     </div>
   )
 }
