@@ -22,26 +22,21 @@ function getErrorMessage(responseText) {
   }
 }
 
-export async function getPdfReport(period, clientId, options, dates) {
+export async function getPdfReport(period, clientId, { comparison = true, nextPlans = [] } = {}, dates) {
   const route = API_ROUTES.reports[period]
   if (!route) {
     throw new Error('Unsupported report period.')
   }
   if (!clientId) throw new Error('A client must be selected to generate a report.')
 
-  const url = new URL(`${API_V1_BASE_URL}${clientReportBase(clientId)}${route}`, window.location.origin)
-  for (const [key, value] of Object.entries(dates ?? {})) url.searchParams.set(key, value)
-  if (options) {
-    url.searchParams.set('comparison', String(options.comparison))
-    for (const plan of options.nextPlans) url.searchParams.append('next_plans', plan)
-  }
-
-  const response = await fetch(url, {
-    method: 'GET',
+  const response = await fetch(`${API_V1_BASE_URL}${clientReportBase(clientId)}${route}`, {
+    method: 'POST',
     credentials: 'include',
     headers: {
       Accept: 'application/pdf',
+      'Content-Type': 'application/json',
     },
+    body: JSON.stringify({ comparison, next_plans: nextPlans, ...dates }),
   })
 
   if (!response.ok) {
