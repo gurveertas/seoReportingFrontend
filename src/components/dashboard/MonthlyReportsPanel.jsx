@@ -10,20 +10,7 @@ import {
 import { useWorkspace } from '../../workspace/useWorkspace.js'
 import { DocumentIcon } from '../icons/AppIcons.jsx'
 import ReportOptionsDialog from './ReportOptionsDialog.jsx'
-
-function monthOptions(latest, count = 18) {
-  if (!latest) return []
-  let [year, month] = latest.split('-').map(Number)
-  const options = []
-  for (let index = 0; index < count; index += 1) {
-    const value = `${year}-${String(month).padStart(2, '0')}`
-    const label = new Intl.DateTimeFormat(undefined, { month: 'long', year: 'numeric' }).format(new Date(year, month - 1, 1))
-    options.push({ value, label })
-    month -= 1
-    if (month === 0) { month = 12; year -= 1 }
-  }
-  return options
-}
+import { formatReportRange, isCalendarMonth } from './reportPeriod.js'
 
 function monthLabel(value) {
   const [year, month] = value.split('-').map(Number)
@@ -34,10 +21,10 @@ function formatDate(value) {
   return value ? new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value)) : ''
 }
 
-export default function MonthlyReportsPanel({ client, onAuthError, onReportGenerated }) {
+export default function MonthlyReportsPanel({ client, dates, onAuthError, onReportGenerated }) {
   const { reloadClients } = useWorkspace()
-  const [state, setState] = useState({ status: 'loading', reports: [], runs: [], latest: null, error: '' })
-  const [month, setMonth] = useState('')
+  const [state, setState] = useState({ status: 'loading', reports: [], runs: [], error: '' })
+  const month = dates.start_date.slice(0, 7)
   const [isGenerating, setIsGenerating] = useState(false)
   const [showReportOptions, setShowReportOptions] = useState(false)
   const [busyReportId, setBusyReportId] = useState(null)
@@ -48,8 +35,7 @@ export default function MonthlyReportsPanel({ client, onAuthError, onReportGener
   const load = useCallback(async (signal) => {
     try {
       const result = await listReports(client.id, signal)
-      setState({ status: 'ready', reports: result.reports, runs: result.runs, latest: result.latest_reportable_month, error: '' })
-      setMonth((current) => current || result.latest_reportable_month)
+      setState({ status: 'ready', reports: result.reports, runs: result.runs, error: '' })
     } catch (error) {
       if (signal?.aborted || onAuthError(error)) return
       setState((current) => ({ ...current, status: 'error', error: error.message }))
@@ -66,7 +52,7 @@ export default function MonthlyReportsPanel({ client, onAuthError, onReportGener
     setIsGenerating(true)
     setActionError('')
     try {
-      await generateMonthlyReport(client.id, month, options)
+      await generateMonthlyReport(client.id, month, options, dates)
       setShowReportOptions(false)
       await load()
       onReportGenerated?.(month)
@@ -119,8 +105,11 @@ export default function MonthlyReportsPanel({ client, onAuthError, onReportGener
     }
   }
 
-  const options = monthOptions(state.latest)
-  const existing = state.reports.find((report) => report.month === month)
+  const fullMonth = isCalendarMonth(dates)
+  const existing = state.reports.some((report) => {
+    if (!report.start_date || !report.end_date) return fullMonth && report.month === month
+    return report.start_date === dates.start_date && report.end_date === dates.end_date
+  })
   const lastRun = state.runs[0]
 
   return (
@@ -128,7 +117,7 @@ export default function MonthlyReportsPanel({ client, onAuthError, onReportGener
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h2 className="m-0 font-heading text-lg font-bold tracking-tight" id="monthly-reports-title">Monthly reports</h2>
-          <p className="mb-0 mt-1 text-xs text-ink-secondary">Pick a month to pull fresh Search Console and Analytics data and save a PDF.</p>
+          <p className="mb-0 mt-1 text-xs text-ink-secondary">Generate and save a PDF for the selected current period.</p>
         </div>
         <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-line px-3 py-2 text-xs">
           <span className="grid">
@@ -144,9 +133,6 @@ export default function MonthlyReportsPanel({ client, onAuthError, onReportGener
       </header>
 
       <div className="mt-4 flex flex-wrap items-center gap-2">
-        <select aria-label="Report month" className="min-h-10 rounded-lg border border-line-strong bg-surface px-3 text-sm" disabled={!options.length || isGenerating} onChange={(event) => setMonth(event.target.value)} value={month}>
-          {options.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
-        </select>
         <button className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-accent px-4 text-sm font-semibold text-white hover:bg-accent-hover disabled:cursor-wait disabled:opacity-60" disabled={!month || isGenerating} onClick={() => {
           setActionError('')
           setShowReportOptions(true)
@@ -177,7 +163,9 @@ export default function MonthlyReportsPanel({ client, onAuthError, onReportGener
             {state.reports.map((report) => (
               <li className="flex list-none flex-wrap items-center justify-between gap-3 rounded-xl bg-surface-muted px-3 py-2.5" key={report.report_id}>
                 <div className="min-w-0">
-                  <p className="m-0 text-sm font-semibold">{monthLabel(report.month)}</p>
+                  <p className="m-0 text-sm font-semibold">
+                    {report.start_date && report.end_date ? formatReportRange(report.start_date, report.end_date) : monthLabel(report.month)}
+                  </p>
                   <p className="mb-0 mt-0.5 text-label text-ink-muted">
                     {report.trigger === 'scheduled' ? 'Auto-generated' : 'Generated'} {formatDate(report.created_at)}
                     {report.warnings?.length ? ` · ${report.warnings.join(' ')}` : ''}

@@ -6,6 +6,7 @@ import AnalyticsTables from '../components/dashboard/AnalyticsTables.jsx'
 import KpiGrid from '../components/dashboard/KpiGrid.jsx'
 import PeriodControls from '../components/dashboard/PeriodControls.jsx'
 import PeriodSummary from '../components/dashboard/PeriodSummary.jsx'
+import { defaultReportPeriod } from '../components/dashboard/reportPeriod.js'
 import RefreshSummary from '../components/dashboard/RefreshSummary.jsx'
 import ReportReadyDialog from '../components/dashboard/ReportReadyDialog.jsx'
 import ReportOptionsDialog from '../components/dashboard/ReportOptionsDialog.jsx'
@@ -46,10 +47,11 @@ function ClientDashboard({ client }) {
   const navigate = useNavigate()
   const { signOut } = useAuth()
   const [period, setPeriod] = useState('monthly')
+  const [dates, setDates] = useState(() => defaultReportPeriod('monthly'))
   const [loadAttempt, setLoadAttempt] = useState(0)
-  const requestKey = `${period}:${loadAttempt}`
+  const requestKey = `${period}:${dates.start_date}:${dates.end_date}:${loadAttempt}`
   const [loadState, setLoadState] = useState({
-    key: 'monthly:0',
+    key: requestKey,
     status: 'loading',
     data: null,
     error: null,
@@ -76,7 +78,7 @@ function ClientDashboard({ client }) {
     const controller = new AbortController()
     let active = true
 
-    getAnalytics(period, controller.signal, client.id)
+    getAnalytics(period, controller.signal, client.id, dates)
       .then((data) => {
         if (active) {
           setLoadState({ key: requestKey, status: 'ready', data, error: null })
@@ -103,15 +105,20 @@ function ClientDashboard({ client }) {
       active = false
       controller.abort()
     }
-  }, [period, requestKey, navigate, signOut, client])
+  }, [period, dates, requestKey, navigate, signOut, client])
 
   const isLoading = loadState.key !== requestKey || loadState.status === 'loading'
   const dashboard = loadState.key === requestKey ? loadState.data : null
   const loadError = loadState.key === requestKey ? loadState.error : null
-  const isReady = !isLoading && !loadError && dashboard !== null
 
   function handlePeriodChange(nextPeriod) {
+    if (period === nextPeriod) return
     setPeriod(nextPeriod)
+    handleDatesChange(defaultReportPeriod(nextPeriod))
+  }
+
+  function handleDatesChange(nextDates) {
+    setDates(nextDates)
     setRefreshError('')
     setReportError('')
     setRefreshSummary(null)
@@ -124,7 +131,7 @@ function ClientDashboard({ client }) {
     setRefreshSummary(null)
 
     try {
-      const refreshedDashboard = await refreshAnalytics(period, client.id)
+      const refreshedDashboard = await refreshAnalytics(period, client.id, dates)
       setLoadState({
         key: requestKey,
         status: 'ready',
@@ -154,7 +161,7 @@ function ClientDashboard({ client }) {
     setRefreshError('')
 
     try {
-      const blob = await getPdfReport(period, client.id, options)
+      const blob = await getPdfReport(period, client.id, options, dates)
       setShowReportOptions(false)
       setReadyReport({ blob, period })
     } catch (error) {
@@ -185,7 +192,7 @@ function ClientDashboard({ client }) {
           leading={<SiteAvatar name={client.name} size="lg" />}
           title={client.name}
         />
-        <MonthlyReportsPanel client={client} onAuthError={handleAuthError} onReportGenerated={() => setLoadAttempt((attempt) => attempt + 1)} />
+        <MonthlyReportsPanel client={client} dates={dates} onAuthError={handleAuthError} onReportGenerated={() => setLoadAttempt((attempt) => attempt + 1)} />
 
         <section aria-busy={isLoading} aria-label="Analytics dashboard">
           <div className="grid gap-4 mb-7">
@@ -201,7 +208,7 @@ function ClientDashboard({ client }) {
               onRefresh={handleRefresh}
               period={period}
             />
-            {isReady && <PeriodSummary period={dashboard.period} />}
+            <PeriodSummary disabled={isRefreshing || isGeneratingReport} onChange={handleDatesChange} period={dates} />
           </div>
 
           {refreshError && <AnalyticsError message={refreshError} />}

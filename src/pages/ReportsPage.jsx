@@ -102,7 +102,7 @@ export default function ReportsPage() {
                       <td className="px-5 py-3">
                         <Link className="flex items-center gap-3" to={`/dashboard/${report.client_id}`}>
                           <SiteAvatar name={name} />
-                          <span className="min-w-0">
+                          <span className="min-w-0">  
                             <span className="block truncate font-semibold">{name}</span>
                             <span className="block truncate text-xs text-ink-muted">{report.filename} · {formatSize(report.size)}</span>
                           </span>

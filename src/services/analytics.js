@@ -43,18 +43,20 @@ async function requestDashboard(url, options) {
   return result
 }
 
-export function getAnalytics(period, signal, clientId) {
+export function getAnalytics(period, signal, clientId, dates) {
   if (!clientId) throw new Error('A client must be selected to load analytics.')
-  return requestDashboard(`${API_V1_BASE_URL}/clients/${encodeURIComponent(clientId)}/analytics/${period}`, {
+  const query = dates ? `?${new URLSearchParams(dates)}` : ''
+  return requestDashboard(`${API_V1_BASE_URL}/clients/${encodeURIComponent(clientId)}/analytics/${period}${query}`, {
     method: 'GET',
     signal,
   })
 }
 
-export function refreshAnalytics(period, clientId) {
+export function refreshAnalytics(period, clientId, dates) {
   if (!clientId) throw new Error('A client must be selected to refresh analytics.')
+  const query = new URLSearchParams({ period, ...dates })
   return requestDashboard(
-    `${API_V1_BASE_URL}/clients/${encodeURIComponent(clientId)}/analytics/refresh?period=${encodeURIComponent(period)}`,
+    `${API_V1_BASE_URL}/clients/${encodeURIComponent(clientId)}/analytics/refresh?${query}`,
     { method: 'POST' },
   )
 }
